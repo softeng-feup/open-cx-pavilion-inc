@@ -34,7 +34,8 @@ Unlike other forms of getting feedback, this app allows the organization to get 
       ![](https://i.imgur.com/soiJzyj.png)
 
   * [User stories]()
-    
+      
+      https://trello.com/b/ueaVMHB0/esof-project
 
 
 
