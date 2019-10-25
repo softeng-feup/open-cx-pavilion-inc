@@ -63,11 +63,15 @@ Unlike other forms of getting feedback, this app allows the organization to get 
 * Project management
   * Tasks management tool 
 
-So far, contributions are exclusively made by the initial team, but we hope to open them to the community, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
+***team members names***
 
-Please contact us! 
+César Nogueira up20170
 
-Thank you!
+João Pedro Lírio up201705254
 
-*team members names*
+José Guerra up201706421
+
+José Pedro Baptista up201705255
+
+
 
