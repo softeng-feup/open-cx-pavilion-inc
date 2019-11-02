@@ -1,330 +1,137 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-void main() => runApp(MyApp());
+import 'pages/login.dart';
+import 'pages/register.dart';
+import 'pages/home.dart';
+import 'pages/form.dart';
 
+void main() {
+  SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    statusBarColor: Color.fromRGBO(3, 44, 115, 1), // status bar color
+  ));
+
+  runApp(MyApp());
+}
+white
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final title = 'FeedTheConference';
-
     return MaterialApp(
-      title: title,
-      home: MyHomePage(title: 'Home Page'),
+      title: 'FeedTheConference',
+      theme: ThemeData(
+        primaryColor: Color.fromRGBO(3, 44, 115, 1),
+      ),
+      initialRoute: '/',
+      routes: {
+        "/": (context) => StartPage(),
+        "/login": (context) => LoginPage(),
+        "/register": (context) => RegisterPage(),
+        "/home": (context) => HomePage(),
+        "/form": (context) => FormPage()
+      },
     );
   }
 }
 
-/*
-class MyApp extends StatelessWidget {
+class StartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final appTitle = 'Form Validation Demo';
-
-    return MaterialApp(
-      title: appTitle,
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text(appTitle),
+    return Scaffold(
+      body: SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage("images/background.jpg"), fit: BoxFit.cover),
+          ),
+          child: Stack(
+            children: <Widget>[
+              TitleHome('FEEDTHECONFERENCE'),
+              MyButton(
+                  x: 25,
+                  y: 60,
+                  title: "Login",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/login");
+                  }),
+              MyButton(
+                  x: 25,
+                  y: 75,
+                  title: "Sign Up",
+                  onPressed: () {
+                    Navigator.of(context).pushNamed("/register");
+                  })
+            ],
+          ),
         ),
-        body: MyCustomForm(),
       ),
     );
   }
 }
-*/
 
-// Create a Form widget.
-class MyCustomForm extends StatefulWidget {
-  @override
-  MyCustomFormState createState() {
-    return MyCustomFormState();
-  }
-}
+class TitleHome extends StatelessWidget {
+  final String questionText;
 
-// Create a corresponding State class.
-// This class holds data related to the form.
-class MyCustomFormState extends State<MyCustomForm> {
-  // Create a global key that uniquely identifies the Form widget
-  // and allows validation of the form.
-  //
-  // Note: This is a GlobalKey<FormState>,
-  // not a GlobalKey<MyCustomFormState>.
-  final _formKey = GlobalKey<FormState>();
+  TitleHome(this.questionText);
 
   @override
   Widget build(BuildContext context) {
-    // Build a Form widget using the _formKey created above.
-    return Scaffold(
-          body: Form(
-        key: _formKey,
-            child: ListView(
-              children: <Widget>[
-
-                  Text('Pergunta 1', style: TextStyle(fontSize: 22),),
-                  TextFormField(
-                      validator: (value) {
-                        if (value.isEmpty) {
-                          return 'Please enter some text';
-                        }
-                        return null;
-                      },
-                    ),
-
-                  Text(
-                    'Pergunta 2',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-
-                  Text(
-                    'Pergunta 3',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  Text(
-                    'Pergunta 4',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  Text(
-                    'Pergunta 5',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  Text(
-                    'Pergunta 6',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  Text(
-                    'Pergunta 7',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  Text(
-                    'Pergunta 8',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-                  Text(
-                    'Pergunta 9',
-                    style: TextStyle(fontSize: 22),
-                  ),
-                  TextFormField(
-                    validator: (value) {
-                      if (value.isEmpty) {
-                        return 'Please enter some text';
-                      }
-                      return null;
-                    },
-                  ),
-
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false
-                      // otherwise.
-                      if (_formKey.currentState.validate())
-                      {
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Text('Submit'),
-              ),
-            ),
-          ],
+    return Container(
+        width: double.infinity,
+        margin: EdgeInsets.only(
+          top: 200,
+          left: 0,
+          right: 0,
+          bottom: 470,
         ),
-      )
-    );
-  }
-}
-
-
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage>
-    with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  ScrollController _scrollViewController;
-
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      // Added
-        length: 2, // Added
-        initialIndex: 0, //Added
-        child: Scaffold(
-          body: HomePage(
-              context, _tabController, _scrollViewController, widget.title),
-          drawer: sideDrawer(context), // Passed BuildContext in function.
+        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+        alignment: Alignment.topCenter,
+        child: Text(
+          questionText,
+          style: TextStyle(
+            fontSize: 30,
+            fontWeight: FontWeight.bold,
+            fontStyle: FontStyle.italic,
+            color: Colors.white,
+          ),
+          textAlign: TextAlign.center,
         ));
   }
 }
 
-NestedScrollView HomePage(BuildContext context, TabController _tabController,
-    ScrollController _scrollViewController, String title) {
-  return new NestedScrollView(
-    controller: _scrollViewController,
-    headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-      return <Widget>[
-        new SliverAppBar(
-          title: new Text(title),
-          pinned: true,
-          floating: true,
-          snap: true,
-          forceElevated: innerBoxIsScrolled,
-          bottom: new TabBar(
-            tabs: <Tab>[
-              new Tab(text: "Test 1"),
-              new Tab(text: "Test 2"),
-            ],
-            controller: _tabController,
-          ),
-        ),
-      ];
-    },
-    body: new TabBarView(
-      children: <Widget>[
-        new CurrentPage(),
-        new CurrentPage(),
-      ],
-      controller: _tabController,
-    ),
-  );
-}
+class MyButton extends StatelessWidget {
+  MyButton({this.x, this.y, this.title, this.onPressed});
 
-class CurrentPage extends StatelessWidget {
+  final int x;
+  final int y;
+  final String title;
+  final Function onPressed;
+
   @override
   Widget build(BuildContext context) {
-    return new GridView.count(
-      crossAxisCount: 1,
-      children: List.generate(100, (index) {
-        return Center(
-          child: Text(
-            'Session $index',
-            style: Theme.of(context).textTheme.headline,
+    return Positioned(
+        left: (x / 100) * MediaQuery.of(context).size.width,
+        top: (y / 100) * MediaQuery.of(context).size.height,
+        child: SizedBox(
+          width: 200, // specific value
+          height: 50,
+          child: FloatingActionButton(
+            onPressed: onPressed,
+            shape: RoundedRectangleBorder(
+                borderRadius: new BorderRadius.circular(0),
+                side: BorderSide(color: Colors.black)),
+            backgroundColor: Colors.black,
+            child: Text(
+              title,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                fontStyle: FontStyle.italic,
+              ),
+            ),
+            heroTag: title,
           ),
-        );
-      }),
-    );
+        ));
   }
-}
-
-Drawer sideDrawer(BuildContext context) {
-  return new Drawer(
-    // Add a ListView to the drawer. This ensures the user can scroll
-    // through the options in the drawer if there isn't enough vertical
-    // space to fit everything.
-    child: ListView(
-      // Important: Remove any padding from the ListView.
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.12,
-          child: DrawerHeader(
-              child: Text('Menu'),
-              margin: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                color: Colors.blue,
-              )
-          ),
-        ),
-        ListTile(
-          title: Text('Home Page'),
-          onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
-            Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          title: Text('Form'),
-          onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => new MyCustomForm()),
-            );
-            //Navigator.pop(context);
-          },
-        ),
-        ListTile(
-          title: Text('Favorites'),
-          onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
-            Navigator.pop(context);
-          },
-        ),
-      ],
-    ),
-  );
 }

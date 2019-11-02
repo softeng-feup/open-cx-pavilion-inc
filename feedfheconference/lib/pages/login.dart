@@ -70,7 +70,7 @@ class _LoginPageState extends State<LoginPage> {
 
                     // Validate will return true if is valid, or false if invalid.
                     if(form.validate()) {
-                      print("$_email $_password");
+                      Navigator.of(context).pushNamed("/home");
                     }
                   },
                 ),
@@ -82,4 +82,3 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 }
-
