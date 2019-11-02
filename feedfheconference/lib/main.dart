@@ -13,7 +13,7 @@ void main() {
 
   runApp(MyApp());
 }
-white
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -97,6 +97,7 @@ class TitleHome extends StatelessWidget {
           textAlign: TextAlign.center,
         ));
   }
+
 }
 
 class MyButton extends StatelessWidget {
