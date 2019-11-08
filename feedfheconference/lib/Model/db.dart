@@ -12,7 +12,7 @@ class Database {
 
   List<Session> sessions = [
     Session(
-        'Reception',
+        'Receptionsndlfjknslkndflksndlfknsdnflnsdlkfnlskndflknsldfnlksndfwkuekqhwekjbhqkjwebkjqbejkbqkjwbekjqbwekjbqjkwbejbqwkebkjqbwkejbqkjwbekjqbewkjbqkwjebkj',
         'On Monday (April 1st), we hold the welcome reception at the Aula Magna of the University of Genova.',
         'Oleks Shturmov',
         'Verdi',
