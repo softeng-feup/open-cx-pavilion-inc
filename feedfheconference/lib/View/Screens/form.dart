@@ -18,7 +18,7 @@ List<Widget> listMyWidgets(var formKey, var context){
 
     for (int i = 0; i < db.questions.length; i++) {
       widgetsList.add(QuestionText(db.questions[i].questionText));
-      widgetsList.add(AswerBox());
+      widgetsList.add(AnswerBox());
     }
 
     widgetsList.add(Padding(
@@ -55,7 +55,9 @@ class QuestionText extends StatelessWidget {
   }
 }
 
-class AswerBox extends StatelessWidget {
+class AnswerBox extends StatelessWidget {
+  TextEditingController _controller;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -77,6 +79,11 @@ class AswerBox extends StatelessWidget {
             ),
             //fillColor: Colors.green
           ),
+          onChanged: (text) {
+            _controller.text = text;
+            // isto nao faz com que o valor continue la
+            // nao sei o que tenho de mudar para que isso aconteca
+          },
         ),
         margin: const EdgeInsets.only(bottom: 18.0)
         //color: Colors.blue[200],
