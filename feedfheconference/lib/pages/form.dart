@@ -15,6 +15,7 @@ class FormPage extends StatefulWidget {
 class FormPageState extends State<FormPage> with SingleTickerProviderStateMixin {
   TabController _tabController;
   ScrollController _scrollViewController;
+  static final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +26,15 @@ class FormPageState extends State<FormPage> with SingleTickerProviderStateMixin 
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildFormPage(
-              context, _tabController, _scrollViewController, widget.title),
+              context, _tabController, _scrollViewController, _formKey, widget.title),
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
 }
 
 NestedScrollView buildFormPage(BuildContext context, TabController _tabController,
-    ScrollController _scrollViewController, String title) {
-  final _formKey = GlobalKey<FormState>();
+    ScrollController _scrollViewController,GlobalKey<FormState> _formKey,  String title) {
+
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -50,34 +51,55 @@ NestedScrollView buildFormPage(BuildContext context, TabController _tabControlle
     body: new Scaffold(
       body: Form(
           key: _formKey,
-          child: ListView(
-            children: List.generate(10, (index) {
-              return Row (
-                children: <Widget>[
-                  Expanded(child: Column(
-                      children: <Widget> [
-                        Text('Question $index', style: TextStyle(fontSize: 22),),
-                        Container(
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                border: OutlineInputBorder(),
-                              ),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter some text';
-                                }
-                                return null;
-                              },
-                            )
-                        )
-                      ]
-                  )
-                  )
-                ],
-              );
-            },
+            child: Container(
+              margin: const EdgeInsets.all(20.0),
+              //color: Colors.amber[600],
+              child: ListView(
+                    padding: const EdgeInsets.all(6),
+                    children: <Widget>[
+                      Container(
+                        child: Text('Pergunta2', style: TextStyle(fontSize: 22), ),
+                        //color: Colors.blue[100],
+                      ),
+                      Container(
+                        child: TextFormField(
+                          validator: (value) {
+                            if (value.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            return null;
+                          },
+                          minLines: 1,
+                          maxLines: 4,
+                          decoration: new InputDecoration(
+                            labelText: "Your answer",
+                            fillColor: Colors.white,
+                            border: new OutlineInputBorder(
+                              borderRadius: new BorderRadius.circular(25.0),
+                              borderSide: new BorderSide(),
+                            ),
+                            //fillColor: Colors.green
+                          ),
+                        ),
+                        //color: Colors.blue[200],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 16.0),
+                        child: RaisedButton(
+                          onPressed: () {
+                            // Validate returns true if the form is valid, or false
+                            // otherwise.
+                            if (_formKey.currentState.validate())
+                            {
+                              Navigator.pop(context);
+                            }
+                          },
+                          child: Text('Submit'),
+                        ),
+                      ),
+                    ],
+              )
             ),
-          )
       ),
     ),
   );
