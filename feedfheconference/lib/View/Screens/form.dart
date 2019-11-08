@@ -56,7 +56,7 @@ class QuestionText extends StatelessWidget {
 }
 
 class AnswerBox extends StatelessWidget {
-  TextEditingController _controller;
+  String test;
 
   @override
   Widget build(BuildContext context) {
@@ -79,11 +79,6 @@ class AnswerBox extends StatelessWidget {
             ),
             //fillColor: Colors.green
           ),
-          onChanged: (text) {
-            _controller.text = text;
-            // isto nao faz com que o valor continue la
-            // nao sei o que tenho de mudar para que isso aconteca
-          },
         ),
         margin: const EdgeInsets.only(bottom: 18.0)
         //color: Colors.blue[200],
@@ -139,10 +134,12 @@ NestedScrollView buildFormPage(
         child: Container(
             margin: const EdgeInsets.all(20.0),
             //color: Colors.amber[600],
-            child: ListView(
+              child: SingleChildScrollView(
               padding: const EdgeInsets.all(6),
-              children: listMyWidgets(_formKey, context)
-                
+              child: new Column(
+                  children: listMyWidgets(_formKey, context)
+              )
+
               
             )),
       ),
