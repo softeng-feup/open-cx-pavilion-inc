@@ -16,7 +16,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      // Added
+        // Added
         length: 2, // Added
         initialIndex: 0, //Added
         child: Scaffold(
@@ -27,8 +27,11 @@ class _HomePageState extends State<HomePage>
   }
 }
 
-NestedScrollView buildHomePage(BuildContext context, TabController _tabController,
-    ScrollController _scrollViewController, String title) {
+NestedScrollView buildHomePage(
+    BuildContext context,
+    TabController _tabController,
+    ScrollController _scrollViewController,
+    String title) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -59,70 +62,131 @@ NestedScrollView buildHomePage(BuildContext context, TabController _tabControlle
   );
 }
 
-List<Widget> listMyWidgets(){
+List<Widget> listMyWidgets() {
   var db = Database();
   @override
   List<Widget> widgetsList = new List();
 
-    for (int i = 0; i < db.sessions.length; i++){
-      widgetsList.add(EventBox(db.sessions[i].title, db.sessions[i].description, db.sessions[i].speaker, db.sessions[i].room, db.sessions[i].time));
-    }
+  for (int i = 0; i < db.sessions.length; i++) {
+    widgetsList.add(EventBox(db.sessions[i].title, db.sessions[i].description,
+        db.sessions[i].speaker, db.sessions[i].room + ' ' + db.sessions[i].time));
+  }
 
   return widgetsList;
 }
-
 
 class EventBox extends StatelessWidget {
   final String title;
   final String description;
   final String speaker;
-  final String room;
-  final String time;
-  EventBox(this.title, this.description, this.speaker, this.room, this.time);
-  
-  @override
-  Widget build(BuildContext context){
+  final String roomAndTime;
+
+  EventBox(this.title, this.description, this.speaker, this.roomAndTime);
+
+
+   @override
+/* Widget build(BuildContext context){
     return Container(
           decoration: BoxDecoration(
     border: Border.all(color: Colors.redAccent)
   ),
-          padding: const EdgeInsets.all(32),
           child: Row(
             children: [
-              Expanded(
-                /*1*/
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    /*2*/
-                    Container(
-                      decoration: BoxDecoration(
-    border: Border.all(color: Colors.blueAccent)
-  ),
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: Text(
-                        title,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                    Text(
-                      description,
-                      style: TextStyle(
-                        color: Colors.grey[500],
-                      ),
-                    ),
-                  ],
-                ),
+              Container( 
+                  margin: const EdgeInsets.only(left: 25, bottom: 20),
+                  decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                   
+                   child: Column(
+                     children: <Widget>[
+
+                       Text(title, textAlign: TextAlign.left),
+                       Text(speaker),
+                       Text(roomAndTime)
+                     ],
+                   ),),
+              Container(
+                   margin: const EdgeInsets.only(left: 80, top: 10, bottom: 10),
+                   padding: const EdgeInsets.all(30),
+                   decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+                   child: Text('Imagem')
               ),
-              /*3*/
-              Icon(
+              Container(
+                margin: const EdgeInsets.only(left: 30),
+                decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+
+              
+              child:Icon(
                 Icons.star,
                 color: Colors.red[500],
               ),
+              )
             ],
           )
+    );
+  }
+}*/
+  //@override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      height: MediaQuery.of(context).size.height / 5,
+      decoration: BoxDecoration(border: Border.all(color: Colors.redAccent)),
+      child: Stack(children: [
+        Positioned(
+            left: MediaQuery.of(context).size.width -
+                MediaQuery.of(context).size.width / 3.5,
+            top: 10,
+            child: Container(
+              width: MediaQuery.of(context).size.width / 4,
+              height: MediaQuery.of(context).size.height / 9,
+              decoration: BoxDecoration(
+                border: Border.all(width: 3.0),
+                borderRadius: BorderRadius.all(
+                    Radius.circular(20) //         <--- border radius here
+                    ),
+                image: DecorationImage(
+                    image: AssetImage("images/face.jpg"), fit: BoxFit.cover),
+              ),
+            )),
+        Positioned(
+            left: MediaQuery.of(context).size.width -
+                MediaQuery.of(context).size.width / 1.1,
+            top: 0,
+            child: Container(
+                color: Colors.red,
+                width: MediaQuery.of(context).size.width / 2,
+                height: MediaQuery.of(context).size.height / 6,
+                child: Align(
+                    alignment: Alignment.topLeft,
+                    child: Column(children: <Widget>[
+                      Text(title,
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic)),
+                      
+                      Text(speaker,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic)),
+                      Text(roomAndTime,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic)),
+                      ExpansionTile(
+                        title: Text('Description'),
+                        children: <Widget>[
+                         Text(description,
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontStyle: FontStyle.italic))
+                      ],)
+                    
+                    ]))))
+      ]),
     );
   }
 }
@@ -133,7 +197,7 @@ class CurrentPage extends StatelessWidget {
     return new ListView(
       padding: EdgeInsets.zero,
       children: listMyWidgets(),
-      );
+    );
   }
 }
 
@@ -168,8 +232,7 @@ Drawer sideDrawer(BuildContext context) {
               margin: EdgeInsets.zero,
               decoration: BoxDecoration(
                 color: Color.fromRGBO(3, 44, 115, 1),
-              )
-          ),
+              )),
         ),
         ListTile(
           title: Text('Home Page'),
