@@ -59,6 +59,7 @@ NestedScrollView buildFormPage(BuildContext context, TabController _tabControlle
                     children: <Widget>[
                       Container(
                         child: Text('Pergunta2', style: TextStyle(fontSize: 22), ),
+                        margin:  const EdgeInsets.only(bottom: 8.0)
                         //color: Colors.blue[100],
                       ),
                       Container(
@@ -81,8 +82,13 @@ NestedScrollView buildFormPage(BuildContext context, TabController _tabControlle
                             //fillColor: Colors.green
                           ),
                         ),
+                          margin:  const EdgeInsets.only(bottom: 18.0)
                         //color: Colors.blue[200],
                       ),
+
+
+
+
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: RaisedButton(
