@@ -18,7 +18,7 @@ List<Widget> listMyWidgets(var formKey, var context){
 
     for (int i = 0; i < db.questions.length; i++) {
       widgetsList.add(QuestionText(db.questions[i].questionText));
-      widgetsList.add(AswerBox());
+      widgetsList.add(AnswerBox());
     }
 
     widgetsList.add(Padding(
@@ -55,7 +55,9 @@ class QuestionText extends StatelessWidget {
   }
 }
 
-class AswerBox extends StatelessWidget {
+class AnswerBox extends StatelessWidget {
+  String test;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -132,10 +134,12 @@ NestedScrollView buildFormPage(
         child: Container(
             margin: const EdgeInsets.all(20.0),
             //color: Colors.amber[600],
-            child: ListView(
+              child: SingleChildScrollView(
               padding: const EdgeInsets.all(6),
-              children: listMyWidgets(_formKey, context)
-                
+              child: new Column(
+                  children: listMyWidgets(_formKey, context)
+              )
+
               
             )),
       ),
