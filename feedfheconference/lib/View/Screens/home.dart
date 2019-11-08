@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../Model/db.dart';
 
 class HomePage extends StatefulWidget {
   final String title = 'Home Page';
@@ -58,13 +59,33 @@ NestedScrollView buildHomePage(BuildContext context, TabController _tabControlle
   );
 }
 
-class CurrentPage extends StatelessWidget {
+List<Widget> listMyWidgets(){
+  var db = Database();
   @override
-  Widget build(BuildContext context) {
-    return new ListView(
-      padding: EdgeInsets.zero,
-      children: List.generate(10, (index) {
-        return Container(
+  List<Widget> widgetsList = new List();
+
+    for (int i = 0; i < db.sessions.length; i++){
+      widgetsList.add(EventBox(db.sessions[i].title, db.sessions[i].description, db.sessions[i].speaker, db.sessions[i].room, db.sessions[i].time));
+    }
+
+  return widgetsList;
+}
+
+
+class EventBox extends StatelessWidget {
+  final String title;
+  final String description;
+  final String speaker;
+  final String room;
+  final String time;
+  EventBox(this.title, this.description, this.speaker, this.room, this.time);
+  
+  @override
+  Widget build(BuildContext context){
+    return Container(
+          decoration: BoxDecoration(
+    border: Border.all(color: Colors.redAccent)
+  ),
           padding: const EdgeInsets.all(32),
           child: Row(
             children: [
@@ -75,16 +96,19 @@ class CurrentPage extends StatelessWidget {
                   children: [
                     /*2*/
                     Container(
+                      decoration: BoxDecoration(
+    border: Border.all(color: Colors.blueAccent)
+  ),
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        'Title $index',
+                        title,
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                     Text(
-                      'Description $index',
+                      description,
                       style: TextStyle(
                         color: Colors.grey[500],
                       ),
@@ -98,13 +122,36 @@ class CurrentPage extends StatelessWidget {
                 color: Colors.red[500],
               ),
             ],
-          ),
+          )
+    );
+  }
+}
+
+class CurrentPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new ListView(
+      padding: EdgeInsets.zero,
+      children: listMyWidgets(),
+      );
+  }
+}
+
+/*
+
+class CurrentPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return new ListView(
+      padding: EdgeInsets.zero,
+      children: List.generate(10, (index) {
+        return 
         );
       }),
     );
   }
 }
-
+*/
 Drawer sideDrawer(BuildContext context) {
   return new Drawer(
     // Add a ListView to the drawer. This ensures the user can scroll
