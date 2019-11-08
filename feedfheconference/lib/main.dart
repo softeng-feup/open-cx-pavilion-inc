@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'pages/login.dart';
-import 'pages/register.dart';
-import 'pages/home.dart';
-import 'pages/form.dart';
+import './View/Screens/login.dart';
+import './View/Screens/register.dart';
+import './View/Screens/home.dart';
+import './View/Screens/form.dart';
 
-void main() {
+void main(){
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
     statusBarColor: Color.fromRGBO(3, 44, 115, 1), // status bar color
   ));
-
   runApp(MyApp());
 }
 
