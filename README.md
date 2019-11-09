@@ -38,7 +38,10 @@ Unlike other forms of getting feedback, this app allows the organization to get 
 
 
   * **[Domain model]()**
-   ![](https://i.imgur.com/Kc80kcf.png)
+   ![](https://i.imgur.com/sAEUddI.png)
+
+
+
 
       
 
@@ -65,7 +68,7 @@ Unlike other forms of getting feedback, this app allows the organization to get 
 
 ***team members names***
 
-César Nogueira up20170
+César Nogueira up201706828
 
 João Pedro Lírio up201705254
 
