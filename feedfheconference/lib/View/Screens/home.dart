@@ -83,112 +83,79 @@ class EventBox extends StatelessWidget {
 
   EventBox(this.title, this.description, this.speaker, this.roomAndTime);
 
-
-   @override
-/* Widget build(BuildContext context){
+  @override
+  Widget build(BuildContext context){
     return Container(
-          decoration: BoxDecoration(
-    border: Border.all(color: Colors.redAccent)
-  ),
-          child: Row(
-            children: [
-              Container( 
-                  margin: const EdgeInsets.only(left: 25, bottom: 20),
-                  decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                   
-                   child: Column(
-                     children: <Widget>[
+        color: Colors.grey[100],
+        margin: const EdgeInsets.only(bottom: 8.0),
+        child: Stack(
+          children: [
+            Container(
+                //margin: const EdgeInsets.only(left: 1),
+                child:Align(
+                  alignment: Alignment.topLeft,
+                  child: Icon(
+                    Icons.star,
+                    color: Colors.blue[500],
+                  ),
+                )
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 20, top: 20),
+              //color: Colors.green[200],
+              //width: 215,
+              width: MediaQuery.of(context).size.width - 145,
+              child: Column(
+                children: <Widget>[
 
-                       Text(title, textAlign: TextAlign.left),
-                       Text(speaker),
-                       Text(roomAndTime)
-                     ],
-                   ),),
-              Container(
-                   margin: const EdgeInsets.only(left: 80, top: 10, bottom: 10),
-                   padding: const EdgeInsets.all(30),
-                   decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-                   child: Text('Imagem')
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8, top: 15),
+                    child: Text(title, textAlign: TextAlign.left, style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
+                  Text(speaker),
+                  Text(roomAndTime)
+                ],
+              ),),
+            Container(
+              margin: const EdgeInsets.only(top: 110),
+              child: ExpansionTile(
+                title: Text('Learn more'),
+                children: <Widget>[
+                  Text(description,
+                      style: TextStyle(
+                          fontSize: 13,
+                          //fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic))
+                ],),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              //margin: const EdgeInsets.only(left: 2),
+              //decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
+              child: Container(
+                margin: const EdgeInsets.only(right: 3, top: 20),
+                //width: MediaQuery.of(context).size.width / 3,
+                width: 120,
+                //height: MediaQuery.of(context).size.height / 8,
+                height: 85,
+                decoration: BoxDecoration(
+                  border: Border.all(width: 3.0),
+                  borderRadius: BorderRadius.all(
+                      Radius.circular(12) //         <--- border radius here
+                  ),
+                  image: DecorationImage(
+                      image: AssetImage("images/face.jpg"), fit: BoxFit.cover),
+                ),
               ),
-              Container(
-                margin: const EdgeInsets.only(left: 30),
-                decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-
-              
-              child:Icon(
-                Icons.star,
-                color: Colors.red[500],
-              ),
-              )
-            ],
-          )
+            ),
+          ],
+        )
     );
   }
-}*/
-  //@override
-  Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: MediaQuery.of(context).size.height / 5,
-      decoration: BoxDecoration(border: Border.all(color: Colors.redAccent)),
-      child: Stack(children: [
-        Positioned(
-            left: MediaQuery.of(context).size.width -
-                MediaQuery.of(context).size.width / 3.5,
-            top: 10,
-            child: Container(
-              width: MediaQuery.of(context).size.width / 4,
-              height: MediaQuery.of(context).size.height / 9,
-              decoration: BoxDecoration(
-                border: Border.all(width: 3.0),
-                borderRadius: BorderRadius.all(
-                    Radius.circular(20) //         <--- border radius here
-                    ),
-                image: DecorationImage(
-                    image: AssetImage("images/face.jpg"), fit: BoxFit.cover),
-              ),
-            )),
-        Positioned(
-            left: MediaQuery.of(context).size.width -
-                MediaQuery.of(context).size.width / 1.1,
-            top: 0,
-            child: Container(
-                color: Colors.red,
-                width: MediaQuery.of(context).size.width / 2,
-                height: MediaQuery.of(context).size.height / 6,
-                child: Align(
-                    alignment: Alignment.topLeft,
-                    child: Column(children: <Widget>[
-                      Text(title,
-                          style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic)),
-                      
-                      Text(speaker,
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic)),
-                      Text(roomAndTime,
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic)),
-                      ExpansionTile(
-                        title: Text('Description'),
-                        children: <Widget>[
-                         Text(description,
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic))
-                      ],)
-                    
-                    ]))))
-      ]),
-    );
-  }
+
 }
 
 class CurrentPage extends StatelessWidget {

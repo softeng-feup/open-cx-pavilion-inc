@@ -15,7 +15,7 @@ class Database {
 
   List<Session> sessions = [
     Session(
-        'Reception',
+        'Reception. This is not just a reception, but a Reception.',
         'On Monday (April 1st), we hold the welcome reception at the Aula Magna of the University of Genova.',
         'Oleks Shturmov',
         'Verdi',
@@ -25,25 +25,25 @@ class Database {
         'On Monday (April 1st), we hold the welcome reception at the Aula Magna of the University of Genova.',
         'Oleks Shturmov',
         'Verdi',
-        '11:15 - 11:35'),
+        '11:40 - 11:50'),
     Session(
         'Reception',
         'On Monday (April 1st), we hold the welcome reception at the Aula Magna of the University of Genova.',
         'Oleks Shturmov',
         'Verdi',
-        '11:15 - 11:35'),
+        '12:10 - 12:35'),
     Session(
         'Reception',
         'On Monday (April 1st), we hold the welcome reception at the Aula Magna of the University of Genova.',
         'Oleks Shturmov',
         'Verdi',
-        '11:15 - 11:35'),
+        '12:45 - 13:10'),
     Session(
         'Reception',
         'On Monday (April 1st), we hold the welcome reception at the Aula Magna of the University of Genova.',
         'Oleks Shturmov',
         'Verdi',
-        '11:15 - 11:35'),
+        '13:00 - 13:20'),
   ];
 }
 
@@ -63,5 +63,12 @@ class Session {
   String speaker;
   String room;
   String time;
+  //DateTime day;
   Session(this.title, this.description, this.speaker, this.room, this.time);
+}
+
+class Conference {
+  DateTime startDate;
+  DateTime endDate;
+  List<Session> sessions;
 }
