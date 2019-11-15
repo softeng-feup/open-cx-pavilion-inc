@@ -68,6 +68,7 @@ class AnswerBox extends StatefulWidget {
 class _AnswerBoxState extends State<AnswerBox> {
   QuestionType type;
   List questionSubText;
+  int _radioValue1 = -1;
 
   _AnswerBoxState(this.type, this.questionSubText);
 
@@ -93,13 +94,12 @@ class _AnswerBoxState extends State<AnswerBox> {
         ),
       );
     } else if (type == QuestionType.radioButton) {
-      int _radioValue1 = -1;
       return Column(
             children: <Widget>[
               new Radio(
                 value: 0,
                 groupValue: _radioValue1,
-                onChanged: (int e) => _radioValue1 = e,
+                onChanged: (int e) => setState(() { _radioValue1 = e; }),
               ),
               new Text(
                 '1',
@@ -108,7 +108,7 @@ class _AnswerBoxState extends State<AnswerBox> {
               new Radio(
                 value: 1,
                 groupValue: _radioValue1,
-                onChanged: (int e) => _radioValue1 = e,
+                onChanged: (int e) => setState(() { _radioValue1 = e; }),
               ),
               new Text(
                 '2',
