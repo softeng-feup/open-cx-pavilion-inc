@@ -71,7 +71,7 @@ class _AnswerBoxState extends State<AnswerBox> {
 
   _AnswerBoxState(this.type, this.questionSubText);
 
-  StatefulWidget answerBox(QuestionType type, List questionSubText) {
+  Widget answerBox(QuestionType type, List questionSubText) {
     if (type == QuestionType.textBox) {
       return TextFormField(
         validator: (value) {
@@ -94,8 +94,7 @@ class _AnswerBoxState extends State<AnswerBox> {
       );
     } else if (type == QuestionType.radioButton) {
       int _radioValue1 = -1;
-      return Scaffold(
-          body: Column(
+      return Column(
             children: <Widget>[
               new Radio(
                 value: 0,
@@ -118,8 +117,7 @@ class _AnswerBoxState extends State<AnswerBox> {
                 ),
               ),
             ],
-          )
-      );
+          );
     }
   }
 
