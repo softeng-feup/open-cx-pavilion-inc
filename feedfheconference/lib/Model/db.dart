@@ -1,13 +1,16 @@
-enum QuestionType { multipleChoice, textBox }
+enum QuestionType { radioButton, checkBox, textBox }
+
+List<String> options = ['1','2','3','4','5'];
 
 class Database {
   List<Question> questions = [
-    Question(QuestionType.textBox, 'What did you like the most in the session?'),
-    Question(QuestionType.textBox, 'What did you like the least in the session?'),
-    Question(QuestionType.textBox, 'In your opinion, did the session met its objectives?'),
-    Question(QuestionType.textBox, 'Was there enough time for discussion?'),
-    Question(QuestionType.textBox,'Tell us some suggestions you may have for future events.'),
-    Question(QuestionType.textBox, 'Any final comments?'),
+    Question(QuestionType.textBox, 'What did you like the most in the session?', null),
+    Question(QuestionType.textBox, 'What did you like the least in the session?', null),
+    Question(QuestionType.textBox, 'In your opinion, did the session met its objectives?', null),
+    Question(QuestionType.textBox, 'Was there enough time for discussion?', null),
+    Question(QuestionType.textBox,'Tell us some suggestions you may have for future events.', null),
+    Question(QuestionType.textBox, 'Any final comments?', null),
+    Question(QuestionType.radioButton, 'Rate your experience.', options)
   ];
 
   List<Session> sessions = [
@@ -46,11 +49,11 @@ class Database {
 
 class Question {
   String questionText;
-  var questionSubText;
+  List questionSubText;
   QuestionType type;
-  Question(this.type, this.questionText, {this.questionSubText = 0.0}) {
+  Question(this.type, this.questionText, this.questionSubText) {
     // Controlo do erro , caso a pergunta seja do tipo multiple choice this.questionSubText
-    if (this.type == QuestionType.multipleChoice) {}
+    if (this.type == QuestionType.radioButton) {}
   }
 }
 
