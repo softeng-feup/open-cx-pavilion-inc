@@ -10,7 +10,8 @@ class Database {
     Question(QuestionType.textBox, 'Was there enough time for discussion?', null),
     Question(QuestionType.textBox,'Tell us some suggestions you may have for future events.', null),
     Question(QuestionType.textBox, 'Any final comments?', null),
-    Question(QuestionType.radioButton, 'Rate your experience.', options)
+    Question(QuestionType.radioButton, 'Rate your experience.', options),
+    Question(QuestionType.checkBox, 'Choose numbers.', options)
   ];
 
   List<Session> sessions = [

@@ -68,7 +68,8 @@ class AnswerBox extends StatefulWidget {
 class _AnswerBoxState extends State<AnswerBox> {
   QuestionType type;
   List questionSubText;
-  int _radioValue1 = -1;
+  int _radioValue = -1;
+  List _checkBoxValues = new List();
 
   _AnswerBoxState(this.type, this.questionSubText);
 
@@ -95,29 +96,29 @@ class _AnswerBoxState extends State<AnswerBox> {
       );
     } else if (type == QuestionType.radioButton) {
       return Column(
-            children: <Widget>[
-              new Radio(
-                value: 0,
-                groupValue: _radioValue1,
-                onChanged: (int e) => setState(() { _radioValue1 = e; }),
-              ),
-              new Text(
-                '1',
-                style: new TextStyle(fontSize: 16.0),
-              ),
-              new Radio(
-                value: 1,
-                groupValue: _radioValue1,
-                onChanged: (int e) => setState(() { _radioValue1 = e; }),
-              ),
-              new Text(
-                '2',
-                style: new TextStyle(
-                  fontSize: 16.0,
-                ),
-              ),
-            ],
+            children: List.generate(questionSubText.length, (index) {
+              return ListTile(
+                title: Text(questionSubText[index]),
+                leading: Radio(
+                    value: index,
+                    groupValue: _radioValue,
+                    onChanged: (int e) => setState(() {_radioValue = e;}))
+              );
+            }),
           );
+    } else if (type == QuestionType.checkBox) {
+      return Column(
+        children: List.generate(questionSubText.length, (index) {
+          _checkBoxValues.add(false);
+
+          return ListTile(
+              title: Text(questionSubText[index]),
+              leading: Checkbox(
+                  value: _checkBoxValues[index],
+                  onChanged: (bool e) => setState(() {_checkBoxValues[index] = e;}))
+          );
+        }),
+      );
     }
   }
 
