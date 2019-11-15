@@ -108,29 +108,35 @@ class EventBox extends StatelessWidget {
               child: Column(
                 children: <Widget>[
 
-                  Text(title, textAlign: TextAlign.left, style: TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.bold
-                  ),),
+                  Container(
+                    margin: const EdgeInsets.only(bottom: 8, top: 15),
+                    child: Text(title, textAlign: TextAlign.left, style: TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold
+                    ),),
+                  ),
                   Text(speaker),
-                  Text(roomAndTime),
-                  ExpansionTile(
-                    title: Text('Description'),
-                    children: <Widget>[
-                      Text(description,
-                          style: TextStyle(
-                              fontSize: 13,
-                              //fontWeight: FontWeight.bold,
-                              fontStyle: FontStyle.italic))
-                    ],)
+                  Text(roomAndTime)
                 ],
               ),),
+            Container(
+              margin: const EdgeInsets.only(top: 110),
+              child: ExpansionTile(
+                title: Text('Learn more'),
+                children: <Widget>[
+                  Text(description,
+                      style: TextStyle(
+                          fontSize: 13,
+                          //fontWeight: FontWeight.bold,
+                          fontStyle: FontStyle.italic))
+                ],),
+            ),
             Align(
               alignment: Alignment.topRight,
               //margin: const EdgeInsets.only(left: 2),
               //decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
               child: Container(
-                margin: const EdgeInsets.only(right: 2, top: 20),
+                margin: const EdgeInsets.only(right: 3, top: 20),
                 //width: MediaQuery.of(context).size.width / 3,
                 width: 120,
                 //height: MediaQuery.of(context).size.height / 8,
