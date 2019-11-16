@@ -215,15 +215,16 @@ Drawer sideDrawer(BuildContext context) {
         ListTile(
           title: Text('Home Page'),
           onTap: () {
-            Navigator.of(context).pushNamed("/home");
-            //Navigator.pop(context);
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed("/home");
           },
         ),
         ListTile(
           title: Text('Form'),
           onTap: () {
-            Navigator.of(context).pushNamed("/form");
-            //Navigator.pop(context);
+            Navigator.of(context).pop();
+            //Navigator.of(context).pushReplacementNamed("/form");
+            //Navigator.of(context).pushNamed("/form");
           },
         ),
         ListTile(
@@ -232,7 +233,7 @@ Drawer sideDrawer(BuildContext context) {
             // Update the state of the app
             // ...
             // Then close the drawer
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
         ),
       ],
