@@ -22,6 +22,7 @@ class _HomePageState extends State<HomePage>
         child: Scaffold(
           body: buildHomePage(
               context, _tabController, _scrollViewController, widget.title),
+
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
@@ -42,120 +43,94 @@ NestedScrollView buildHomePage(
           floating: true,
           snap: true,
           forceElevated: innerBoxIsScrolled,
-          bottom: new TabBar(
-            tabs: <Tab>[
-              new Tab(text: "Tab 1"),
-              new Tab(text: "Tab 2"),
-            ],
-            controller: _tabController,
-          ),
         ),
       ];
     },
-    body: new TabBarView(
-      children: <Widget>[
-        new CurrentPage(),
-        new CurrentPage(),
-      ],
-      controller: _tabController,
-    ),
+    body: new CurrentPage(),
   );
 }
 
 List<Widget> listMyWidgets() {
   var db = Database();
+
+  db.conferenceList.sort((a, b) =>
+      (a.beginDate.dateToString()).compareTo(b.beginDate.dateToString()));
+
   @override
   List<Widget> widgetsList = new List();
 
-  for (int i = 0; i < db.sessions.length; i++) {
-    widgetsList.add(EventBox(db.sessions[i].title, db.sessions[i].description,
-        db.sessions[i].speaker, db.sessions[i].room + ' ' + db.sessions[i].time));
+  widgetsList.add(Text(
+    'Available Conferences',
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
+    ),
+  ));
+
+  for (int i = 0; i < db.conferenceList.length; i++) {
+    widgetsList.add(EventBox(
+        db.conferenceList[i].name,
+        db.conferenceList[i].place,
+        db.conferenceList[i].beginDate,
+        db.conferenceList[i].endDate));
   }
+
+  for (int i = 0; i < db.sessionList.length; i++) {}
 
   return widgetsList;
 }
 
 class EventBox extends StatelessWidget {
-  final String title;
-  final String description;
-  final String speaker;
-  final String roomAndTime;
-
-  EventBox(this.title, this.description, this.speaker, this.roomAndTime);
+  String name;
+  String place;
+  Date beginDate;
+  Date endDate;
+  EventBox(this.name, this.place, this.beginDate, this.endDate);
 
   @override
-  Widget build(BuildContext context){
-    return Container(
-        color: Colors.grey[100],
-        margin: const EdgeInsets.only(bottom: 8.0),
-        child: Stack(
-          children: [
-            Container(
-                //margin: const EdgeInsets.only(left: 1),
-                child:Align(
-                  alignment: Alignment.topLeft,
-                  child: Icon(
-                    Icons.star,
-                    color: Colors.blue[500],
-                  ),
-                )
-            ),
-            Container(
-              margin: const EdgeInsets.only(left: 20, top: 20),
-              //color: Colors.green[200],
-              //width: 215,
-              width: MediaQuery.of(context).size.width - 145,
-              child: Column(
-                children: <Widget>[
-
+  Widget build(BuildContext context) {
+    return InkWell(
+          onTap: () => print("Container pressed"), // handle your onTap here
+          child: Container(
+              color: Color.fromARGB(60, 0, 0, 255),
+              margin: const EdgeInsets.only(top: 10.0),
+              padding: const EdgeInsets.only(top: 10.0),
+              child: Stack(
+                children: [
                   Container(
-                    margin: const EdgeInsets.only(bottom: 8, top: 15),
-                    child: Text(title, textAlign: TextAlign.left, style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold
-                    ),),
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    //color: Colors.green[200],
+                    //width: 215,
+                    width: MediaQuery.of(context).size.width - 145,
+                    child: Column(
+                      children: <Widget>[
+                        Text(
+                          name,
+                          textAlign: TextAlign.left,
+                          style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                          place,
+                          style: TextStyle(fontSize: 15, color: Colors.white),
+                        ),
+                        SizedBox(height: 5),
+                        Text(
+                            beginDate.dateToInvertedString() +
+                                ' <-> ' +
+                                endDate.dateToInvertedString(),
+                            style:
+                                TextStyle(fontSize: 15, color: Colors.white)),
+                      ],
+                    ),
                   ),
-                  Text(speaker),
-                  Text(roomAndTime)
                 ],
-              ),),
-            Container(
-              margin: const EdgeInsets.only(top: 110),
-              child: ExpansionTile(
-                title: Text('Learn more'),
-                children: <Widget>[
-                  Text(description,
-                      style: TextStyle(
-                          fontSize: 13,
-                          //fontWeight: FontWeight.bold,
-                          fontStyle: FontStyle.italic))
-                ],),
-            ),
-            Align(
-              alignment: Alignment.topRight,
-              //margin: const EdgeInsets.only(left: 2),
-              //decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
-              child: Container(
-                margin: const EdgeInsets.only(right: 3, top: 20),
-                //width: MediaQuery.of(context).size.width / 3,
-                width: 120,
-                //height: MediaQuery.of(context).size.height / 8,
-                height: 85,
-                decoration: BoxDecoration(
-                  border: Border.all(width: 3.0),
-                  borderRadius: BorderRadius.all(
-                      Radius.circular(12) //         <--- border radius here
-                  ),
-                  image: DecorationImage(
-                      image: AssetImage("images/face.jpg"), fit: BoxFit.cover),
-                ),
-              ),
-            ),
-          ],
-        )
-    );
+              )));
   }
-
 }
 
 class CurrentPage extends StatelessWidget {
@@ -168,21 +143,6 @@ class CurrentPage extends StatelessWidget {
   }
 }
 
-/*
-
-class CurrentPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new ListView(
-      padding: EdgeInsets.zero,
-      children: List.generate(10, (index) {
-        return 
-        );
-      }),
-    );
-  }
-}
-*/
 Drawer sideDrawer(BuildContext context) {
   return new Drawer(
     // Add a ListView to the drawer. This ensures the user can scroll

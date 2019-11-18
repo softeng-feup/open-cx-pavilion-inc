@@ -19,6 +19,14 @@ class Date{
     return '$year-$month-$day';
   }
 
+  String dateToInvertedString(){
+    return '$day-$month-$year';
+  }
+
+
+
+
+
 }
 class Time{
   int hour;
@@ -146,7 +154,7 @@ class Conference{
 
   Conference(int id, this.name, this.place, this.eventIdList,  String beginDate, String endDate){
     this.beginDate = Date.string(beginDate);
-    this.endDate = Date.string(beginDate);
+    this.endDate = Date.string(endDate);
   }
 }
 
@@ -194,9 +202,9 @@ Event event1 = new Event(1 ,'ELS 2019 ', 'The purpose of the European '
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
     'encourage everyone interested in Lisp to participate.', [1, 2]);
 
-Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1], '2019-05-1', '2019-05-1');
-Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Genoa, Italy', [1], '2019-05-1', '2019-05-1');
-Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Genoa, Italy', [1], '2019-05-1', '2019-05-1');
+Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1], '2019-05-1', '2019-06-1');
+Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Genoa, Italy', [1], '2019-07-1', '2019-08-1');
+Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Genoa, Italy', [1], '2019-01-1', '2019-03-1');
 
 
 class Database {
