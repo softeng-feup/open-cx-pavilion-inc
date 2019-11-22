@@ -1,4 +1,9 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import '../../Model/db.dart';
+
+Database db = new Database();
 
 class LoginPage extends StatefulWidget {
   @override
@@ -8,7 +13,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   String _password;
-  String _email;
+  String _emailOrUsername;
 
   @override
   Widget build(BuildContext context) {
@@ -34,8 +39,7 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  onSaved: (value) => _email = value,
-                  keyboardType: TextInputType.emailAddress,
+                  onSaved: (value) => _emailOrUsername = value,
                   decoration: InputDecoration(
                       border: OutlineInputBorder(),
                       hintText: "Email/Username"
@@ -46,6 +50,9 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
+                  validator:
+                      (value) {
+                    return 'Email/Username or Password Wrong';},
                   onSaved: (value) => _password = value,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -67,12 +74,19 @@ class _LoginPageState extends State<LoginPage> {
                     // save the fields..
                     final form = _formKey.currentState;
                     form.save();
-
                     // Validate will return true if is valid, or false if invalid.
                     if(form.validate()) {
-                      Navigator.of(context).pushNamed("/home");
+                      for (var i = 0; i < db.userList.length; i++) {
+                        if (db.userList[i].email == _emailOrUsername ||
+                            db.userList[i].UserName == _emailOrUsername) {
+                          if (db.userList[i].password == _password) {
+                            Navigator.of(context).pushNamed("/home");
+                          }
+
+                        }
+                      }
                     }
-                  },
+                    },
                 ),
               )
             ],

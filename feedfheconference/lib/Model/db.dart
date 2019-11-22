@@ -68,25 +68,26 @@ class DateAndTime{
 class User{
   int id;
   String name;
+  String UserName;
   int age;
   int cellPhoneNumber;
   String email;
   String password;
-  User(this.id, this.name, this.age, this.cellPhoneNumber, this.email, this.password);
+  User(this.id, this.name, this.UserName, this.age, this.cellPhoneNumber, this.email, this.password);
 }
 
 class Speaker extends User{
   String degree;
   String fieldOfExpertize;
-  Speaker(int id, String name, int age, int cellPhoneNumber, String email, String password, this.degree, this.fieldOfExpertize) : super( id,name, age, cellPhoneNumber, email, password);
+  Speaker(int id, String name, String userName, int age, int cellPhoneNumber, String email, String password, this.degree, this.fieldOfExpertize) : super( id,name, userName, age, cellPhoneNumber, email, password);
 }
 
 class Organizer extends User{
-  Organizer(int id, String name, int age, int cellPhoneNumber, String email, String password,) : super(id, name, age, cellPhoneNumber, email, password);
+  Organizer(int id, String name, String userName, int age, int cellPhoneNumber, String email, String password,) : super(id, name, userName, age, cellPhoneNumber, email, password);
 }
 
 class Attendee extends User{
-  Attendee(int id, String name, int age, int cellPhoneNumber, String email, String password,) : super(id, name, age, cellPhoneNumber, email, password);
+  Attendee(int id, String name, String userName,  int age, int cellPhoneNumber, String email, String password,) : super(id, name, userName, age, cellPhoneNumber, email, password);
 }
 
 enum QuestionType { radioButton, checkBox, textBox }
@@ -101,13 +102,13 @@ class FormQuestion{
 
 }
 
-class Form{
+class FormTalk{
   int id;
   DateAndTime begin;
   DateAndTime end;
   List<int> listIdFormQuestions;
 
-  Form(int id, String begin, String end, this.listIdFormQuestions){
+  FormTalk(int id, String begin, String end, this.listIdFormQuestions){
     this.begin = DateAndTime.string(begin);
     this.end = DateAndTime.string(end);
   }
@@ -166,10 +167,10 @@ class Event{
   Event(this.id, this.title, this.description, this.sessionIdList);
 }
 
-Attendee attendee = new Attendee(1, 'jose guerra', 19,  930474148, 'comander23@live.com.pt', 'password');
-Organizer organizer = new Organizer(2, 'Luis Silve', 35, 913333222, 'qualquercoisanaosei@treta.com', '1234');
-Speaker speaker1 = new Speaker(3, 'Stefan Monnier', 34, 912211221, 'lollololololl@live.com', 'qwerd',  'Master of rings', 'videogames');
-Speaker speaker2 = new Speaker(4 , 'Martim Carvalho', 34, 912211221, 'lollololololdeddl@live.com', '123456',  'Master of rings', 'videogames');
+Attendee attendee = new Attendee(1, 'jose guerra', 'lockdown', 19,  930474148, 'comander23@live.com.pt', 'password');
+Organizer organizer = new Organizer(2, 'Luis Silve', 'lockdown1', 35, 913333222, 'qualquercoisanaosei@treta.com', '1234');
+Speaker speaker1 = new Speaker(3, 'Stefan Monnier', 'lockdown2', 34, 912211221, 'lollololololl@live.com', 'qwerd',  'Master of rings', 'videogames');
+Speaker speaker2 = new Speaker(4 , 'Martim Carvalho', 'lockdown3', 34, 912211221, 'lollololololdeddl@live.com', '123456',  'Master of rings', 'videogames');
 
 List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['1','2','3','4','5'];
@@ -183,7 +184,7 @@ FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final co
 FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
 FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
 
-Form form1 = new Form(1, '2019-11-15 9:00' , '2019-11-20 10:30', [1, 2, 3, 4, 5, 6, 7, 8]);
+FormTalk form1 = new FormTalk(1, '2019-11-15 9:00' , '2019-11-20 10:30', [1, 2, 3, 4, 5, 6, 7, 8]);
 
 Talk talk1 = new Talk(1, 1, 'The Lisp of the prophet for the one true editor', 'While the editor war is long gone and '
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '
@@ -229,7 +230,7 @@ class Database {
     talk2
   ];
 
-  List<Form> formList = [
+  List<FormTalk> formList = [
     form1
   ];
 
