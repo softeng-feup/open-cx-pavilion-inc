@@ -1,10 +1,23 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 
+
 class TalkPage extends StatefulWidget {
-  final String title = 'Talk details';
+  String title;
+  final int talkId;
+  final Database db;
 
   @override
+  TalkPage({Key key, this.title, this.talkId, this.db})
+      : super(key: key) {
+    for (int i = 0; i < db.talkList.length; i++) {
+      if (this.talkId == db.talkList[i].id) {
+        this.title = db.talkList[i].title;
+        break;
+      }
+    }
+  }
   _TalkPageState createState() => _TalkPageState();
 }
 
@@ -20,7 +33,7 @@ class _TalkPageState extends State<TalkPage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildTalkPage(
-              context, _scrollViewController, widget.title),
+              context, _scrollViewController, widget.title, widget.talkId),
 
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
@@ -30,7 +43,8 @@ class _TalkPageState extends State<TalkPage>
 NestedScrollView buildTalkPage(
     BuildContext context,
     ScrollController _scrollViewController,
-    String title) {
+    String title,
+    int talkId) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -44,11 +58,11 @@ NestedScrollView buildTalkPage(
         ),
       ];
     },
-    body: new CurrentPage(),
+    body: new CurrentPage(talkId),
   );
 }
 
-List<Widget> listMyWidgets() {
+List<Widget> listMyWidgets(talkId) {
   var db = Database();
 
   //Conference
@@ -95,7 +109,7 @@ List<Widget> listMyWidgets() {
   }
 
   //Talk
-  var wantedTalkID = 1; // The Lisp of the prophet for the one true editor (ID only)
+  var wantedTalkID = talkId; // The Lisp of the prophet for the one true editor (ID only)
   var talksList = db.talkList;
   Talk talk;
 
@@ -242,11 +256,14 @@ List<Widget> listMyWidgets() {
 }
 
 class CurrentPage extends StatelessWidget {
+  int talkId;
+
   @override
+  CurrentPage(this.talkId);
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMyWidgets(),
+      children: listMyWidgets(talkId),
     );
   }
 }
