@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
-import './event_page.dart';
+import './event.dart';
 
 class ConferenceHomePage extends StatefulWidget {
   final String title = 'Home Page';
@@ -89,7 +89,8 @@ List<Widget> listMyWidgets(int conferenceId) {
                       }
                     }
                   }
-                  widgetsList.add(EventBox(event.title, session.title, session.room, session.beginTime, session.endTime, talks));
+               
+                  widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, session.title, session.room, session.beginTime, session.endTime, talks, db));
                 }
               }
             }
@@ -104,13 +105,16 @@ List<Widget> listMyWidgets(int conferenceId) {
 
 class EventBox extends StatelessWidget {
   final String eventTitle;
-  final String title;
+  final String sessionTitle;
   final String room;
   final DateAndTime beginTime;
   final DateAndTime endTime;
   final List<Talk> talks;
+  final String conferenceName;
+  Database db;
+  int eventId;
 
-  EventBox(this.eventTitle,this.title, this.room, this.beginTime, this.endTime, this.talks);
+  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks, this.db);
 
   @override
   Widget build(BuildContext context){
@@ -147,7 +151,7 @@ class EventBox extends StatelessWidget {
                     children: <Widget>[
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(eventTitle + " - " + title, textAlign: TextAlign.left, style: TextStyle(
+                        child: Text(eventTitle + " - " + sessionTitle, textAlign: TextAlign.left, style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold
                         )
