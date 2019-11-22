@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './event.dart';
+import './talk.dart';
 import './common.dart';
 
 class ConferenceHomePage extends StatefulWidget {
@@ -146,16 +147,24 @@ class EventBox extends StatelessWidget {
   Widget build(BuildContext context){
     var talkWidgets = List<Widget>();
     for (int i = 0; i < talks.length; i++) {
-      talkWidgets.add(Container(
-          color: Colors.white,
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            children: [
-              Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
-              SizedBox(height: 3),
-              Align(alignment: Alignment.centerLeft, child: Text(talks[i].beginTime.timeToString() + ' - ' + talks[i].endTime.timeToString()))
-            ]
-          )
+      talkWidgets.add(RaisedButton(child:
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.all(10),
+            child: Column(
+              children: [
+                Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
+                SizedBox(height: 3),
+                Align(alignment: Alignment.centerLeft, child: Text(talks[i].beginTime.timeToString() + ' - ' + talks[i].endTime.timeToString()))
+              ]
+            )
+          ),
+        onPressed: () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new TalkPage(title: talks[i].title, talkId: talks[i].id, db: db),
+          );
+          Navigator.of(context).push(route);
+        },
       ));
       talkWidgets.add(SizedBox(height: 10));
     }
