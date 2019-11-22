@@ -100,8 +100,7 @@ class EventBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
           onTap: () {
-            print(conferenceId);
-            print(name);
+
           var route = MaterialPageRoute(
             builder: (BuildContext context) => new ConferenceHomePage(conferenceId: conferenceId),
           );  

@@ -22,11 +22,6 @@ class Date{
   String dateToInvertedString(){
     return '$day-$month-$year';
   }
-
-
-
-
-
 }
 
 class Time{
@@ -121,6 +116,7 @@ class FormQuestion{
 }
 
 class FormTalk{
+
   int id;
   DateAndTime begin;
   DateAndTime end;
@@ -135,6 +131,7 @@ class FormTalk{
 
 
 class Talk{
+
   int id;
   String title;
   String description;
@@ -165,6 +162,7 @@ class Session{
 }
 
 class Conference{
+
   int id;
   String name;
   Date beginDate;
@@ -172,18 +170,23 @@ class Conference{
   String place;
   List<int> eventIdList;
 
-  Conference(this.id, this.name, this.place, this.eventIdList,  String beginDate, String endDate){
+  Conference(this.id, this.name, this.place, this.eventIdList,  String beginDate, String endDate)
+  {
+
     this.beginDate = Date.string(beginDate);
     this.endDate = Date.string(endDate);
+  
   }
+
 }
 
 class Event{
   int id;
+  String acronym;
   String title;
   String description;
   List<int> sessionIdList;
-  Event(this.id, this.title, this.description, this.sessionIdList);
+  Event(this.id, this.acronym, this.title, this.description, this.sessionIdList);
 }
 
 Attendee attendee = new Attendee(1, 'jose guerra', 'lockdown', 19,  930474148, 'comander23@live.com.pt', 'password');
@@ -215,14 +218,21 @@ Talk talk2 = new Talk(2, 1, 'The NEXT NEXT Lisp of the prophet for the one true 
 Session session1 = new Session(1, 'session 1', null, 'Paganini', [1], '2019-11-15 9:30', '2019-11-15 11:30');
 Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [2], '2019-11-15 9:30', '2019-11-15 11:30');
 
-Event event1 = new Event(1 ,'ELS 2019 ', 'The purpose of the European '
+Event event1 = new Event(1 ,'ELS 2019 ', 'European Lisp Symposium', 'The purpose of the European '
     'Lisp Symposium is to provide a forum for the discussion and dissemination of '
     'all aspects of design, implementation and application of any of the Lisp and '
     'Lisp-inspired dialects, including Common Lisp, Scheme, Emacs Lisp, AutoLisp, '
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
     'encourage everyone interested in Lisp to participate.', [1, 2]);
 
-Event event2 = new Event(2 ,'LOL 2019 ', 'The purpose of the European '
+Event event2 = new Event(2 ,'LOL 2019', 'Loletas', 'The purpose of the European '
+    'Lisp Symposium is to provide a forum for the discussion and dissemination of '
+    'all aspects of design, implementation and application of any of the Lisp and '
+    'Lisp-inspired dialects, including Common Lisp, Scheme, Emacs Lisp, AutoLisp, '
+    'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
+    'encourage everyone interested in Lisp to participate.', [1, 2]);
+
+Event event3 = new Event(3 , 'ICW 2019', 'Interconnecting Code Workshop' , 'The purpose of the European '
     'Lisp Symposium is to provide a forum for the discussion and dissemination of '
     'all aspects of design, implementation and application of any of the Lisp and '
     'Lisp-inspired dialects, including Common Lisp, Scheme, Emacs Lisp, AutoLisp, '

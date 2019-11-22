@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
+import './event_page.dart';
 
 class ConferenceHomePage extends StatefulWidget {
   final String title = 'Home Page';
@@ -68,13 +69,8 @@ List<Widget> listMyWidgets(int conferenceId) {
   var db = Database();
   @override
   List<Widget> widgetsList = new List();
-  print("merda\n");
-  print(conferenceId);
-  print(conferenceId);
-  print(conferenceId);
-  print(conferenceId);
-    print("merda\n");
-  
+
+
   for(int y = 0; y < db.conferenceList.length; y++){
     if(db.conferenceList[y].id == conferenceId){
       for(int i = 0; i < db.conferenceList[y].eventIdList.length; i++) {
@@ -85,7 +81,7 @@ List<Widget> listMyWidgets(int conferenceId) {
               for(int l = 0; l < db.sessionList.length; l++){
                 if(event.sessionIdList[h] == db.sessionList[l].id){
                   Session session = db.sessionList[l];
-                  widgetsList.add(EventBox(event.title, session.title, session.room, session.beginTime, session.endTime));
+                  widgetsList.add(EventBox(db.conferenceList[y].name ,event.title, event.id,  session.title, session.room, session.beginTime, session.endTime, db));
                 }
               }
             }
@@ -105,13 +101,21 @@ class EventBox extends StatelessWidget {
   final String room;
   final DateAndTime beginTime;
   final DateAndTime endTime;
+  final String conferenceName;
+  final int eventId;
+  Database db;
 
-  EventBox(this.eventTitle,this.title, this.room, this.beginTime, this.endTime);
+  EventBox(this.conferenceName,this.eventTitle, this.eventId, this.title, this.room, this.beginTime, this.endTime, this.db);
 
   @override
   Widget build(BuildContext context){
     return InkWell(
-        onTap: () => print("I Should open an event page!"),
+        onTap: () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new EventPage(conferenceName:  conferenceName, eventId: eventId, db: db,),
+          );  
+          Navigator.of(context).push(route);
+          },
         child: Container(
           color: Colors.grey[100],
           margin: const EdgeInsets.only(bottom: 8.0),
