@@ -272,7 +272,7 @@ List<Widget> listMyWidgets(talkId, context) {
           );  
           Navigator.of(context).push(route);
           },
-        child: Text('CreateForm', style: TextStyle(fontWeight: FontWeight.bold),),
+        child: Text('Create/Modify Form (Speaker/Organizer only)', style: TextStyle(fontWeight: FontWeight.bold),),
       )
     )
   );
