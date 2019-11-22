@@ -69,8 +69,7 @@ List<Widget> listMyWidgets(int conferenceId) {
   var db = Database();
   @override
   List<Widget> widgetsList = new List();
-
-
+  
   for(int y = 0; y < db.conferenceList.length; y++){
     if(db.conferenceList[y].id == conferenceId){
       for(int i = 0; i < db.conferenceList[y].eventIdList.length; i++) {
@@ -81,7 +80,16 @@ List<Widget> listMyWidgets(int conferenceId) {
               for(int l = 0; l < db.sessionList.length; l++){
                 if(event.sessionIdList[h] == db.sessionList[l].id){
                   Session session = db.sessionList[l];
-                  widgetsList.add(EventBox(db.conferenceList[y].name ,event.title, event.id,  session.title, session.room, session.beginTime, session.endTime, db));
+                  List<Talk> talks = new List();
+                  for(int k = 0; k < session.talkIdList.length; k++) {
+                    for(int z = 0; z < db.talkList.length; z++) {
+                      if(session.talkIdList[k] == db.talkList[z].id) {
+                        Talk talk = db.talkList[z];
+                        talks.add(talk);
+                      }
+                    }
+                  }
+                  widgetsList.add(EventBox(event.title, session.title, session.room, session.beginTime, session.endTime, talks));
                 }
               }
             }
@@ -91,7 +99,6 @@ List<Widget> listMyWidgets(int conferenceId) {
       break;
     }
   }
-
   return widgetsList;
 }
 
@@ -101,14 +108,27 @@ class EventBox extends StatelessWidget {
   final String room;
   final DateAndTime beginTime;
   final DateAndTime endTime;
-  final String conferenceName;
-  final int eventId;
-  Database db;
+  final List<Talk> talks;
 
-  EventBox(this.conferenceName,this.eventTitle, this.eventId, this.title, this.room, this.beginTime, this.endTime, this.db);
+  EventBox(this.eventTitle,this.title, this.room, this.beginTime, this.endTime, this.talks);
 
   @override
   Widget build(BuildContext context){
+    var talkWidgets = List<Widget>();
+    for (int i = 0; i < talks.length; i++) {
+      talkWidgets.add(Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
+              SizedBox(height: 3),
+              Align(alignment: Alignment.centerLeft, child: Text(talks[i].beginTime.timeToString() + ' - ' + talks[i].endTime.timeToString()))
+            ]
+          )
+      ));
+      talkWidgets.add(SizedBox(height: 10));
+    }
     return InkWell(
         onTap: () {
           var route = MaterialPageRoute(
@@ -121,43 +141,47 @@ class EventBox extends StatelessWidget {
           margin: const EdgeInsets.only(bottom: 8.0),
           child: Stack(
             children: [
-                      Container(
-                      height: 80,
-                      margin: const EdgeInsets.only(left: 30, top: 25, right: 30),
-                      child: Column(
-                        children: <Widget>[
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(eventTitle + " - " + title, textAlign: TextAlign.left, style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold
-                          )
-                          ),
+              Container(
+                  margin: const EdgeInsets.only(left: 30, top: 25, right: 30),
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(eventTitle + " - " + title, textAlign: TextAlign.left, style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                        )
                         ),
-                        SizedBox(height: 5),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Text(room),
-                        ),
-                        SizedBox(height: 5),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          //child: Text(beginTime.toString()),
-                        ),
-                        ],
-                      )
-                  ),
-                  Container(
-                    //margin: const EdgeInsets.only(left: 1),
-                      child:Align(
-                        alignment: Alignment.topLeft,
-                        child: Icon(
-                          Icons.star,
-                          color: Colors.blue[500],
-                        ),
-                      )
-                  ),
-          ],
+                      ),
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(room),
+                      ),
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(beginTime.time.timeToString() + ' - ' + endTime.time.timeToString()),
+                      ),
+                      ExpansionTile(
+                          title: Text('Talks'),
+
+                          children: talkWidgets
+                      ),
+                    ],
+                  )
+              ),
+              Container(
+                //margin: const EdgeInsets.only(left: 1),
+                  child:Align(
+                    alignment: Alignment.topLeft,
+                    child: Icon(
+                      Icons.star,
+                      color: Colors.blue[500],
+                    ),
+                  )
+              ),
+            ],
         )
     )
     );

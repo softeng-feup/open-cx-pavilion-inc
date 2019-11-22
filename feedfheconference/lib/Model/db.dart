@@ -215,7 +215,7 @@ Talk talk2 = new Talk(2, 1, 'The NEXT NEXT Lisp of the prophet for the one true 
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '
     'took from its siblings and ancestors and what makes it different.',[3], '10:30', '11:30');
 
-Session session1 = new Session(1, 'session 1', null, 'Paganini', [1], '2019-11-15 9:30', '2019-11-15 11:30');
+Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 1, 1, 2], '2019-11-15 9:30', '2019-11-15 11:30');
 Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [2], '2019-11-15 9:30', '2019-11-15 11:30');
 
 Event event1 = new Event(1 ,'ELS 2019 ', 'European Lisp Symposium', 'The purpose of the European '
