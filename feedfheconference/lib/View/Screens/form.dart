@@ -17,8 +17,14 @@ List<Widget> listMyWidgets(var formKey, var context){
   List<Widget> widgetsList = new List();
 
   for (int i = 0; i < db.formList[0].listIdFormQuestions.length; i++) {
-    widgetsList.add(QuestionText(db.formQuestionList[db.formList[0].listIdFormQuestions[i]].questionText));
-    widgetsList.add(AnswerBox());
+    for(int j = 0; j < db.formQuestionList.length; j++) {
+      if(db.formQuestionList[j].id == db.formList[0].listIdFormQuestions[i]) {
+        widgetsList.add(QuestionText(
+            db.formQuestionList[j]
+                .questionText));
+        widgetsList.add(AnswerBox());
+      }
+    }
   }
 
   widgetsList.add(Padding(
