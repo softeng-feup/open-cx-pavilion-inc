@@ -1,3 +1,4 @@
+import 'package:feedfheconference/View/Screens/createForm.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
         "/home": (context) => HomePage(),
-        "/form": (context) => FormPage()
+        "/form": (context) => FormPage(),
+        "/createForm": (context) => prefix0.CreateFormPage()
       },
     );
   }

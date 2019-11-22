@@ -17,7 +17,7 @@ List<Widget> listMyWidgets(var formKey, var context){
   List<Widget> widgetsList = new List();
 
     for (int i = 0; i < db.questions.length; i++) {
-      widgetsList.add(QuestionText(db.questions[i].questionText));
+      widgetsList.add(QuestionText(db.questions[i].questionText, i+1));
       widgetsList.add(AnswerBox(db.questions[i].type, db.questions[i].questionSubText));
     }
 
@@ -41,12 +41,14 @@ List<Widget> listMyWidgets(var formKey, var context){
 
 class QuestionText extends StatelessWidget {
   final String questionText;
-  QuestionText(this.questionText);
+  final int index;
+
+  QuestionText(this.questionText, this.index);
   @override
   Widget build(BuildContext context) {
     return Container(
         child: Text(
-          questionText,
+          index.toString() + ". " + questionText,
           style: TextStyle(fontSize: 22),
         ),
         margin: const EdgeInsets.only(bottom: 8.0)
@@ -236,6 +238,13 @@ Drawer sideDrawer(BuildContext context) {
             Navigator.of(context).pop();
           },
         ),
+        ListTile(
+          title: Text('Create Form'),
+          onTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed("/createForm");
+          },
+        )
       ],
     ),
   );

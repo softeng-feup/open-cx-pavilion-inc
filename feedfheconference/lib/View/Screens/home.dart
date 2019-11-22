@@ -224,6 +224,13 @@ Drawer sideDrawer(BuildContext context) {
             Navigator.of(context).pop();
           },
         ),
+        ListTile(
+          title: Text('Create Form'),
+          onTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed("/createForm");
+          },
+        )
       ],
     ),
   );
