@@ -43,23 +43,10 @@ class Time{
     return '$hour:$minute';
   }
 
+}
   List<String> options = ['1','2','3','4','5'];
   
-  //This was from testing branch:
-  
-  //class Database {
-  //List<Question> questions = [
-    //Question(QuestionType.textBox, 'What did you like the most in the session?', null),
-    //Question(QuestionType.textBox, 'What did you like the least in the session?', null),
-    //Question(QuestionType.textBox, 'In your opinion, did the session met its objectives?', null),
-    //Question(QuestionType.textBox, 'Was there enough time for discussion?', null),
-    //Question(QuestionType.textBox,'Tell us some suggestions you may have for future events.', null),
-    //Question(QuestionType.textBox, 'Any final comments?', null),
-    //Question(QuestionType.radioButton, 'Rate your experience.', options),
-    //Question(QuestionType.checkBox, 'Choose numbers.', options)
-  //];
 
-}
 
 class DateAndTime{
 
@@ -299,3 +286,4 @@ class Database {
     speaker2
   ];
 }
+Database db = new Database();

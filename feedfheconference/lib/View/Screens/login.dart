@@ -3,7 +3,6 @@ import 'dart:ffi';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 
-Database db = new Database();
 
 class LoginPage extends StatefulWidget {
   @override

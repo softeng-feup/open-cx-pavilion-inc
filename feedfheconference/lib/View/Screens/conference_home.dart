@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './event.dart';
 import './talk.dart';
+import './common.dart';
 
 class ConferenceHomePage extends StatefulWidget {
-  final String title = 'Home Page';
+  final String conferenceName;
+  final String title ="lol";
   final int conferenceId;
   @override
-   ConferenceHomePage({Key key, this.conferenceId}): super(key: key);
+   ConferenceHomePage({Key key, this.conferenceId, this.conferenceName}): super(key: key);
   _ConferenceHomePageState createState() => _ConferenceHomePageState();
 }
 
@@ -21,17 +23,42 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
   Widget build(BuildContext context) {
     return DefaultTabController(
         // Added
-        length: 2, // Added
+        length: 6, // Added
         initialIndex: 0, //Added
         child: Scaffold(
-          body: buildHomePage(
-              context, _tabController, _scrollViewController, widget.title,  widget.conferenceId),
+          body: buildConferencePage(
+              context, _tabController, _scrollViewController, widget.conferenceName,  widget.conferenceId),
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
 }
 
-NestedScrollView buildHomePage(
+List<Tab> tabList(int conferenceId){
+
+     List<Tab> tList = new List();
+  var numberOfDays;
+  for(int i = 0; i < db.conferenceList.length; i++){
+    if(db.conferenceList[i].id == conferenceId){
+      Conference conference = db.conferenceList[i];
+      tList.add(Tab(text: "22/1"));
+      tList.add(Tab(text: "23/1"));
+      tList.add(Tab(text: "24/1"));
+       tList.add(Tab(text: "25/1"));
+      tList.add(Tab(text: "26/1"));
+      tList.add(Tab(text: "27/1"));
+
+
+      break;
+    }
+  }
+  return tList;
+
+            
+
+
+}
+
+NestedScrollView buildConferencePage(
     BuildContext context,
     TabController _tabController,
     ScrollController _scrollViewController,
@@ -47,10 +74,7 @@ NestedScrollView buildHomePage(
           snap: true,
           forceElevated: innerBoxIsScrolled,
           bottom: new TabBar(
-            tabs: <Tab>[
-              new Tab(text: "Tab 1"),
-              new Tab(text: "Tab 2"),
-            ],
+            tabs: tabList(conferenceId),
             controller: _tabController,
           ),
         ),
@@ -60,6 +84,10 @@ NestedScrollView buildHomePage(
       children: <Widget>[
         new CurrentPage(conferenceId),
         new CurrentPage(conferenceId),
+        new CurrentPage(conferenceId),
+        new CurrentPage(conferenceId),
+        new CurrentPage(conferenceId),
+        new CurrentPage(conferenceId),
       ],
       controller: _tabController,
     ),
@@ -67,7 +95,6 @@ NestedScrollView buildHomePage(
 }
 
 List<Widget> listMyWidgets(int conferenceId) {
-  var db = Database();
   @override
   List<Widget> widgetsList = new List();
   
@@ -91,7 +118,7 @@ List<Widget> listMyWidgets(int conferenceId) {
                     }
                   }
                
-                  widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, session.title, session.room, session.beginTime, session.endTime, talks, db));
+                  widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, session.title, session.room, session.beginTime, session.endTime, talks));
                 }
               }
             }
@@ -112,10 +139,9 @@ class EventBox extends StatelessWidget {
   final DateAndTime endTime;
   final List<Talk> talks;
   final String conferenceName;
-  Database db;
   int eventId;
 
-  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks, this.db);
+  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks);
 
   @override
   Widget build(BuildContext context){
@@ -145,7 +171,7 @@ class EventBox extends StatelessWidget {
     return InkWell(
         onTap: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new EventPage(conferenceName: conferenceName, eventId: eventId, db: db,),
+            builder: (BuildContext context) => new EventPage(conferenceName:  conferenceName, eventId: eventId),
           );  
           Navigator.of(context).push(route);
           },
@@ -178,7 +204,6 @@ class EventBox extends StatelessWidget {
                       ),
                       ExpansionTile(
                           title: Text('Talks'),
-
                           children: talkWidgets
                       ),
                     ],
@@ -215,63 +240,3 @@ class CurrentPage extends StatelessWidget {
   }
 }
 
-/*
-
-class CurrentPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return new ListView(
-      padding: EdgeInsets.zero,
-      children: List.generate(10, (index) {
-        return 
-        );
-      }),
-    );
-  }
-}
-*/
-Drawer sideDrawer(BuildContext context) {
-  return new Drawer(
-    // Add a ListView to the drawer. This ensures the user can scroll
-    // through the options in the drawer if there isn't enough vertical
-    // space to fit everything.
-    child: ListView(
-      // Important: Remove any padding from the ListView.
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.12,
-          child: DrawerHeader(
-              child: Text('Menu', style: TextStyle(color: Colors.white)),
-              margin: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(3, 44, 115, 1),
-              )),
-        ),
-        ListTile(
-          title: Text('Home Page'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.of(context).pushNamed("/home");
-          },
-        ),
-        ListTile(
-          title: Text('Form'),
-          onTap: () {
-            Navigator.pop(context);
-            Navigator.of(context).pushNamed("/form");
-          },
-        ),
-        ListTile(
-          title: Text('Favorites'),
-          onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
-            Navigator.pop(context);
-          },
-        ),
-      ],
-    ),
-  );
-}
