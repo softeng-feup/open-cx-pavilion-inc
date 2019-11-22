@@ -1,7 +1,10 @@
+import 'package:feedfheconference/View/Screens/createForm.dart' as prefix0;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './common.dart';
+import './createForm.dart';
+import './Form.dart';
 
 
 class TalkPage extends StatefulWidget {
@@ -63,7 +66,7 @@ NestedScrollView buildTalkPage(
   );
 }
 
-List<Widget> listMyWidgets(talkId) {
+List<Widget> listMyWidgets(talkId, context) {
 
   //Conference
   var wantedConferenceID = 1; //Programming 2019 (ID only)
@@ -243,11 +246,33 @@ List<Widget> listMyWidgets(talkId) {
         padding: EdgeInsets.all(8.0),
         splashColor: Colors.blueAccent,
         onPressed: () {
-          //Navigator.of(context).pop();
-          //Navigator.of(context).pushReplacementNamed("/form");
-          print('I Should lead to the form of this talk');
-        },
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new FormPage(),
+          );  
+          Navigator.of(context).push(route);
+          },
         child: Text('Feed our talk!', style: TextStyle(fontWeight: FontWeight.bold),),
+      )
+    )
+  );
+
+  widgetsList.add(
+    Container(
+      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+      child: FlatButton(
+        color: Colors.blue,
+        textColor: Colors.white,
+        disabledColor: Colors.grey,
+        disabledTextColor: Colors.black,
+        padding: EdgeInsets.all(8.0),
+        splashColor: Colors.blueAccent,
+        onPressed:  () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new CreateFormPage(),
+          );  
+          Navigator.of(context).push(route);
+          },
+        child: Text('CreateForm', style: TextStyle(fontWeight: FontWeight.bold),),
       )
     )
   );
@@ -263,7 +288,7 @@ class CurrentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMyWidgets(talkId),
+      children: listMyWidgets(talkId, context),
     );
   }
 }
