@@ -28,6 +28,7 @@ class Date{
 
 
 }
+
 class Time{
   int hour;
   int minute;
@@ -46,8 +47,7 @@ class Time{
   String timeToString(){
     return '$hour:$minute';
   }
-  
-  enum QuestionType { radioButton, checkBox, textBox }
+
   List<String> options = ['1','2','3','4','5'];
   
   //This was from testing branch:
@@ -130,13 +130,6 @@ class FormTalk{
     this.begin = DateAndTime.string(begin);
     this.end = DateAndTime.string(end);
 
-  //This was from testing:
-  
-  //List questionSubText;
-  //QuestionType type;
-  //Question(this.type, this.questionText, this.questionSubText) {
-    // Controlo do erro , caso a pergunta seja do tipo multiple choice this.questionSubText
-    //if (this.type == QuestionType.radioButton) {}
   }
 }
 

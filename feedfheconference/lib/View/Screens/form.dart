@@ -23,15 +23,8 @@ List<Widget> listMyWidgets(var formKey, var context){
         widgetsList.add(QuestionText(
             db.formQuestionList[j]
                 .questionText));
-        widgetsList.add(AnswerBox());
+        widgetsList.add(AnswerBox(db.formQuestionList[j].type, db.formQuestionList[j].questionSubText));
       }
-
-  //This was from testing:
-  
-    //for (int i = 0; i < db.questions.length; i++) {
-      //widgetsList.add(QuestionText(db.questions[i].questionText));
-      //widgetsList.add(AnswerBox(db.questions[i].type, db.questions[i].questionSubText));
-
     }
   }
 
