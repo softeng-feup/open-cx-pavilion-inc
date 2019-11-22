@@ -1,5 +1,7 @@
+import 'package:feedfheconference/View/Screens/conferenceHome.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
+import './conferenceHome.dart';
 
 class HomePage extends StatefulWidget {
   final String title = 'Home Page';
@@ -7,6 +9,8 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
+
+
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
@@ -91,7 +95,11 @@ class EventBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-          onTap: () => print("Container pressed"), // handle your onTap here
+          onTap: () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new ConferenceHome(value: name),);
+          Navigator.of(context).push(route);
+          }, // handle your onTap here
           child: Container(
               color: Color.fromARGB(60, 0, 0, 255),
               margin: const EdgeInsets.only(top: 10.0),
