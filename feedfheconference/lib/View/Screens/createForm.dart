@@ -25,14 +25,7 @@ List<Widget> listMyWidgets(var context){
     child: Center(
       child: Column(
         children: <Widget>[
-          AddQuestionText(widgetsList, db),
-          RaisedButton(
-            onPressed: () {
-              // Validate returns true if the form is valid, or false
-              // otherwise.
-            },
-            child: Text('Save form'),
-          )
+          AddQuestionText(widgetsList, db)
         ],
       )
     )
@@ -76,10 +69,9 @@ class _AddQuestionTextState extends State<AddQuestionText> {
   var db;
   List<Widget> widgetsList;
   static final _formKey = GlobalKey<FormState>();
-  bool _yourQuestionVisible = false;
   bool _saveQuestionVisible = false;
-  bool _addQuestionVisible = true;
-  String text;
+  bool _saveFormVisible = true;
+  String questionText;
   String dropdownValue = 'Text';
 
   _AddQuestionTextState(this.widgetsList, this.db);
@@ -91,7 +83,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
       child: Column(
           children: <Widget>[
             Visibility(
-              visible: _yourQuestionVisible,
+              visible: _saveQuestionVisible,
               child: TextFormField(
                 validator: (value) {
                   if (value.isEmpty) {
@@ -99,7 +91,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                   }
                   return null;
                 },
-                onChanged: (value) => text = value,
+                onChanged: (value) => questionText = value,
                 minLines: 1,
                 maxLines: 4,
                 decoration: new InputDecoration(
@@ -116,16 +108,16 @@ class _AddQuestionTextState extends State<AddQuestionText> {
             Visibility(
               visible: _saveQuestionVisible,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
                   RaisedButton(
                       onPressed: () {
                         if (_formKey.currentState.validate()) {
-                          //db.questions.add(Question(QuestionType.textBox, text, null));
+                          //db.questions.add(Question(QuestionType.textBox, questionText, null));
                           //widgetsList.add(QuestionText(db.questions[widgetsList.length].questionText, widgetsList.length));
                           setState(() {
-                            _yourQuestionVisible = false;
                             _saveQuestionVisible = false;
-                            _addQuestionVisible = true;
+                            _saveFormVisible = true;
                           });
                         }
                       },
@@ -133,7 +125,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                   ),
                   DropdownButton<String>(
                     value: dropdownValue,
-                    icon: Icon(Icons.arrow_downward),
+                    icon: Icon(Icons.arrow_drop_down),
                     iconSize: 24,
                     elevation: 16,
                     onChanged: (String newValue) {
@@ -150,22 +142,39 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                     })
                         .toList(),
                   ),
+                  IconButton(
+                      onPressed: () {
+                        setState(() {
+                          _saveQuestionVisible = false;
+                          _saveFormVisible = true;
+                        });
+                  }, icon: Icon(Icons.delete))
                 ],
               )
             ),
             Visibility(
-              visible: _addQuestionVisible,
-              child: RaisedButton(
-                onPressed: () {
-                  // Validate returns true if the form is valid, or false
-                  // otherwise.
-                  setState(() {
-                    _yourQuestionVisible = true;
-                    _saveQuestionVisible = true;
-                    _addQuestionVisible = false;
-                  });
-                },
-                child: Text('Add question'),
+              visible: _saveFormVisible,
+              child: Column(
+                children: <Widget>[
+                  RaisedButton(
+                    onPressed: () {
+                      // Validate returns true if the form is valid, or false
+                      // otherwise.
+                      setState(() {
+                        _saveQuestionVisible = true;
+                        _saveFormVisible = false;
+                      });
+                    },
+                    child: Text('Add question'),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      // Validate returns true if the form is valid, or false
+                      // otherwise.
+                    },
+                    child: Text('Save'),
+                  )
+                ],
               )
             )
       ])
