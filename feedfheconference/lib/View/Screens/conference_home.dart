@@ -4,8 +4,9 @@ import '../../Model/db.dart';
 
 class ConferenceHomePage extends StatefulWidget {
   final String title = 'Home Page';
-
+  final int conferenceId;
   @override
+   ConferenceHomePage({Key key, this.conferenceId}): super(key: key);
   _ConferenceHomePageState createState() => _ConferenceHomePageState();
 }
 
@@ -22,7 +23,7 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildHomePage(
-              context, _tabController, _scrollViewController, widget.title),
+              context, _tabController, _scrollViewController, widget.title,  widget.conferenceId),
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
@@ -32,7 +33,7 @@ NestedScrollView buildHomePage(
     BuildContext context,
     TabController _tabController,
     ScrollController _scrollViewController,
-    String title) {
+    String title, int conferenceId) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -55,24 +56,43 @@ NestedScrollView buildHomePage(
     },
     body: new TabBarView(
       children: <Widget>[
-        new CurrentPage(),
-        new CurrentPage(),
+        new CurrentPage(conferenceId),
+        new CurrentPage(conferenceId),
       ],
       controller: _tabController,
     ),
   );
 }
 
-List<Widget> listMyWidgets() {
+List<Widget> listMyWidgets(int conferenceId) {
   var db = Database();
   @override
   List<Widget> widgetsList = new List();
-
-  for(int i = 0; i < db.conferenceList[i].eventIdList.length; i++) {
-    Event event = db.eventList[i];
-    for(int j = 0; j < event.sessionIdList.length; j++) {
-      Session session = db.sessionList[j];
-      widgetsList.add(EventBox(session.title, session.room, session.beginTime, session.endTime));
+  print("merda\n");
+  print(conferenceId);
+  print(conferenceId);
+  print(conferenceId);
+  print(conferenceId);
+    print("merda\n");
+  
+  for(int y = 0; y < db.conferenceList.length; y++){
+    if(db.conferenceList[y].id == conferenceId){
+      for(int i = 0; i < db.conferenceList[y].eventIdList.length; i++) {
+        for(int j = 0; j < db.eventList.length; j++){
+          if(db.conferenceList[y].eventIdList[i] == db.eventList[j].id){
+            Event event = db.eventList[j];
+            for(int h = 0; h < event.sessionIdList.length; h++){
+              for(int l = 0; l < db.sessionList.length; l++){
+                if(event.sessionIdList[h] == db.sessionList[l].id){
+                  Session session = db.sessionList[l];
+                  widgetsList.add(EventBox(event.title, session.title, session.room, session.beginTime, session.endTime));
+                }
+              }
+            }
+          }
+        }
+      }
+      break;
     }
   }
 
@@ -80,13 +100,13 @@ List<Widget> listMyWidgets() {
 }
 
 class EventBox extends StatelessWidget {
-  final String eventTitle = "PX/19";
+  final String eventTitle;
   final String title;
   final String room;
   final DateAndTime beginTime;
   final DateAndTime endTime;
 
-  EventBox(this.title, this.room, this.beginTime, this.endTime);
+  EventBox(this.eventTitle,this.title, this.room, this.beginTime, this.endTime);
 
   @override
   Widget build(BuildContext context){
@@ -142,11 +162,14 @@ class EventBox extends StatelessWidget {
 }
 
 class CurrentPage extends StatelessWidget {
+
+  int conferenceId;
   @override
+  CurrentPage(this.conferenceId);
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMyWidgets(),
+      children: listMyWidgets(conferenceId),
     );
   }
 }

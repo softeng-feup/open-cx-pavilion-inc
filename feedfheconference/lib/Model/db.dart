@@ -172,7 +172,7 @@ class Conference{
   String place;
   List<int> eventIdList;
 
-  Conference(int id, this.name, this.place, this.eventIdList,  String beginDate, String endDate){
+  Conference(this.id, this.name, this.place, this.eventIdList,  String beginDate, String endDate){
     this.beginDate = Date.string(beginDate);
     this.endDate = Date.string(endDate);
   }
@@ -222,7 +222,14 @@ Event event1 = new Event(1 ,'ELS 2019 ', 'The purpose of the European '
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
     'encourage everyone interested in Lisp to participate.', [1, 2]);
 
-Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1], '2019-05-1', '2019-06-1');
+Event event2 = new Event(2 ,'LOL 2019 ', 'The purpose of the European '
+    'Lisp Symposium is to provide a forum for the discussion and dissemination of '
+    'all aspects of design, implementation and application of any of the Lisp and '
+    'Lisp-inspired dialects, including Common Lisp, Scheme, Emacs Lisp, AutoLisp, '
+    'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
+    'encourage everyone interested in Lisp to participate.', [1, 2]);
+
+Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1,2], '2019-05-1', '2019-06-1');
 Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Genoa, Italy', [1], '2019-07-1', '2019-08-1');
 Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Genoa, Italy', [1], '2019-01-1', '2019-03-1');
 
@@ -236,7 +243,8 @@ class Database {
   ];
 
   List<Event> eventList = [
-    event1
+    event1,
+    event2
   ];
 
   List<Session> sessionList = [

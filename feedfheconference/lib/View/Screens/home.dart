@@ -1,7 +1,7 @@
-import 'package:feedfheconference/View/Screens/conferenceHome.dart';
+
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
-import './conferenceHome.dart';
+import './conference_home.dart';
 
 class HomePage extends StatefulWidget {
   final String title = 'Home Page';
@@ -73,7 +73,10 @@ List<Widget> listMyWidgets() {
   ));
 
   for (int i = 0; i < db.conferenceList.length; i++) {
+    print(db.conferenceList[i].id);
+    print(db.conferenceList[i].name);
     widgetsList.add(EventBox(
+        db.conferenceList[i].id,
         db.conferenceList[i].name,
         db.conferenceList[i].place,
         db.conferenceList[i].beginDate,
@@ -90,14 +93,18 @@ class EventBox extends StatelessWidget {
   String place;
   Date beginDate;
   Date endDate;
-  EventBox(this.name, this.place, this.beginDate, this.endDate);
+  int conferenceId;
+  EventBox(this.conferenceId,this.name, this.place, this.beginDate, this.endDate);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
           onTap: () {
+            print(conferenceId);
+            print(name);
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new ConferenceHome(value: name),);
+            builder: (BuildContext context) => new ConferenceHomePage(conferenceId: conferenceId),
+          );  
           Navigator.of(context).push(route);
           }, // handle your onTap here
           child: Container(
