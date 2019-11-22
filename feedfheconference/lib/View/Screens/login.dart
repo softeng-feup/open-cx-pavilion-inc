@@ -50,9 +50,9 @@ class _LoginPageState extends State<LoginPage> {
               SizedBox(
                 height: 50,
                 child: TextFormField(
-                  validator:
+                  /*validator:
                       (value) {
-                    return 'Email/Username or Password Wrong';},
+                    return 'Email/Username or Password Wrong';},*/
                   onSaved: (value) => _password = value,
                   obscureText: true,
                   decoration: InputDecoration(
@@ -76,15 +76,15 @@ class _LoginPageState extends State<LoginPage> {
                     form.save();
                     // Validate will return true if is valid, or false if invalid.
                     if(form.validate()) {
-                      for (var i = 0; i < db.userList.length; i++) {
+                     /* for (var i = 0; i < db.userList.length; i++) {
                         if (db.userList[i].email == _emailOrUsername ||
                             db.userList[i].UserName == _emailOrUsername) {
-                          if (db.userList[i].password == _password) {
+                          if (db.userList[i].password == _password) {*/
                             Navigator.of(context).pushNamed("/home");
-                          }
+                          //}
 
-                        }
-                      }
+                      //  }
+                     // }
                     }
                     },
                 ),

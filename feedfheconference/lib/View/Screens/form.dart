@@ -16,24 +16,24 @@ List<Widget> listMyWidgets(var formKey, var context){
   @override
   List<Widget> widgetsList = new List();
 
-    for (int i = 0; i < db.questions.length; i++) {
-      widgetsList.add(QuestionText(db.questions[i].questionText));
-      widgetsList.add(AnswerBox());
-    }
+  for (int i = 0; i < db.formList[0].listIdFormQuestions.length; i++) {
+    widgetsList.add(QuestionText(db.formQuestionList[db.formList[0].listIdFormQuestions[i]].questionText));
+    widgetsList.add(AnswerBox());
+  }
 
-    widgetsList.add(Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      // Validate returns true if the form is valid, or false
-                      // otherwise.
-                      if (formKey.currentState.validate()) {
-                        Navigator.pop(context);
-                      }
-                    },
-                    child: Text('Submit'),
-                  ),
-                ));
+  widgetsList.add(Padding(
+    padding: const EdgeInsets.symmetric(vertical: 16.0),
+    child: RaisedButton(
+      onPressed: () {
+        // Validate returns true if the form is valid, or false
+        // otherwise.
+        if (formKey.currentState.validate()) {
+          Navigator.pop(context);
+        }
+      },
+      child: Text('Submit'),
+    ),
+  ));
 
   return widgetsList;
 }
@@ -50,8 +50,8 @@ class QuestionText extends StatelessWidget {
           style: TextStyle(fontSize: 22),
         ),
         margin: const EdgeInsets.only(bottom: 8.0)
-        //color: Colors.blue[100],
-        );
+      //color: Colors.blue[100],
+    );
   }
 }
 
@@ -81,8 +81,8 @@ class AnswerBox extends StatelessWidget {
           ),
         ),
         margin: const EdgeInsets.only(bottom: 18.0)
-        //color: Colors.blue[200],
-        );
+      //color: Colors.blue[200],
+    );
   }
 }
 
@@ -98,7 +98,7 @@ class FormPageState extends State<FormPage>
   Widget build(BuildContext context) {
     // Build a Form widget using the _formKey created above.
     return DefaultTabController(
-        // Added
+      // Added
         length: 1, // Added
         initialIndex: 0, //Added
         child: Scaffold(
@@ -134,13 +134,13 @@ NestedScrollView buildFormPage(
         child: Container(
             margin: const EdgeInsets.all(20.0),
             //color: Colors.amber[600],
-              child: SingleChildScrollView(
-              padding: const EdgeInsets.all(6),
-              child: new Column(
-                  children: listMyWidgets(_formKey, context)
-              )
+            child: SingleChildScrollView(
+                padding: const EdgeInsets.all(6),
+                child: new Column(
+                    children: listMyWidgets(_formKey, context)
+                )
 
-              
+
             )),
       ),
     ),
