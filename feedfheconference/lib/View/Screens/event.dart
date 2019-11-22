@@ -8,9 +8,8 @@ class EventPage extends StatefulWidget {
   final String conferenceName;
   final int eventId;
   String eventAcronym;
-  final Database db;
   @override
-  EventPage({Key key, this.conferenceName, this.eventId, this.db})
+  EventPage({Key key, this.conferenceName, this.eventId})
       : super(key: key) {
     for (int i = 0; i < db.eventList.length; i++) {
       if (this.eventId == db.eventList[i].id) {
@@ -42,8 +41,7 @@ class _EventPageState extends State<EventPage>
               widget.eventAcronym,
               widget.eventTitle,
               widget.eventId,
-              widget.conferenceName,
-              widget.db),
+              widget.conferenceName),
         ));
   }
 }
@@ -55,8 +53,7 @@ NestedScrollView buildEventPage(
     String eventAcronym,
     String eventTitle,
     int eventId,
-    String conferenceName,
-    Database db) {
+    String conferenceName) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -79,15 +76,128 @@ NestedScrollView buildEventPage(
     },
     body: new TabBarView(
       children: <Widget>[
-        new CurrentPageDescription(eventId, eventTitle, db),
-        new CurrentPageSessions(eventId, eventTitle, db),
+        new CurrentPageDescription(eventId, eventTitle),
+        new CurrentPageSessions(eventId),
       ],
       controller: _tabController,
     ),
   );
 }
 
-List<Widget> eventDescription(int eventId, String eventTitle, Database db) {
+
+
+class SessionBox extends StatelessWidget {
+  
+  final String sessionTitle;
+  final String room;
+  final DateAndTime beginTime;
+  final DateAndTime endTime;
+  final List<Talk> talks;
+  final String eventTitle;
+
+  SessionBox(this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks);
+
+  @override
+  Widget build(BuildContext context){
+    var talkWidgets = List<Widget>();
+    for (int i = 0; i < talks.length; i++) {
+      talkWidgets.add(Container(
+          color: Colors.white,
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            children: [
+              Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
+              SizedBox(height: 3),
+              Align(alignment: Alignment.centerLeft, child: Text(talks[i].beginTime.timeToString() + ' - ' + talks[i].endTime.timeToString()))
+            ]
+          )
+      ));
+      talkWidgets.add(SizedBox(height: 10));
+    }
+    return Container(
+          color: Colors.grey[100],
+          margin: const EdgeInsets.only(bottom: 8.0),
+          child: Stack(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(left: 30, top: 25, right: 30),
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(eventTitle + " - " + sessionTitle, textAlign: TextAlign.left, style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                        )
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(room),
+                      ),
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(beginTime.date.dateToInvertedString() + '     ' +  beginTime.time.timeToString() + ' - ' + endTime.time.timeToString()),
+                      ),
+                      ExpansionTile(
+                          title: Text('Talks'),
+                          children: talkWidgets
+                      ),
+                    ],
+                  )
+              ),
+              Container(
+                //margin: const EdgeInsets.only(left: 1),
+                  child:Align(
+                    alignment: Alignment.topLeft,
+                    child: Icon(
+                      Icons.star,
+                      color: Colors.blue[500],
+                    ),
+                  )
+              ),
+            ],
+        )
+    );
+  }
+}
+
+
+List<Widget> listMySessions(int eventId) {
+
+  @override
+  List<Widget> widgetsList = new List();
+  
+  for(int i = 0; i < db.eventList.length; i++){
+    if(db.eventList[i].id == eventId){
+      Event event = db.eventList[i];
+      for(int j = 0; j < event.sessionIdList.length; j++){
+        for(int l = 0; l < db.sessionList.length; l++){
+          if(db.sessionList[l].id == event.sessionIdList[j]){
+            Session session = db.sessionList[l];
+            List<Talk> talks = new List();
+            for(int k = 0; k < session.talkIdList.length; k++) {
+              for(int z = 0; z < db.talkList.length; z++) {
+                if(session.talkIdList[k] == db.talkList[z].id) {
+                  Talk talk = db.talkList[z];
+                  talks.add(talk);
+                }
+              }
+            }
+            widgetsList.add(SessionBox(event.title, session.title, session.room, session.beginTime, session.endTime, talks));
+            break;
+          }
+        }
+      }
+      break;
+    }
+  }
+  return widgetsList;
+}
+  
+List<Widget> eventDescription(int eventId, String eventTitle) {
   @override
   List<Widget> widgetsList = new List();
   var description;
@@ -122,28 +232,26 @@ List<Widget> eventDescription(int eventId, String eventTitle, Database db) {
 class CurrentPageDescription extends StatelessWidget {
   int eventId;
   String eventTitle;
-  Database db;
+
   @override
-  CurrentPageDescription(this.eventId, this.eventTitle, this.db);
+  CurrentPageDescription(this.eventId, this.eventTitle);
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: eventDescription(eventId, eventTitle, db),
+      children: eventDescription(eventId, eventTitle),
     );
   }
 }
 
 class CurrentPageSessions extends StatelessWidget {
-  int conferenceId;
-  String eventTitle;
-  Database db;
+  int eventId;
   @override
-  CurrentPageSessions(this.conferenceId, this.eventTitle, this.db);
+  CurrentPageSessions(this.eventId);
 
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: null
+      children: listMySessions(eventId),
     );
   }
 }

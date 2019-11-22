@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './conference_home.dart';
+import './common.dart';
 
 class HomePage extends StatefulWidget {
   final String title = 'Home Page';
@@ -55,7 +56,7 @@ NestedScrollView buildHomePage(
 }
 
 List<Widget> listMyWidgets() {
-  var db = Database();
+
 
   db.conferenceList.sort((a, b) =>
       (a.beginDate.dateToString()).compareTo(b.beginDate.dateToString()));
@@ -102,7 +103,7 @@ class EventBox extends StatelessWidget {
           onTap: () {
 
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new ConferenceHomePage(conferenceId: conferenceId),
+            builder: (BuildContext context) => new ConferenceHomePage(conferenceId: conferenceId, conferenceName: name,),
           );  
           Navigator.of(context).push(route);
           }, // handle your onTap here
@@ -157,48 +158,3 @@ class CurrentPage extends StatelessWidget {
   }
 }
 
-Drawer sideDrawer(BuildContext context) {
-  return new Drawer(
-    // Add a ListView to the drawer. This ensures the user can scroll
-    // through the options in the drawer if there isn't enough vertical
-    // space to fit everything.
-    child: ListView(
-      // Important: Remove any padding from the ListView.
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.12,
-          child: DrawerHeader(
-              child: Text('Menu', style: TextStyle(color: Colors.white)),
-              margin: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(3, 44, 115, 1),
-              )),
-        ),
-        ListTile(
-          title: Text('Home Page'),
-          onTap: () {
-            Navigator.of(context).pop();
-            //Navigator.of(context).pushNamed("/home");
-          },
-        ),
-        ListTile(
-          title: Text('Form'),
-          onTap: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed("/form");
-          },
-        ),
-        ListTile(
-          title: Text('Favorites'),
-          onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    ),
-  );
-}
