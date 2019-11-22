@@ -5,6 +5,7 @@ import './View/Screens/login.dart';
 import './View/Screens/register.dart';
 import './View/Screens/home.dart';
 import './View/Screens/form.dart';
+import 'View/Screens/conference_home.dart';
 
 void main(){
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
         "/login": (context) => LoginPage(),
         "/register": (context) => RegisterPage(),
         "/home": (context) => HomePage(),
-        "/form": (context) => FormPage()
+        "/form": (context) => FormPage(),
+        "/conference_home": (context) => ConferenceHomePage()
       },
     );
   }

@@ -106,36 +106,36 @@ class EventBox extends StatelessWidget {
               padding: const EdgeInsets.only(top: 10.0),
               child: Stack(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    //color: Colors.green[200],
-                    //width: 215,
-                    width: MediaQuery.of(context).size.width - 145,
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          name,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          place,
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                            beginDate.dateToInvertedString() +
-                                ' <-> ' +
-                                endDate.dateToInvertedString(),
-                            style:
-                                TextStyle(fontSize: 15, color: Colors.white)),
-                      ],
+                      Container(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      //color: Colors.green[200],
+                      //width: 215,
+                      width: MediaQuery.of(context).size.width - 145,
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            name,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            place,
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                              beginDate.dateToInvertedString() +
+                                  ' <-> ' +
+                                  endDate.dateToInvertedString(),
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white)),
+                        ],
+                      ),
                     ),
-                  ),
                 ],
               )));
   }
