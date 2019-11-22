@@ -91,43 +91,43 @@ class EventBox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-          onTap: () => print("Container pressed"), // handle your onTap here
+          onTap: () => Navigator.of(context).pushNamed("/conference_home"), // handle your onTap here
           child: Container(
               color: Color.fromARGB(60, 0, 0, 255),
               margin: const EdgeInsets.only(top: 10.0),
               padding: const EdgeInsets.only(top: 10.0),
               child: Stack(
                 children: [
-                  Container(
-                    padding: const EdgeInsets.only(bottom: 10.0),
-                    //color: Colors.green[200],
-                    //width: 215,
-                    width: MediaQuery.of(context).size.width - 145,
-                    child: Column(
-                      children: <Widget>[
-                        Text(
-                          name,
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                          place,
-                          style: TextStyle(fontSize: 15, color: Colors.white),
-                        ),
-                        SizedBox(height: 5),
-                        Text(
-                            beginDate.dateToInvertedString() +
-                                ' <-> ' +
-                                endDate.dateToInvertedString(),
-                            style:
-                                TextStyle(fontSize: 15, color: Colors.white)),
-                      ],
+                      Container(
+                      padding: const EdgeInsets.only(bottom: 10.0),
+                      //color: Colors.green[200],
+                      //width: 215,
+                      width: MediaQuery.of(context).size.width - 145,
+                      child: Column(
+                        children: <Widget>[
+                          Text(
+                            name,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                            place,
+                            style: TextStyle(fontSize: 15, color: Colors.white),
+                          ),
+                          SizedBox(height: 5),
+                          Text(
+                              beginDate.dateToInvertedString() +
+                                  ' <-> ' +
+                                  endDate.dateToInvertedString(),
+                              style:
+                                  TextStyle(fontSize: 15, color: Colors.white)),
+                        ],
+                      ),
                     ),
-                  ),
                 ],
               )));
   }
