@@ -46,6 +46,23 @@ class Time{
   String timeToString(){
     return '$hour:$minute';
   }
+  
+  enum QuestionType { radioButton, checkBox, textBox }
+  List<String> options = ['1','2','3','4','5'];
+  
+  //This was from testing branch:
+  
+  //class Database {
+  //List<Question> questions = [
+    //Question(QuestionType.textBox, 'What did you like the most in the session?', null),
+    //Question(QuestionType.textBox, 'What did you like the least in the session?', null),
+    //Question(QuestionType.textBox, 'In your opinion, did the session met its objectives?', null),
+    //Question(QuestionType.textBox, 'Was there enough time for discussion?', null),
+    //Question(QuestionType.textBox,'Tell us some suggestions you may have for future events.', null),
+    //Question(QuestionType.textBox, 'Any final comments?', null),
+    //Question(QuestionType.radioButton, 'Rate your experience.', options),
+    //Question(QuestionType.checkBox, 'Choose numbers.', options)
+  //];
 
 }
 
@@ -95,6 +112,7 @@ enum QuestionType { radioButton, checkBox, textBox }
 class FormQuestion{
   int id;
   String questionText;
+
   QuestionType type;
   List questionSubText;
 
@@ -111,6 +129,14 @@ class FormTalk{
   FormTalk(int id, String begin, String end, this.listIdFormQuestions){
     this.begin = DateAndTime.string(begin);
     this.end = DateAndTime.string(end);
+
+  //This was from testing:
+  
+  //List questionSubText;
+  //QuestionType type;
+  //Question(this.type, this.questionText, this.questionSubText) {
+    // Controlo do erro , caso a pergunta seja do tipo multiple choice this.questionSubText
+    //if (this.type == QuestionType.radioButton) {}
   }
 }
 

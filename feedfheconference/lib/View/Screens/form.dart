@@ -16,6 +16,7 @@ List<Widget> listMyWidgets(var formKey, var context){
   @override
   List<Widget> widgetsList = new List();
 
+
   for (int i = 0; i < db.formList[0].listIdFormQuestions.length; i++) {
     for(int j = 0; j < db.formQuestionList.length; j++) {
       if(db.formQuestionList[j].id == db.formList[0].listIdFormQuestions[i]) {
@@ -24,6 +25,13 @@ List<Widget> listMyWidgets(var formKey, var context){
                 .questionText));
         widgetsList.add(AnswerBox());
       }
+
+  //This was from testing:
+  
+    //for (int i = 0; i < db.questions.length; i++) {
+      //widgetsList.add(QuestionText(db.questions[i].questionText));
+      //widgetsList.add(AnswerBox(db.questions[i].type, db.questions[i].questionSubText));
+
     }
   }
 
@@ -61,31 +69,78 @@ class QuestionText extends StatelessWidget {
   }
 }
 
-class AnswerBox extends StatelessWidget {
-  String test;
+class AnswerBox extends StatefulWidget {
+  QuestionType type;
+  List questionSubText;
+
+  AnswerBox(this.type, this.questionSubText);
+
+  @override
+  State<StatefulWidget> createState() => _AnswerBoxState(this.type, this.questionSubText);
+}
+
+class _AnswerBoxState extends State<AnswerBox> {
+  QuestionType type;
+  List questionSubText;
+  int _radioValue = -1;
+  List _checkBoxValues = new List();
+
+  _AnswerBoxState(this.type, this.questionSubText);
+
+  Widget answerBox(QuestionType type, List questionSubText) {
+    if (type == QuestionType.textBox) {
+      return TextFormField(
+        validator: (value) {
+          if (value.isEmpty) {
+            return 'Please enter some text';
+          }
+          return null;
+        },
+        minLines: 1,
+        maxLines: 4,
+        decoration: new InputDecoration(
+          labelText: "Your answer",
+          fillColor: Colors.white,
+          border: new OutlineInputBorder(
+            borderRadius: new BorderRadius.circular(25.0),
+            borderSide: new BorderSide(),
+          ),
+          //fillColor: Colors.green
+        ),
+      );
+    } else if (type == QuestionType.radioButton) {
+      return Column(
+            children: List.generate(questionSubText.length, (index) {
+              return ListTile(
+                title: Text(questionSubText[index]),
+                leading: Radio(
+                    value: index,
+                    groupValue: _radioValue,
+                    onChanged: (int e) => setState(() {_radioValue = e;}))
+              );
+            }),
+          );
+    } else if (type == QuestionType.checkBox) {
+      return Column(
+        children: List.generate(questionSubText.length, (index) {
+          _checkBoxValues.add(false);
+
+          return ListTile(
+              title: Text(questionSubText[index]),
+              leading: Checkbox(
+                  value: _checkBoxValues[index],
+                  onChanged: (bool e) => setState(() {_checkBoxValues[index] = e;}))
+          );
+        }),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
-        child: TextFormField(
-          validator: (value) {
-            if (value.isEmpty) {
-              return 'Please enter some text';
-            }
-            return null;
-          },
-          minLines: 1,
-          maxLines: 4,
-          decoration: new InputDecoration(
-            labelText: "Your answer",
-            fillColor: Colors.white,
-            border: new OutlineInputBorder(
-              borderRadius: new BorderRadius.circular(25.0),
-              borderSide: new BorderSide(),
-            ),
-            //fillColor: Colors.green
-          ),
-        ),
+        child: answerBox(this.type, this.questionSubText),
         margin: const EdgeInsets.only(bottom: 18.0)
       //color: Colors.blue[200],
     );
@@ -174,15 +229,16 @@ Drawer sideDrawer(BuildContext context) {
         ListTile(
           title: Text('Home Page'),
           onTap: () {
-            Navigator.of(context).pushNamed("/home");
-            //Navigator.pop(context);
+            Navigator.of(context).pop();
+            Navigator.of(context).pushReplacementNamed("/home");
           },
         ),
         ListTile(
           title: Text('Form'),
           onTap: () {
-            Navigator.of(context).pushNamed("/form");
-            //Navigator.pop(context);
+            Navigator.of(context).pop();
+            //Navigator.of(context).pushReplacementNamed("/form");
+            //Navigator.of(context).pushNamed("/form");
           },
         ),
         ListTile(
@@ -191,7 +247,7 @@ Drawer sideDrawer(BuildContext context) {
             // Update the state of the app
             // ...
             // Then close the drawer
-            Navigator.pop(context);
+            Navigator.of(context).pop();
           },
         ),
       ],
