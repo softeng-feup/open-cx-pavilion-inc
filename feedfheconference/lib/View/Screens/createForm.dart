@@ -5,19 +5,32 @@ import './common.dart';
 
 class CreateFormPage extends StatefulWidget {
   final String title = 'Create Form Page';
-
+  final int formId;
+  CreateFormPage({Key key, this.formId}): super(key: key);
   @override
   CreateFormPageState createState() {
     return CreateFormPageState();
   }
 }
 
-List<Widget> listMyWidgets(var context){
+List<Widget> listMyWidgets(var formId, var context){
   @override
   List<Widget> widgetsList = new List();
 
-  for (int i = 0; i < db.formQuestionList.length; i++) {
-    widgetsList.add(QuestionText(db.formQuestionList[i].questionText, i+1));
+  for(int i = 0; i < db.formList.length; i++){
+    if(db.formList[i].id == formId){
+      FormTalk form = db.formList[i];
+      for(int h = 0; h < form.listIdFormQuestions.length; h++){
+        for(int j = 0; j < db.formQuestionList.length; j++){
+          if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
+            widgetsList.add(QuestionText(
+              db.formQuestionList[j].questionText, h+1));
+            break;
+          }  
+        }
+      }
+      break;
+    }
   }
 
   widgetsList.add(Padding(
@@ -25,13 +38,14 @@ List<Widget> listMyWidgets(var context){
     child: Center(
       child: Column(
         children: <Widget>[
-          AddQuestionText(widgetsList)
+          AddQuestionText(formId)
         ],
       )
     )
   ));
 
   return widgetsList;
+
 }
 
 
@@ -55,24 +69,24 @@ class QuestionText extends StatelessWidget {
 
 class AddQuestionText extends StatefulWidget {
   List<Widget> widgetsList;
-
-  AddQuestionText(this.widgetsList);
+  int formId;
+  AddQuestionText(this.formId);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddQuestionTextState(widgetsList);
+    return _AddQuestionTextState(formId);
   }
 }
 
 class _AddQuestionTextState extends State<AddQuestionText> {
-  List<Widget> widgetsList;
-  static final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool _saveQuestionVisible = false;
   bool _saveFormVisible = true;
   String questionText;
   String dropdownValue = 'Text';
+  int formId;
 
-  _AddQuestionTextState(this.widgetsList);
+  _AddQuestionTextState(this.formId);
 
   @override
   Widget build(BuildContext context) {
@@ -110,13 +124,28 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                 children: <Widget>[
                   RaisedButton(
                       onPressed: () {
+                      
+                        db.formQuestionList.add(FormQuestion(db.formQuestionList.length, QuestionType.textBox, questionText, null));
                         if (_formKey.currentState.validate()) {
-                          //db.questions.add(Question(QuestionType.textBox, questionText, null));
+                          for(int i = 0; i < db.formList.length; i++){
+                            if(db.formList[i].id == formId){
+                              db.formList[i].listIdFormQuestions.add(db.formQuestionList.length);
+                              break;
+                            }
+                          }
                           //widgetsList.add(QuestionText(db.questions[widgetsList.length].questionText, widgetsList.length));
                           setState(() {
                             _saveQuestionVisible = false;
                             _saveFormVisible = true;
                           });
+
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CreateFormPage()),
+                                  (Route<dynamic> route) =>
+                              false);
                         }
                       },
                       child: Text('Save')
@@ -273,7 +302,7 @@ class CreateFormPageState extends State<CreateFormPage>
         length: 1, // Added
         initialIndex: 0, //Added
         child: Scaffold(
-          body: buildCreateFormPage(context, _tabController, _scrollViewController, widget.title),
+          body: buildCreateFormPage(context, _tabController, _scrollViewController,widget.formId, widget.title),
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
@@ -282,7 +311,7 @@ class CreateFormPageState extends State<CreateFormPage>
 NestedScrollView buildCreateFormPage(
     BuildContext context,
     TabController _tabController,
-    ScrollController _scrollViewController,
+    ScrollController _scrollViewController, int formId,
     String title) {
   return new NestedScrollView(
     controller: _scrollViewController,
@@ -304,10 +333,8 @@ NestedScrollView buildCreateFormPage(
             child: SingleChildScrollView(
                 padding: const EdgeInsets.all(6),
                 child: new Column(
-                    children: listMyWidgets(context)
+                    children: listMyWidgets( formId,context)
                 )
-
-
             )),
       ),
   );

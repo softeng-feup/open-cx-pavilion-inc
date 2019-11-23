@@ -8,15 +8,18 @@ import './Form.dart';
 
 
 class TalkPage extends StatefulWidget {
+
   String title;
   final int talkId;
-  final Database db;
+  final String session;
+  final String event;
+
 
   @override
-  TalkPage({Key key, this.title, this.talkId, this.db})
+  TalkPage({Key key, this.event, this.session, this.talkId})
       : super(key: key) {
     for (int i = 0; i < db.talkList.length; i++) {
-      if (this.talkId == db.talkList[i].id) {
+      if (this.talkId == db.talkList[i].id){
         this.title = db.talkList[i].title;
         break;
       }
@@ -37,7 +40,7 @@ class _TalkPageState extends State<TalkPage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildTalkPage(
-              context, _scrollViewController, widget.title, widget.talkId),
+              context, _scrollViewController, widget.event, widget.session, widget.title, widget.talkId),
 
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
@@ -47,6 +50,8 @@ class _TalkPageState extends State<TalkPage>
 NestedScrollView buildTalkPage(
     BuildContext context,
     ScrollController _scrollViewController,
+    String event,
+    String session,
     String title,
     int talkId) {
   return new NestedScrollView(
@@ -54,7 +59,12 @@ NestedScrollView buildTalkPage(
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
       return <Widget>[
         new SliverAppBar(
-          title: new Text(title),
+          title: Column(
+              children: <Widget>[
+              Text(event),
+              Text(session),
+              ]
+          ),
           pinned: true,
           floating: true,
           snap: true,
@@ -68,59 +78,14 @@ NestedScrollView buildTalkPage(
 
 List<Widget> listMyWidgets(talkId, context) {
 
-  //Conference
-  var wantedConferenceID = 1; //Programming 2019 (ID only)
-  var conferencesList = db.conferenceList;
-  var conference; //Object, not just ID
-
-  //Searches for the conference with the wanted ID
-  for(int i = 0; i < conferencesList.length; i++)
-    {
-      if(conferencesList[i].id == wantedConferenceID)
-        {
-          conference = conferencesList[i];
-          break;
-        }
-    }
-
-  //Event
-  var wantedEventID = 1; //ELS 2019 (ID only)
-  var eventList = db.eventList;
-  var event;
-
-  for(int i = 0; i < eventList.length; i++)
-    {
-      if(eventList[i].id == wantedEventID)
-        {
-          event = eventList[i];
-          break;
-        }
-    }
-
-  //Session
-  var wantedSessionID = 1; // Paganini (ID only)
-  var sessionList = db.sessionList;
-  var session;
-
-  for(int i = 0; i < sessionList.length; i++)
-  {
-    if(sessionList[i].id == wantedSessionID)
-    {
-      session = sessionList[i];
-      break;
-    }
-  }
-
-  //Talk
-  var wantedTalkID = talkId; // The Lisp of the prophet for the one true editor (ID only)
-  var talksList = db.talkList;
   Talk talk;
 
-  for(int i = 0; i < talksList.length; i++)
+  for(int i = 0; i < db.talkList.length; i++)
   {
-    if(talksList[i].id == wantedTalkID)
+    if(db.talkList[i].id == talkId)
     {
-      talk = talksList[i];
+      talk = db.talkList[i];
+   //  print(talk);
       break;
     }
   }
@@ -130,16 +95,16 @@ List<Widget> listMyWidgets(talkId, context) {
   List <Speaker> talkSpeakers = new List(); //Cointains all the speakers (object) for current talk
 
   for(int i = 0; i < talkSpeakerIDs.length; i++)
+  {
+    for(int y = 0; y < db.speakerList.length; y++)
     {
-      for(int y = 0; y < db.speakerList.length; y++)
+      if(db.speakerList[y].id == talkSpeakerIDs[i])
         {
-          if(db.speakerList[y].id == talkSpeakerIDs[i])
-            {
-              talkSpeakers.add(db.speakerList[y]);
-              break;
-            }
+          talkSpeakers.add(db.speakerList[y]);
+          break;
         }
     }
+  }
 
   @override
   List<Widget> widgetsList = new List();
@@ -207,6 +172,7 @@ List<Widget> listMyWidgets(talkId, context) {
           child: Text('Starts at: ' + talk.beginTime.timeToString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
       ),
   );
+
   widgetsList.add(
     Container(
         //color: Colors.green,
@@ -223,7 +189,6 @@ List<Widget> listMyWidgets(talkId, context) {
           child: Text('About this talk:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
       )
   );
-
 
   //Description
   widgetsList.add(
@@ -247,7 +212,7 @@ List<Widget> listMyWidgets(talkId, context) {
         splashColor: Colors.blueAccent,
         onPressed: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new FormPage(),
+            builder: (BuildContext context){print("chegeui aqui");print(talk.formId); return new FormPage(formId: talk.formId);},
           );  
           Navigator.of(context).push(route);
           },
@@ -268,7 +233,7 @@ List<Widget> listMyWidgets(talkId, context) {
         splashColor: Colors.blueAccent,
         onPressed:  () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new CreateFormPage(),
+            builder: (BuildContext context) => new CreateFormPage(formId: talk.formId),
           );  
           Navigator.of(context).push(route);
           },
@@ -281,6 +246,7 @@ List<Widget> listMyWidgets(talkId, context) {
 }
 
 class CurrentPage extends StatelessWidget {
+  
   int talkId;
 
   @override

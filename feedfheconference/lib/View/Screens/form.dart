@@ -5,29 +5,36 @@ import './common.dart';
 
 class FormPage extends StatefulWidget {
   final String title = 'Form Page';
-
+  final int formId;
+  
   @override
+  FormPage({Key key, this.formId}): super(key: key);
+  
   FormPageState createState() {
     return FormPageState();
   }
 }
 
-List<Widget> listMyWidgets(var formKey, var context){
+List<Widget> listMyWidgets(var formKey, var formId, var context){
   @override
   List<Widget> widgetsList = new List();
 
-
-  for (int i = 0; i < db.formList[0].listIdFormQuestions.length; i++) {
-    for(int j = 0; j < db.formQuestionList.length; j++) {
-      if(db.formQuestionList[j].id == db.formList[0].listIdFormQuestions[i]) {
-        widgetsList.add(QuestionText(
-            db.formQuestionList[j]
-                .questionText));
-        widgetsList.add(AnswerBox(db.formQuestionList[j].type, db.formQuestionList[j].questionSubText));
+  for(int i = 0; i < db.formList.length; i++){
+    if(db.formList[i].id == formId){
+      FormTalk form = db.formList[i];
+      for(int h = 0; h < form.listIdFormQuestions.length; h++){
+        for(int j = 0; j < db.formQuestionList.length; j++){
+          if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
+            widgetsList.add(QuestionText(
+              db.formQuestionList[j].questionText));
+              widgetsList.add(AnswerBox(db.formQuestionList[j].type, db.formQuestionList[j].questionSubText));
+            break;
+          }  
+        }
       }
+     break;
     }
   }
-
   widgetsList.add(Padding(
     padding: const EdgeInsets.symmetric(vertical: 16.0),
     child: RaisedButton(
@@ -157,7 +164,7 @@ class FormPageState extends State<FormPage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildFormPage(context, _tabController, _scrollViewController,
-              _formKey, widget.title),
+              _formKey,widget.formId, widget.title),
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
@@ -167,7 +174,7 @@ NestedScrollView buildFormPage(
     BuildContext context,
     TabController _tabController,
     ScrollController _scrollViewController,
-    GlobalKey<FormState> _formKey,
+    GlobalKey<FormState> _formKey, int formId,
     String title) {
   return new NestedScrollView(
     controller: _scrollViewController,
@@ -191,7 +198,7 @@ NestedScrollView buildFormPage(
             child: SingleChildScrollView(
                 padding: const EdgeInsets.all(6),
                 child: new Column(
-                    children: listMyWidgets(_formKey, context)
+                    children: listMyWidgets(_formKey, formId, context)
                 )
 
 

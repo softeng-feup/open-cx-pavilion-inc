@@ -67,12 +67,12 @@ class DateAndTime{
 class User{
   int id;
   String name;
-  String UserName;
+  String userName;
   int age;
   int cellPhoneNumber;
   String email;
   String password;
-  User(this.id, this.name, this.UserName, this.age, this.cellPhoneNumber, this.email, this.password);
+  User(this.id, this.name, this.userName, this.age, this.cellPhoneNumber, this.email, this.password);
 }
 
 class Speaker extends User{
@@ -109,7 +109,7 @@ class FormTalk{
   DateAndTime end;
   List<int> listIdFormQuestions;
 
-  FormTalk(int id, String begin, String end, this.listIdFormQuestions){
+  FormTalk(this.id, String begin, String end, this.listIdFormQuestions){
     this.begin = DateAndTime.string(begin);
     this.end = DateAndTime.string(end);
 
@@ -193,7 +193,7 @@ FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final co
 FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
 FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
 
-FormTalk form1 = new FormTalk(1, '2019-11-15 9:00' , '2019-11-20 10:30', [1, 2, 3, 4, 5, 6, 7, 8]);
+FormTalk form1 = new FormTalk(1, '2019-11-15 9:00' , '2019-11-20 10:30', [2,1, 3, 4, 5, 6, 7, 8]);
 
 Talk talk1 = new Talk(1, 1, 'The Lisp of the prophet for the one true editor', 'While the editor war is long gone and '
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '

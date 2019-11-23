@@ -161,7 +161,7 @@ class EventBox extends StatelessWidget {
           ),
         onPressed: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new TalkPage(title: talks[i].title, talkId: talks[i].id, db: db),
+            builder: (BuildContext context) => new TalkPage(event: eventTitle,session: sessionTitle, talkId: talks[i].id),
           );
           Navigator.of(context).push(route);
         },
