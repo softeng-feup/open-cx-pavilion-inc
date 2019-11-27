@@ -212,7 +212,7 @@ List<Widget> listMyWidgets(talkId, context) {
         splashColor: Colors.blueAccent,
         onPressed: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context){print("chegeui aqui");print(talk.formId); return new FormPage(formId: talk.formId);},
+            builder: (BuildContext context){return new FormPage(formId: talk.formId);},
           );  
           Navigator.of(context).push(route);
           },
