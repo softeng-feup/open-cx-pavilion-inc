@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './common.dart';
 import './createForm.dart';
-import './Form.dart';
+import './form.dart';
 
 
 class TalkPage extends StatefulWidget {
