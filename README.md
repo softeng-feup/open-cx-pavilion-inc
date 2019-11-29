@@ -38,7 +38,8 @@ Unlike other forms of getting feedback, this app allows the organization to get 
 
 
   * **[Domain model]()**
-   ![](https://i.imgur.com/sAEUddI.png)
+   ![](https://i.imgur.com/kCcY4YB.png)
+
 
 
 

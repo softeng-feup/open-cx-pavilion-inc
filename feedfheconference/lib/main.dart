@@ -1,4 +1,3 @@
-import 'package:feedfheconference/View/Screens/createForm.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -6,6 +5,7 @@ import './View/Screens/login.dart';
 import './View/Screens/register.dart';
 import './View/Screens/home.dart';
 import './View/Screens/form.dart';
+import 'View/Screens/conference_home.dart';
 
 void main(){
   SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         "/register": (context) => RegisterPage(),
         "/home": (context) => HomePage(),
         "/form": (context) => FormPage(),
-        "/createForm": (context) => prefix0.CreateFormPage()
+        "/conference_home": (context) => ConferenceHomePage()
       },
     );
   }

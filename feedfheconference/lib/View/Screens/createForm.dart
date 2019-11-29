@@ -1,23 +1,36 @@
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
+import './common.dart';
 // Create a Form widget.
 
 class CreateFormPage extends StatefulWidget {
   final String title = 'Create Form Page';
-
+  final int formId;
+  CreateFormPage({Key key, this.formId}): super(key: key);
   @override
   CreateFormPageState createState() {
     return CreateFormPageState();
   }
 }
 
-List<Widget> listMyWidgets(var context){
-  var db = Database();
+List<Widget> listMyWidgets(var formId, var context){
   @override
   List<Widget> widgetsList = new List();
 
-  for (int i = 0; i < db.questions.length; i++) {
-    widgetsList.add(QuestionText(db.questions[i].questionText, i+1));
+  for(int i = 0; i < db.formList.length; i++){
+    if(db.formList[i].id == formId){
+      FormTalk form = db.formList[i];
+      for(int h = 0; h < form.listIdFormQuestions.length; h++){
+        for(int j = 0; j < db.formQuestionList.length; j++){
+          if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
+            widgetsList.add(QuestionText(
+              db.formQuestionList[j].questionText, h+1));
+            break;
+          }  
+        }
+      }
+      break;
+    }
   }
 
   widgetsList.add(Padding(
@@ -25,13 +38,14 @@ List<Widget> listMyWidgets(var context){
     child: Center(
       child: Column(
         children: <Widget>[
-          AddQuestionText(widgetsList, db)
+          AddQuestionText(formId)
         ],
       )
     )
   ));
 
   return widgetsList;
+
 }
 
 
@@ -54,27 +68,25 @@ class QuestionText extends StatelessWidget {
 }
 
 class AddQuestionText extends StatefulWidget {
-  var db;
   List<Widget> widgetsList;
-
-  AddQuestionText(this.widgetsList, this.db);
+  int formId;
+  AddQuestionText(this.formId);
 
   @override
   State<StatefulWidget> createState() {
-    return _AddQuestionTextState(widgetsList, db);
+    return _AddQuestionTextState(formId);
   }
 }
 
 class _AddQuestionTextState extends State<AddQuestionText> {
-  var db;
-  List<Widget> widgetsList;
-  static final _formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
   bool _saveQuestionVisible = false;
   bool _saveFormVisible = true;
   String questionText;
   String dropdownValue = 'Text';
+  int formId;
 
-  _AddQuestionTextState(this.widgetsList, this.db);
+  _AddQuestionTextState(this.formId);
 
   @override
   Widget build(BuildContext context) {
@@ -112,13 +124,28 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                 children: <Widget>[
                   RaisedButton(
                       onPressed: () {
+                        FormQuestion question = new FormQuestion(db.formQuestionList.length+1, QuestionType.textBox, questionText, null);
+                        db.formQuestionList.add(question);
                         if (_formKey.currentState.validate()) {
-                          //db.questions.add(Question(QuestionType.textBox, questionText, null));
-                          //widgetsList.add(QuestionText(db.questions[widgetsList.length].questionText, widgetsList.length));
+                          for(int i = 0; i < db.formList.length; i++){
+                            if(db.formList[i].id == formId){
+                              db.formList[i].listIdFormQuestions.add(question.id);
+                              break;
+                            }
+                          }
+
                           setState(() {
                             _saveQuestionVisible = false;
                             _saveFormVisible = true;
                           });
+
+                          Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      CreateFormPage(formId: formId)),
+                                  (Route<dynamic> route) =>
+                              false);
                         }
                       },
                       child: Text('Save')
@@ -275,7 +302,7 @@ class CreateFormPageState extends State<CreateFormPage>
         length: 1, // Added
         initialIndex: 0, //Added
         child: Scaffold(
-          body: buildCreateFormPage(context, _tabController, _scrollViewController, widget.title),
+          body: buildCreateFormPage(context, _tabController, _scrollViewController,widget.formId, widget.title),
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
@@ -284,7 +311,7 @@ class CreateFormPageState extends State<CreateFormPage>
 NestedScrollView buildCreateFormPage(
     BuildContext context,
     TabController _tabController,
-    ScrollController _scrollViewController,
+    ScrollController _scrollViewController, int formId,
     String title) {
   return new NestedScrollView(
     controller: _scrollViewController,
@@ -306,65 +333,9 @@ NestedScrollView buildCreateFormPage(
             child: SingleChildScrollView(
                 padding: const EdgeInsets.all(6),
                 child: new Column(
-                    children: listMyWidgets(context)
+                    children: listMyWidgets( formId,context)
                 )
-
-
             )),
       ),
-  );
-}
-
-Drawer sideDrawer(BuildContext context) {
-  return new Drawer(
-    // Add a ListView to the drawer. This ensures the user can scroll
-    // through the options in the drawer if there isn't enough vertical
-    // space to fit everything.
-    child: ListView(
-      // Important: Remove any padding from the ListView.
-      padding: EdgeInsets.zero,
-      children: <Widget>[
-        Container(
-          height: MediaQuery.of(context).size.height * 0.12,
-          child: DrawerHeader(
-              child: Text('Menu', style: TextStyle(color: Colors.white)),
-              margin: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                color: Color.fromRGBO(3, 44, 115, 1),
-              )),
-        ),
-        ListTile(
-          title: Text('Home Page'),
-          onTap: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed("/home");
-          },
-        ),
-        ListTile(
-          title: Text('Form'),
-          onTap: () {
-            Navigator.of(context).pop();
-            //Navigator.of(context).pushReplacementNamed("/form");
-            //Navigator.of(context).pushNamed("/form");
-          },
-        ),
-        ListTile(
-          title: Text('Favorites'),
-          onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
-            Navigator.of(context).pop();
-          },
-        ),
-        ListTile(
-          title: Text('Create Form'),
-          onTap: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed("/createForm");
-          },
-        )
-      ],
-    ),
   );
 }
