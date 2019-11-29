@@ -79,9 +79,13 @@ class AddQuestionText extends StatefulWidget {
 }
 
 class _AddQuestionTextState extends State<AddQuestionText> {
-  final _formKey = GlobalKey<FormState>();
+  final _questionKey = GlobalKey<FormState>();
+  final _optionKey = GlobalKey<FormState>();
+  bool _saveOptionVisible = false;
+  bool _addOptionVisible = false;
   bool _saveQuestionVisible = false;
   bool _saveFormVisible = true;
+  QuestionType questionType = QuestionType.textBox;
   String questionText;
   String dropdownValue = 'Text';
   int formId;
@@ -91,7 +95,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
   @override
   Widget build(BuildContext context) {
     return Form(
-      key: _formKey,
+      key: _questionKey,
       child: Column(
           children: <Widget>[
             Visibility(
@@ -117,6 +121,89 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                 ),
               )
             ),
+            Padding(
+                padding: const EdgeInsets.symmetric(vertical: 16.0),
+                child: Form(
+                    key: _optionKey,
+                    child: Column(
+                      children: <Widget>[
+                        Visibility(
+                          visible: _saveOptionVisible,
+                          child: TextFormField(
+                            validator: (value) {
+                              if (value.isEmpty) {
+                                return 'Please enter some text';
+                              }
+                              return null;
+                            },
+                            onChanged: (value) => {},
+                            minLines: 1,
+                            maxLines: 4,
+                            decoration: new InputDecoration(
+                              labelText: "Your option",
+                              fillColor: Colors.white,
+                              border: new OutlineInputBorder(
+                                borderRadius: new BorderRadius.circular(25.0),
+                                borderSide: new BorderSide(),
+                              ),
+                              //fillColor: Colors.green
+                            ),
+                          ),
+                        ),
+                        Visibility(
+                          visible: _saveOptionVisible,
+                          child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                RaisedButton(
+                                  onPressed: () {
+                                    if (_optionKey.currentState.validate()) {
+                                      setState(() {
+                                        _saveOptionVisible = false;
+                                        _addOptionVisible = true;
+                                        _saveQuestionVisible = true;
+                                      });
+
+          //                      Navigator.pushAndRemoveUntil(
+          //                          context,
+          //                          MaterialPageRoute(
+          //                              builder: (context) =>
+          //                                  CreateFormPage(formId: formId)),
+          //                              (Route<dynamic> route) =>
+          //                          false);
+                                    }
+                                  },
+                                  child: Text('Save option')
+                              ),
+                        IconButton(
+                            onPressed: () {
+                              setState(() {
+                                _saveOptionVisible = false;
+                                _addOptionVisible = true;
+                              });
+                            }, icon: Icon(Icons.delete))
+                              ]
+                          )
+                        ),
+                        Visibility(
+                            visible: _addOptionVisible,
+                            child: RaisedButton(
+                              onPressed: () {
+                                // Validate returns true if the form is valid, or false
+                                // otherwise.
+                                setState(() {
+                                  _saveOptionVisible = true;
+                                  _addOptionVisible = false;
+                                  //_saveQuestionVisible = false;
+                                });
+                              },
+                              child: Text('Add option'),
+                            )
+                        )
+                      ]
+                    )
+                  )
+            ),
             Visibility(
               visible: _saveQuestionVisible,
               child: Row(
@@ -124,9 +211,9 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                 children: <Widget>[
                   RaisedButton(
                       onPressed: () {
-                        FormQuestion question = new FormQuestion(db.formQuestionList.length+1, QuestionType.textBox, questionText, null);
+                        FormQuestion question = new FormQuestion(db.formQuestionList.length+1, questionType, questionText, new List());
                         db.formQuestionList.add(question);
-                        if (_formKey.currentState.validate()) {
+                        if (_questionKey.currentState.validate()) {
                           for(int i = 0; i < db.formList.length; i++){
                             if(db.formList[i].id == formId){
                               db.formList[i].listIdFormQuestions.add(question.id);
@@ -148,7 +235,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                               false);
                         }
                       },
-                      child: Text('Save')
+                      child: Text('Save question')
                   ),
                   DropdownButton<String>(
                     value: dropdownValue,
@@ -158,6 +245,18 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                     onChanged: (String newValue) {
                       setState(() {
                         dropdownValue = newValue;
+
+                        if (newValue == 'Checkbox') {
+                          questionType = QuestionType.checkBox;
+                          _addOptionVisible = true;
+                        } else if (newValue == 'Radio Button') {
+                          questionType = QuestionType.radioButton;
+                          _addOptionVisible = true;
+                        } else {
+                          questionType = QuestionType.textBox;
+                          _addOptionVisible = false;
+                          _saveOptionVisible = false;
+                        }
                       });
                     },
                     items: <String>['Text', 'Radio Button', 'Checkbox']
@@ -172,6 +271,9 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                   IconButton(
                       onPressed: () {
                         setState(() {
+                          dropdownValue = 'Text';
+                          _saveOptionVisible = false;
+                          _addOptionVisible = false;
                           _saveQuestionVisible = false;
                           _saveFormVisible = true;
                         });
@@ -205,84 +307,6 @@ class _AddQuestionTextState extends State<AddQuestionText> {
               )
             )
       ])
-    );
-  }
-}
-
-class AnswerBox extends StatefulWidget {
-  QuestionType type;
-  List questionSubText;
-
-  AnswerBox(this.type, this.questionSubText);
-
-  @override
-  State<StatefulWidget> createState() => _AnswerBoxState(this.type, this.questionSubText);
-}
-
-class _AnswerBoxState extends State<AnswerBox> {
-  QuestionType type;
-  List questionSubText;
-  int _radioValue = -1;
-  List _checkBoxValues = new List();
-
-  _AnswerBoxState(this.type, this.questionSubText);
-
-  Widget answerBox(QuestionType type, List questionSubText) {
-    if (type == QuestionType.textBox) {
-      return TextFormField(
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
-        minLines: 1,
-        maxLines: 4,
-        decoration: new InputDecoration(
-          labelText: "Your answer",
-          fillColor: Colors.white,
-          border: new OutlineInputBorder(
-            borderRadius: new BorderRadius.circular(25.0),
-            borderSide: new BorderSide(),
-          ),
-          //fillColor: Colors.green
-        ),
-      );
-    } else if (type == QuestionType.radioButton) {
-      return Column(
-        children: List.generate(questionSubText.length, (index) {
-          return ListTile(
-              title: Text(questionSubText[index]),
-              leading: Radio(
-                  value: index,
-                  groupValue: _radioValue,
-                  onChanged: (int e) => setState(() {_radioValue = e;}))
-          );
-        }),
-      );
-    } else if (type == QuestionType.checkBox) {
-      return Column(
-        children: List.generate(questionSubText.length, (index) {
-          _checkBoxValues.add(false);
-
-          return ListTile(
-              title: Text(questionSubText[index]),
-              leading: Checkbox(
-                  value: _checkBoxValues[index],
-                  onChanged: (bool e) => setState(() {_checkBoxValues[index] = e;}))
-          );
-        }),
-      );
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-
-    return Container(
-        child: answerBox(this.type, this.questionSubText),
-        margin: const EdgeInsets.only(bottom: 18.0)
-      //color: Colors.blue[200],
     );
   }
 }
