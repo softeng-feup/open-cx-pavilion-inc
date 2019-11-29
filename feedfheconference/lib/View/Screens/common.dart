@@ -23,14 +23,7 @@ Drawer sideDrawer(BuildContext context) {
           title: Text('Home Page'),
           onTap: () {
             Navigator.of(context).pop();
-            //Navigator.of(context).pushNamed("/home");
-          },
-        ),
-        ListTile(
-          title: Text('Form'),
-          onTap: () {
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed("/form");
+            Navigator.of(context).pushReplacementNamed("/home");
           },
         ),
         ListTile(

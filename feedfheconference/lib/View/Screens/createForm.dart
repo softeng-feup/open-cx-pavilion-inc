@@ -124,16 +124,16 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                 children: <Widget>[
                   RaisedButton(
                       onPressed: () {
-                      
-                        db.formQuestionList.add(FormQuestion(db.formQuestionList.length, QuestionType.textBox, questionText, null));
+                        FormQuestion question = new FormQuestion(db.formQuestionList.length+1, QuestionType.textBox, questionText, null);
+                        db.formQuestionList.add(question);
                         if (_formKey.currentState.validate()) {
                           for(int i = 0; i < db.formList.length; i++){
                             if(db.formList[i].id == formId){
-                              db.formList[i].listIdFormQuestions.add(db.formQuestionList.length);
+                              db.formList[i].listIdFormQuestions.add(question.id);
                               break;
                             }
                           }
-                          //widgetsList.add(QuestionText(db.questions[widgetsList.length].questionText, widgetsList.length));
+
                           setState(() {
                             _saveQuestionVisible = false;
                             _saveFormVisible = true;
@@ -143,7 +143,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      CreateFormPage()),
+                                      CreateFormPage(formId: formId)),
                                   (Route<dynamic> route) =>
                               false);
                         }
