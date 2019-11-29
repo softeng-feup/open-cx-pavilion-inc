@@ -4,6 +4,7 @@ import '../../Model/db.dart';
 import './event.dart';
 import './talk.dart';
 import './common.dart';
+import 'package:jiffy/jiffy.dart';
 
 class ConferenceHomePage extends StatefulWidget {
   final String conferenceName;
@@ -14,16 +15,34 @@ class ConferenceHomePage extends StatefulWidget {
   _ConferenceHomePageState createState() => _ConferenceHomePageState();
 }
 
+int numberDaysOfConference(int conferenceId){
+
+  DateTime begin;
+  DateTime end;
+
+   for(int i = 0; i < db.conferenceList.length; i++){
+    if(conferenceId == db.conferenceList[i].id){
+      begin = db.conferenceList[i].beginDate;
+      end = db.conferenceList[i].endDate;
+      break;
+    }
+  }
+
+  Duration difference = end.difference(begin);
+  return  (difference.inDays + 1);
+}
+
 class _ConferenceHomePageState extends State<ConferenceHomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
   ScrollController _scrollViewController;
-
+  
   @override
   Widget build(BuildContext context) {
+    var numberOfdays = numberDaysOfConference(widget.conferenceId); // Added
     return DefaultTabController(
         // Added
-        length: 6, // Added
+        length: numberOfdays, // Added
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildConferencePage(
@@ -33,29 +52,158 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
   }
 }
 
+String monthOfTheYear(DateTime d){
+  
+  String month;
+  switch(d.month){
+    
+    case 1:
+      month = "Jan";
+    break;
+    
+    case 2:
+      month = "Feb";
+    break;
+    
+    case 3:
+      month = "Mar";
+    break;
+
+    case 4:
+      month = "Apr";
+    break;
+    
+    case 5:
+      month = "May";
+    break;
+    
+    case 6:
+      month = "Jun";
+    break;
+
+    case 7:
+      month = "Jul";
+    break;
+    
+    case 8:
+      month = "Aug";
+    break;
+    
+    case 9:
+      month = "Sep";
+    break;
+
+    case 10:
+      month = "Oct";
+    break;
+    
+    case 11:
+    month = "Nov";
+    break;
+    
+    case 12:
+      month = "Dec";
+    break;
+    
+    default:
+      month = null;
+    break;
+  }
+
+  return month;
+}
+
 List<Tab> tabList(int conferenceId){
 
-     List<Tab> tList = new List();
-  var numberOfDays;
+  List<Tab> tList = new List();
+  var numberOfDays = numberDaysOfConference(conferenceId);
+  DateTime now;
+  Conference conference;
   for(int i = 0; i < db.conferenceList.length; i++){
     if(db.conferenceList[i].id == conferenceId){
-      Conference conference = db.conferenceList[i];
-      tList.add(Tab(text: "22/1"));
-      tList.add(Tab(text: "23/1"));
-      tList.add(Tab(text: "24/1"));
-       tList.add(Tab(text: "25/1"));
-      tList.add(Tab(text: "26/1"));
-      tList.add(Tab(text: "27/1"));
-
-
+      conference = db.conferenceList[i];
+      for(int j = 0; j < numberOfDays; j++){
+        now = Jiffy(conference.beginDate).add(days: j); //2018-07-13 00:00:00.000
+        var day = now.day;
+        var month = monthOfTheYear(now);
+        tList.add(Tab(text: "$day/$month"));
+      }
       break;
     }
   }
   return tList;
+}
 
-            
+List<Widget> currentPageList(int conferenceId){
 
+  List<Widget> pageList = new List();
+  var numberOfDays = numberDaysOfConference(conferenceId);
+  DateTime now;
+  Conference conference;
+  for(int i = 0; i < db.conferenceList.length; i++){
+    if(db.conferenceList[i].id == conferenceId){
+      conference = db.conferenceList[i];
+      for(int j = 0; j < numberOfDays; j++){
+        now = Jiffy(conference.beginDate).add(days: j); //2018-07-13 00:00:00.000
+        pageList.add(CurrentPage(conferenceId, now));
+      }
+      break;
+    }
+  }
+  return pageList;
+}
 
+List<Talk> talkListForASession(int sessionId){
+
+  List<Talk> talkList = new List();
+  for(int i = 0; i < db.sessionList.length; i++){
+    if(db.sessionList[i].id == sessionId){
+      for(int j = 0; j < db.sessionList[i].talkIdList.length; j++){ 
+        for(int h = 0; h < db.talkList.length; h++){
+          if(db.sessionList[i].talkIdList[j] == db.talkList[h].id){
+            talkList.add(db.talkList[h]);
+          }
+        }
+      }
+      break;
+    }
+  }
+
+  talkList.sort((a, b) =>
+      (dateAndTimeToString(b.beginTime).compareTo(dateAndTimeToString(a.beginTime))));
+
+  return talkList;
+} 
+
+List<Session> sessionListForAEvent(int eventId){
+
+  List<Session> sessionList = new List();
+  Event event = getEventFromId(eventId);
+
+  for(int j = 0; j < event.sessionIdList.length; j++){ 
+    for(int h = 0; h < db.sessionList.length; h++){
+      if(event.sessionIdList[j] == db.sessionList[h].id){
+        sessionList.add(db.sessionList[h]);
+      }
+    }
+  }
+  sessionList.sort((a, b) =>
+      (dateAndTimeToString(b.beginTime).compareTo(dateAndTimeToString(a.beginTime))));
+
+  return sessionList;
+}
+
+Event getEventFromId(int eventId){
+
+  Event event;
+
+  for(int i = 0; i < db.eventList.length; i++){
+    if(db.eventList[i].id == eventId){
+      event = db.eventList[i];
+      break;
+    }
+  }
+  return event;
 }
 
 NestedScrollView buildConferencePage(
@@ -76,54 +224,35 @@ NestedScrollView buildConferencePage(
           bottom: new TabBar(
             tabs: tabList(conferenceId),
             controller: _tabController,
+            isScrollable: true,
+            labelPadding: EdgeInsets.symmetric(horizontal: 20.0),
           ),
         ),
       ];
     },
     body: new TabBarView(
-      children: <Widget>[
-        new CurrentPage(conferenceId),
-        new CurrentPage(conferenceId),
-        new CurrentPage(conferenceId),
-        new CurrentPage(conferenceId),
-        new CurrentPage(conferenceId),
-        new CurrentPage(conferenceId),
-      ],
+      children: currentPageList(conferenceId),
       controller: _tabController,
     ),
   );
 }
 
-List<Widget> listMyWidgets(int conferenceId) {
+List<Widget> listMyWidgets(int conferenceId, DateTime date) {
   @override
   List<Widget> widgetsList = new List();
-  
+    
   for(int y = 0; y < db.conferenceList.length; y++){
     if(db.conferenceList[y].id == conferenceId){
-      for(int i = 0; i < db.conferenceList[y].eventIdList.length; i++) {
-        for(int j = 0; j < db.eventList.length; j++){
-          if(db.conferenceList[y].eventIdList[i] == db.eventList[j].id){
-            Event event = db.eventList[j];
-            for(int h = 0; h < event.sessionIdList.length; h++){
-              for(int l = 0; l < db.sessionList.length; l++){
-                if(event.sessionIdList[h] == db.sessionList[l].id){
-                  Session session = db.sessionList[l];
-                  List<Talk> talks = new List();
-                  for(int k = 0; k < session.talkIdList.length; k++) {
-                    for(int z = 0; z < db.talkList.length; z++) {
-                      if(session.talkIdList[k] == db.talkList[z].id) {
-                        Talk talk = db.talkList[z];
-                        talks.add(talk);
-                      }
-                    }
-                  }
-               
-                  widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, session.title, session.room, session.beginTime, session.endTime, talks));
-                }
-              }
-            }
-          }
-        }
+     for(int j = 0; j < db.conferenceList[y].eventIdList.length; j++){
+       Event event = getEventFromId(db.conferenceList[y].eventIdList[j]);
+       List<Session> sessionList  = sessionListForAEvent(db.conferenceList[y].eventIdList[j]);
+
+       for(int i = 0; i < sessionList.length; i++){
+         if(sessionList[i].beginTime.day == date.day && sessionList[i].beginTime.month == date.month && sessionList[i].beginTime.day == date.day){
+         List<Talk> talkList = talkListForASession(sessionList[i].id);
+            widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList));
+         }
+       }
       }
       break;
     }
@@ -135,8 +264,8 @@ class EventBox extends StatelessWidget {
   final String eventTitle;
   final String sessionTitle;
   final String room;
-  final DateAndTime beginTime;
-  final DateAndTime endTime;
+  final DateTime beginTime;
+  final DateTime endTime;
   final List<Talk> talks;
   final String conferenceName;
   int eventId;
@@ -155,7 +284,7 @@ class EventBox extends StatelessWidget {
               children: [
                 Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
                 SizedBox(height: 3),
-                Align(alignment: Alignment.centerLeft, child: Text(talks[i].beginTime.timeToString() + ' - ' + talks[i].endTime.timeToString()))
+                Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
               ]
             )
           ),
@@ -200,7 +329,7 @@ class EventBox extends StatelessWidget {
                       SizedBox(height: 5),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(beginTime.time.timeToString() + ' - ' + endTime.time.timeToString()),
+                        child: Text(timeToString(beginTime) + ' - ' + timeToString(endTime)),
                       ),
                       ExpansionTile(
                           title: Text('Talks'),
@@ -230,12 +359,13 @@ class EventBox extends StatelessWidget {
 class CurrentPage extends StatelessWidget {
 
   int conferenceId;
+  DateTime date;
   @override
-  CurrentPage(this.conferenceId);
+  CurrentPage(this.conferenceId, this.date);
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMyWidgets(conferenceId),
+      children: listMyWidgets(conferenceId, date),
     );
   }
 }
