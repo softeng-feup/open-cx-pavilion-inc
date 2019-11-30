@@ -85,6 +85,8 @@ class _AddQuestionTextState extends State<AddQuestionText> {
   bool _addOptionVisible = false;
   bool _saveQuestionVisible = false;
   bool _saveFormVisible = true;
+  String optionText;
+  List questionSubText = new List();
   QuestionType questionType = QuestionType.textBox;
   String questionText;
   String dropdownValue = 'Text';
@@ -136,7 +138,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                               }
                               return null;
                             },
-                            onChanged: (value) => {},
+                            onChanged: (value) => optionText = value,
                             minLines: 1,
                             maxLines: 4,
                             decoration: new InputDecoration(
@@ -158,6 +160,8 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                                 RaisedButton(
                                   onPressed: () {
                                     if (_optionKey.currentState.validate()) {
+                                      questionSubText.add(optionText);
+
                                       setState(() {
                                         _saveOptionVisible = false;
                                         _addOptionVisible = true;
@@ -211,7 +215,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                 children: <Widget>[
                   RaisedButton(
                       onPressed: () {
-                        FormQuestion question = new FormQuestion(db.formQuestionList.length+1, questionType, questionText, new List());
+                        FormQuestion question = new FormQuestion(db.formQuestionList.length+1, questionType, questionText, questionSubText);
                         db.formQuestionList.add(question);
                         if (_questionKey.currentState.validate()) {
                           for(int i = 0; i < db.formList.length; i++){
