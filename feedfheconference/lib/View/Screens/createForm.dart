@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './common.dart';
@@ -25,6 +26,9 @@ List<Widget> listMyWidgets(var formId, var context){
           if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
             widgetsList.add(QuestionText(
               db.formQuestionList[j].questionText, h+1));
+            for (int k = 0; k < db.formQuestionList[j].questionSubText.length; k++){
+              widgetsList.add(QuestionSubText(db.formQuestionList[j].questionSubText[k], k+1));
+            }
             break;
           }  
         }
@@ -60,6 +64,24 @@ class QuestionText extends StatelessWidget {
         child: Text(
           index.toString() + ". " + questionText,
           style: TextStyle(fontSize: 22),
+        ),
+        margin: const EdgeInsets.only(bottom: 8.0)
+      //color: Colors.blue[100],
+    );
+  }
+}
+
+class QuestionSubText extends StatelessWidget {
+  final String questionSubText;
+  final int index;
+
+  QuestionSubText(this.questionSubText, this.index);
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+        child: Text(
+          index.toString() + ". " + questionSubText,
+          style: TextStyle(fontSize: 18),
         ),
         margin: const EdgeInsets.only(bottom: 8.0)
       //color: Colors.blue[100],
@@ -122,6 +144,19 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                   //fillColor: Colors.green
                 ),
               )
+            ),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: List.generate(questionSubText.length, (i) {
+                return Container(
+                    child: Text(
+                        (i+1).toString() + ". " + questionSubText[i],
+                      style: TextStyle(fontSize: 18),
+                    ),
+                    margin: const EdgeInsets.only(bottom: 8.0)
+                  //color: Colors.blue[100],
+                );
+              }),
             ),
             Padding(
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
@@ -361,6 +396,7 @@ NestedScrollView buildCreateFormPage(
             child: SingleChildScrollView(
                 padding: const EdgeInsets.all(6),
                 child: new Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: listMyWidgets( formId,context)
                 )
             )),
