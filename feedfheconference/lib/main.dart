@@ -1,3 +1,4 @@
+import 'package:feedfheconference/View/Screens/favorites.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         "/register": (context) => RegisterPage(),
         "/home": (context) => HomePage(),
         "/form": (context) => FormPage(),
-        "/conference_home": (context) => ConferenceHomePage()
+        "/conference_home": (context) => ConferenceHomePage(),
+        "/favorites": (context) => FavoritesPage()
       },
     );
   }
