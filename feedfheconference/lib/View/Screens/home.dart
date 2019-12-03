@@ -43,7 +43,7 @@ NestedScrollView buildHomePage(
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
       return <Widget>[
         new SliverAppBar(
-          title: new Text(title),
+          title: Text(title),
           pinned: true,
           floating: true,
           snap: true,
@@ -108,7 +108,7 @@ class EventBox extends StatelessWidget {
           onTap: () {
 
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new ConferenceHomePage(conferenceId: conferenceId, conferenceName: name,),
+            builder: (BuildContext context) => new ConferenceHomePage(conferenceId: conferenceId, conferenceName: name),
           );  
           Navigator.of(context).push(route);
           }, // handle your onTap here
