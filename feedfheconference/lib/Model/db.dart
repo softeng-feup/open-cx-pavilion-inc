@@ -218,6 +218,9 @@ Organizer organizer = new Organizer(2, 'Luis Silve', 'lockdown1', 35, 913333222,
 Speaker speaker1 = new Speaker(3, 'Stefan Monnier', 'lockdown2', 34, 912211221, 'lollololololl@live.com', 'qwerd',  'Master of rings', 'videogames');
 Speaker speaker2 = new Speaker(4 , 'Martim Carvalho', 'lockdown3', 34, 912211221, 'lollololololdeddl@live.com', '123456',  'Master of rings', 'videogames');
 
+Speaker speaker3 = new Speaker(5, 'Christopher Schuster', 'ChristopherSchuster', 40, 912211223, '', '', 'PhD', 'Software Engineering');
+Speaker speaker4 = new Speaker(6, 'Cormac Flanagan', 'CormacFlanagan', 41, 912211223, '', '', 'PhD', 'Security');
+
 List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['1','2','3','4','5'];
 
@@ -239,6 +242,18 @@ Talk talk2 = new Talk(2, 1, 'The NEXT NEXT Lisp of the prophet for the one true 
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '
     'took from its siblings and ancestors and what makes it different.',[3], '0000-00-00 10:30:00', '0000-00-00 11:30:00');
 
+Talk talk3 = new Talk(3, 1, 'IDVE: an Integrated Development and Verification Environment for JavaScript',
+    '',
+    [5, 6], '2019-04-01 09:00:00', '2019-04-01 09:30:00');
+
+Talk talk4 = new Talk(4, 1, 'Draw This Object: A Study of Debugging Representations',
+    'Domain-specific debugging visualizations try to provide a view of a runtime object tailored to a specific domain and highlighting its important properties. The research in this area has focused mainly on the technical aspects of the creation of such views so far. However, we still lack answers to questions such as what properties of objects are considered important for these visualizations, whether all objects have an appropriate domain-specific view, or what clues could help us to construct these views fully automatically. In this paper, we describe an exploratory study where the participants were asked to inspect runtime states of objects displayed in a traditional debugger and draw ideal domain-specific views of these objects on paper. We describe interesting observations and findings obtained during this study and a preliminary taxonomy of these visualizations.',
+    [5, 6], '2019-04-01 09:30:00', '2019-04-01 10:00:00');
+
+Talk talk5 = new Talk(5, 1, 'Faster Feedback through Lexical Test Prioritization',
+    '',
+    [5, 6], '2019-04-01 10:00:00', '2019-04-01 10:30:00');
+
 Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 2, 1, 2], '2019-01-02 09:30:00', '2019-01-02 11:30:00');
 Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [2], '2019-01-03 09:30:00', '2019-01-03 11:30:00');
 
@@ -248,6 +263,10 @@ Session session4 = new Session(4 ,'session 4', null, 'Michelangelo', [2], '2019-
 
 Session session5 = new Session(5, 'session 5', null, 'Paganini', [1, 1, 1, 2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
 Session session6 = new Session(6 ,'session 6', null, 'Michelangelo', [2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
+
+Session session7 = new Session(7, 'PX/19 #1', 'Jens Lincke' ,'Michelangelo', [3, 4, 5], '2019-04-01 09:00:00', '2019-04-01 10:30:00');
+Session session8 = new Session(8, 'PX/19 #2', 'Tobias Pape' ,'Michelangelo', [3], '2019-04-01 11:00:00', '2019-04-01 12:30:00');
+Session session9 = new Session(9, 'PX/19 #3', 'Ademar Aguiar' ,'Michelangelo', [3], '2019-04-01 14:00:00', '2019-04-01 15:30:00');
 
 Event event1 = new Event(1 ,'ELS 2019 ', 'European Lisp Symposium', 'The purpose of the European '
     'Lisp Symposium is to provide a forum for the discussion and dissemination of '
@@ -270,21 +289,30 @@ Event event3 = new Event(3 , 'ICW 2019', 'Interconnecting Code Workshop' , 'The 
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
     'encourage everyone interested in Lisp to participate.', [1, 2]);
 
-Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1,2], '2019-05-01 00:00:00', '2019-05-09 00:00:00');
-Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Genoa, Italy', [1], '2019-07-01 00:00:00', '2019-07-04 00:00:00');
-Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Genoa, Italy', [1], '2019-01-01 00:00:00', '2019-01-03 00:00:00');
+
+Event event4 = new Event(4, 'PX/19', 'Programming Experience Workshop',
+    'Imagine a software development task: some sort of requirements and perhaps a platform and programming language. A group of developers head into a vast workroom. As they design, debate and program they discover they need learn more about the domain and the nature of potential solutions–they are exploring via programming.\nThe Programming Experience (PX) Workshop is about what happens in that room when programmers sit down in front of computers and produce code, especially in an exploratory way. Do they create text that is transformed into running behavior (the old way), or do they operate on behavior directly (“liveness”); are they exploring the live domain to understand the true nature of the requirements; are they like authors creating new worlds; does visualization matter; is the experience immediate, immersive, vivid and continuous; do fluency, literacy, and learning matter; do they build tools, meta-tools; are they creating languages to express new concepts quickly and easily; and curiously, is joy relevant to the experience?',
+    [7, 8, 9]);
+
+Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [4], '2019-04-01 00:00:00', '2019-04-04 00:00:00');
+Conference programming2020 = new Conference(4, 'Programming 2020', 'Porto, Portugal', [4], '2020-05-23 00:00:00', '2020-05-26 00:00:00');
+Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Porto, Portugal', [1], '2019-07-01 00:00:00', '2019-07-04 00:00:00');
+Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Lisboa, Portugal', [1], '2019-01-01 00:00:00', '2019-01-03 00:00:00');
 
 class Database {
 
   List<Conference> conferenceList = [
     programming2019,
     sinf2019,
-    webSummit2019
+    webSummit2019,
+    programming2020
   ];
 
   List<Event> eventList = [
     event1,
-    event2
+    event2,
+    event3,
+    event4
   ];
 
   List<Session> sessionList = [
@@ -293,12 +321,18 @@ class Database {
     session3,
     session4,
     session5, 
-    session6
+    session6,
+    session7,
+    session8,
+    session9
   ];
 
   List<Talk> talkList = [
     talk1,
-    talk2
+    talk2,
+    talk3,
+    talk4,
+    talk5
   ];
 
   List<FormTalk> formList = [

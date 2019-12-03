@@ -284,7 +284,7 @@ class EventBox extends StatelessWidget {
               children: [
                 Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
                 SizedBox(height: 3),
-                Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
+                Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + '0 - ' + timeToString(talks[i].endTime))),
               ]
             )
           ),
@@ -329,7 +329,7 @@ class EventBox extends StatelessWidget {
                       SizedBox(height: 5),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(timeToString(beginTime) + ' - ' + timeToString(endTime)),
+                        child: Text(timeToString(beginTime) + '0 - ' + timeToString(endTime)),
                       ),
                       ExpansionTile(
                           title: Text('Talks'),
