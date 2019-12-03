@@ -52,16 +52,20 @@ List<Widget> listMyWidgets(var formKey, var formId, var context){
   return widgetsList;
 }
 
-
 class QuestionText extends StatelessWidget {
   final String questionText;
   QuestionText(this.questionText);
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Text(
-          questionText,
-          style: TextStyle(fontSize: 22),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              questionText,
+              style: TextStyle(fontSize: 22),
+            )
+          ],
         ),
         margin: const EdgeInsets.only(bottom: 8.0)
       //color: Colors.blue[100],
@@ -198,7 +202,7 @@ NestedScrollView buildFormPage(
             child: SingleChildScrollView(
                 padding: const EdgeInsets.all(6),
                 child: new Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                 // crossAxisAlignment: CrossAxisAlignment.start,
                     children: listMyWidgets(_formKey, formId, context)
                 )
 
