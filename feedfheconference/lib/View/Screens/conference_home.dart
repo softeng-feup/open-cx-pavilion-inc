@@ -226,7 +226,7 @@ class FavoriteState extends State<Favorite> {
 
   _pressed() {
     setState(() {
-      widget.talk.isFavourite = !widget.talk.isFavourite;
+      widget.talk.isFavorite = !widget.talk.isFavorite;
     });
   }
 
@@ -236,8 +236,8 @@ class FavoriteState extends State<Favorite> {
       alignment: Alignment.topRight,
       child: IconButton(
         icon: Icon(
-            widget.talk.isFavourite ? Icons.star : Icons.star_border,
-            color: widget.talk.isFavourite ? Colors.blue[500] : Colors.grey
+            widget.talk.isFavorite ? Icons.star : Icons.star_border,
+            color: widget.talk.isFavorite ? Colors.blue[500] : Colors.grey
         ),
         onPressed: () {
           _pressed();

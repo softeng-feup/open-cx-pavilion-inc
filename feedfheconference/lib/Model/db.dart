@@ -126,6 +126,7 @@ class Talk{
   int formId;
   Time beginTime;
   Time endTime;
+  bool isFavorite = false;
 
   Talk(this.id, this.formId, this.title, this.description, this.speakersId, String beginTime, String endTime){
     this.beginTime= Time.string(beginTime);

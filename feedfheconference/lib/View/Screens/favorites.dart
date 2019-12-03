@@ -62,7 +62,7 @@ List<Widget> listMyWidgets() {
                 for(int k = 0; k < session.talkIdList.length; k++) {
                   for(int z = 0; z < db.talkList.length; z++) {
                     if(session.talkIdList[k] == db.talkList[z].id) {
-                        if(db.talkList[z].isFavourite) {
+                        if(db.talkList[z].isFavorite) {
                           widgetList.add(EventBox(db.conferenceList[y].name, event.title, session.title, session.room, db.talkList[z].id, db.talkList[z].title, db.talkList[z].beginTime, db.talkList[z].endTime));
                         }
                     }
