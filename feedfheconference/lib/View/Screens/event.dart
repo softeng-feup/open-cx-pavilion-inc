@@ -90,8 +90,8 @@ class SessionBox extends StatelessWidget {
   
   final String sessionTitle;
   final String room;
-  final DateAndTime beginTime;
-  final DateAndTime endTime;
+  final DateTime beginTime;
+  final DateTime endTime;
   final List<Talk> talks;
   final String eventTitle;
 
@@ -108,7 +108,7 @@ class SessionBox extends StatelessWidget {
             children: [
               Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
               SizedBox(height: 3),
-              Align(alignment: Alignment.centerLeft, child: Text(talks[i].beginTime.timeToString() + ' - ' + talks[i].endTime.timeToString()))
+              Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
             ]
           )
       ));
@@ -139,7 +139,7 @@ class SessionBox extends StatelessWidget {
                       SizedBox(height: 5),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(beginTime.date.dateToInvertedString() + '     ' +  beginTime.time.timeToString() + ' - ' + endTime.time.timeToString()),
+                        child: Text(dateToInvertedString(beginTime) + '     ' +  timeToString(beginTime) + ' - ' + timeToString(endTime)),
                       ),
                       ExpansionTile(
                           title: Text('Talks'),
