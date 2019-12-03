@@ -198,6 +198,7 @@ NestedScrollView buildFormPage(
             child: SingleChildScrollView(
                 padding: const EdgeInsets.all(6),
                 child: new Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                     children: listMyWidgets(_formKey, formId, context)
                 )
 

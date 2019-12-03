@@ -225,12 +225,12 @@ Speaker speaker4 = new Speaker(6, 'Cormac Flanagan', 'CormacFlanagan', 41, 91221
 List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['1','2','3','4','5'];
 
-FormQuestion question1 = new FormQuestion(1, QuestionType.textBox, 'What did you like the most in the session?', null);
-FormQuestion question2 = new FormQuestion(2, QuestionType.textBox, 'What did you like the least in the session?', null);
-FormQuestion question3 = new FormQuestion(3, QuestionType.textBox, 'In your opinion, did the session met its objectives?', null);
-FormQuestion question4 = new FormQuestion(4, QuestionType.textBox, 'Was there enough time for discussion?', null);
-FormQuestion question5 = new FormQuestion(5, QuestionType.textBox,'Tell us some suggestions you may have for future events.', null);
-FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final comments?', null);
+FormQuestion question1 = new FormQuestion(1, QuestionType.textBox, 'What did you like the most in the session?', List());
+FormQuestion question2 = new FormQuestion(2, QuestionType.textBox, 'What did you like the least in the session?', List());
+FormQuestion question3 = new FormQuestion(3, QuestionType.textBox, 'In your opinion, did the session met its objectives?', List());
+FormQuestion question4 = new FormQuestion(4, QuestionType.textBox, 'Was there enough time for discussion?', List());
+FormQuestion question5 = new FormQuestion(5, QuestionType.textBox,'Tell us some suggestions you may have for future events.', List());
+FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final comments?', List());
 FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
 FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
 
