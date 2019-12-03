@@ -86,8 +86,8 @@ class EventBox extends StatelessWidget {
   final String room;
   final int talkId;
   final String title;
-  final Time beginTime;
-  final Time endTime;
+  final DateTime beginTime;
+  final DateTime endTime;
 
   EventBox(this.conferenceName, this.eventTitle, this.sessionTitle, this.room, this.talkId, this.title, this.beginTime, this.endTime);
 
@@ -138,7 +138,7 @@ class EventBox extends StatelessWidget {
                     SizedBox(height: 5),
                     Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(beginTime.timeToString() + ' - ' + endTime.timeToString()),
+                      child: Text(beginTime.hour.toString() + ':' + beginTime.minute.toString() + ' - ' + endTime.hour.toString() + ':' + endTime.minute.toString()),
                     ),
                   ],
                 )

@@ -45,8 +45,46 @@ class Time{
 
 }
   List<String> options = ['1','2','3','4','5'];
-  
 
+String dateToString(DateTime d){
+    
+  int year = d.year;
+  int month = d.month;
+  int day = d.day;
+
+  return '$year-$month-$day';
+
+}
+
+String dateToInvertedString(DateTime d){
+    
+  int year = d.year;
+  int month = d.month;
+  int day = d.day;
+
+  return '$day-$month-$year';
+
+}
+
+String timeToString(DateTime d){
+
+  int hour = d.hour;
+  int minutes = d.minute;
+
+  return '$hour:$minutes';
+
+}
+
+String dateAndTimeToString(DateTime d){
+
+  int year = d.year;
+  int month = d.month;
+  int day = d.day;
+  int hour = d.hour;
+  int minutes = d.minute;
+
+  return '$day-$month-$year $hour:$minutes';
+}
 
 class DateAndTime{
 
@@ -105,14 +143,13 @@ class FormQuestion{
 class FormTalk{
 
   int id;
-  DateAndTime begin;
-  DateAndTime end;
+  DateTime begin;
+  DateTime end;
   List<int> listIdFormQuestions;
 
   FormTalk(this.id, String begin, String end, this.listIdFormQuestions){
-    this.begin = DateAndTime.string(begin);
-    this.end = DateAndTime.string(end);
-
+    this.begin = DateTime.parse(begin);
+    this.end = DateTime.parse(end);
   }
 }
 
@@ -124,13 +161,13 @@ class Talk{
   String description;
   List<int> speakersId;
   int formId;
-  Time beginTime;
-  Time endTime;
   bool isFavorite = false;
+  DateTime beginTime;
+  DateTime endTime;
 
   Talk(this.id, this.formId, this.title, this.description, this.speakersId, String beginTime, String endTime){
-    this.beginTime= Time.string(beginTime);
-    this.endTime = Time.string(endTime);
+    this.beginTime= DateTime.parse(beginTime);
+    this.endTime = DateTime.parse(endTime);
   }
 }
 
@@ -139,13 +176,13 @@ class Session{
   String title;
   String chairMan;
   String room;
-  DateAndTime beginTime;
-  DateAndTime endTime;
+  DateTime beginTime;
+  DateTime endTime;
   List<int> talkIdList;
 
   Session(this.id, this.title, this.chairMan, this.room, this.talkIdList, String begin, String end){
-    this.beginTime= DateAndTime.string(begin);
-    this.endTime = DateAndTime.string(end);
+    this.beginTime= DateTime.parse(begin);
+    this.endTime = DateTime.parse(end);
   }
 }
 
@@ -153,16 +190,16 @@ class Conference{
 
   int id;
   String name;
-  Date beginDate;
-  Date endDate;
+  DateTime beginDate;
+  DateTime endDate;
   String place;
   List<int> eventIdList;
 
   Conference(this.id, this.name, this.place, this.eventIdList,  String beginDate, String endDate)
   {
 
-    this.beginDate = Date.string(beginDate);
-    this.endDate = Date.string(endDate);
+    this.beginDate = DateTime.parse(beginDate);
+    this.endDate = DateTime.parse(endDate);
   
   }
 
@@ -194,24 +231,31 @@ FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final co
 FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
 FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
 
-FormTalk form1 = new FormTalk(1, '2019-11-15 9:00' , '2019-11-20 10:30', [2,1, 3, 4, 5, 6, 7, 8]);
+FormTalk form1 = new FormTalk(1, '1974-03-20 00:00:00' , '1974-03-20 00:00:00', [2,1, 3, 4, 5, 6, 7, 8]);
 
 Talk talk1 = new Talk(1, 1, 'The Lisp of the prophet for the one true editor', 'While the editor war is long gone and '
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '
-    'took from its siblings and ancestors and what makes it different.',[3, 4], '09:30', '10:30');
+    'took from its siblings and ancestors and what makes it different.',[3, 4], '0000-00-00 09:30:00', '0000-00-00 10:30:00');
 Talk talk2 = new Talk(2, 1, 'The NEXT NEXT Lisp of the prophet for the one true editor', 'While the editor war is long gone and '
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '
-    'took from its siblings and ancestors and what makes it different.',[3], '10:30', '11:30');
+    'took from its siblings and ancestors and what makes it different.',[3], '0000-00-00 10:30:00', '0000-00-00 11:30:00');
 
-Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 1, 1, 2], '2019-11-15 9:30', '2019-11-15 11:30');
-Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [2], '2019-11-15 9:30', '2019-11-15 11:30');
+Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 2, 1, 2], '2019-01-02 09:30:00', '2019-01-02 11:30:00');
+Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [2], '2019-01-03 09:30:00', '2019-01-03 11:30:00');
+
+Session session3 = new Session(3, 'session 3', null, 'Paganini', [1, 2, 1, 2], '2019-01-02 10:30:00', '2019-01-02 11:30:00');
+Session session4 = new Session(4 ,'session 4', null, 'Michelangelo', [2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
+
+
+Session session5 = new Session(5, 'session 5', null, 'Paganini', [1, 1, 1, 2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
+Session session6 = new Session(6 ,'session 6', null, 'Michelangelo', [2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
 
 Event event1 = new Event(1 ,'ELS 2019 ', 'European Lisp Symposium', 'The purpose of the European '
     'Lisp Symposium is to provide a forum for the discussion and dissemination of '
     'all aspects of design, implementation and application of any of the Lisp and '
     'Lisp-inspired dialects, including Common Lisp, Scheme, Emacs Lisp, AutoLisp, '
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
-    'encourage everyone interested in Lisp to participate.', [1, 2]);
+    'encourage everyone interested in Lisp to participate.', [1, 3, 2]);
 
 Event event2 = new Event(2 ,'LOL 2019', 'Loletas', 'The purpose of the European '
     'Lisp Symposium is to provide a forum for the discussion and dissemination of '
@@ -227,10 +271,9 @@ Event event3 = new Event(3 , 'ICW 2019', 'Interconnecting Code Workshop' , 'The 
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
     'encourage everyone interested in Lisp to participate.', [1, 2]);
 
-Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1,2], '2019-05-1', '2019-06-1');
-Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Genoa, Italy', [1], '2019-07-1', '2019-08-1');
-Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Genoa, Italy', [1], '2019-01-1', '2019-03-1');
-
+Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1,2], '2019-05-01 00:00:00', '2019-05-09 00:00:00');
+Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Genoa, Italy', [1], '2019-07-01 00:00:00', '2019-07-04 00:00:00');
+Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Genoa, Italy', [1], '2019-01-01 00:00:00', '2019-01-03 00:00:00');
 
 class Database {
 
@@ -247,7 +290,11 @@ class Database {
 
   List<Session> sessionList = [
     session1,
-    session2
+    session2,
+    session3,
+    session4,
+    session5, 
+    session6
   ];
 
   List<Talk> talkList = [

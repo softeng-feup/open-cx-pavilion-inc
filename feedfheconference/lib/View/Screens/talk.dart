@@ -169,7 +169,7 @@ List<Widget> listMyWidgets(talkId, context) {
       Container(
           //color: Colors.green,
           margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
-          child: Text('Starts at: ' + talk.beginTime.timeToString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+          child: Text('Starts at: ' + timeToString(talk.beginTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
       ),
   );
 
@@ -177,7 +177,7 @@ List<Widget> listMyWidgets(talkId, context) {
     Container(
         //color: Colors.green,
         margin: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
-        child: Text('Ends at: ' + talk.endTime.timeToString(), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+        child: Text('Ends at: ' + timeToString(talk.endTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
     ),
   );
 

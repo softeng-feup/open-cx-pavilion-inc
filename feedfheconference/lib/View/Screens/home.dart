@@ -59,7 +59,14 @@ List<Widget> listMyWidgets() {
 
 
   db.conferenceList.sort((a, b) =>
-      (a.beginDate.dateToString()).compareTo(b.beginDate.dateToString()));
+      (dateToString(a.beginDate).compareTo(dateToString(b.beginDate))));
+
+  db.sessionList.sort((a, b) =>
+      (dateToString(a.beginTime).compareTo(dateToString(b.beginTime))));
+
+
+  db.talkList.sort((a, b) =>
+      (dateToString(a.beginTime).compareTo(dateToString(b.beginTime))));
 
   @override
   List<Widget> widgetsList = new List();
@@ -74,8 +81,6 @@ List<Widget> listMyWidgets() {
   ));
 
   for (int i = 0; i < db.conferenceList.length; i++) {
-    print(db.conferenceList[i].id);
-    print(db.conferenceList[i].name);
     widgetsList.add(EventBox(
         db.conferenceList[i].id,
         db.conferenceList[i].name,
@@ -92,8 +97,8 @@ List<Widget> listMyWidgets() {
 class EventBox extends StatelessWidget {
   String name;
   String place;
-  Date beginDate;
-  Date endDate;
+  DateTime beginDate;
+  DateTime endDate;
   int conferenceId;
   EventBox(this.conferenceId,this.name, this.place, this.beginDate, this.endDate);
 
@@ -135,9 +140,9 @@ class EventBox extends StatelessWidget {
                           ),
                           SizedBox(height: 5),
                           Text(
-                              beginDate.dateToInvertedString() +
+                              dateToInvertedString(beginDate) +
                                   ' <-> ' +
-                                  endDate.dateToInvertedString(),
+                                  dateToInvertedString(endDate),
                               style:
                                   TextStyle(fontSize: 15, color: Colors.white)),
                         ],
