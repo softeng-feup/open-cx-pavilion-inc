@@ -1,4 +1,6 @@
+import 'package:feedfheconference/View/Screens/favorites.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 
 Drawer sideDrawer(BuildContext context) {
@@ -29,10 +31,11 @@ Drawer sideDrawer(BuildContext context) {
         ListTile(
           title: Text('Favorites'),
           onTap: () {
-            // Update the state of the app
-            // ...
-            // Then close the drawer
+            var route = MaterialPageRoute(
+              builder: (BuildContext context) => FavoritesPage()
+            );
             Navigator.of(context).pop();
+            Navigator.of(context).push(route);
           },
         ),
       ],

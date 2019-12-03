@@ -6,9 +6,9 @@ import './talk.dart';
 import './common.dart';
 import 'package:jiffy/jiffy.dart';
 
+
 class ConferenceHomePage extends StatefulWidget {
   final String conferenceName;
-  final String title ="lol";
   final int conferenceId;
   @override
    ConferenceHomePage({Key key, this.conferenceId, this.conferenceName}): super(key: key);
@@ -46,7 +46,7 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildConferencePage(
-              context, _tabController, _scrollViewController, widget.conferenceName,  widget.conferenceId),
+              context, _tabController, _scrollViewController, widget.conferenceName, widget.conferenceId),
           drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
@@ -210,7 +210,8 @@ NestedScrollView buildConferencePage(
     BuildContext context,
     TabController _tabController,
     ScrollController _scrollViewController,
-    String title, int conferenceId) {
+    String title,
+    int conferenceId) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -279,15 +280,17 @@ class EventBox extends StatelessWidget {
       talkWidgets.add(RaisedButton(child:
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.only(bottom: 10),
             child: Column(
               children: [
+                Favorite(talk: talks[i]),
                 Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
                 SizedBox(height: 3),
                 Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + '0 - ' + timeToString(talks[i].endTime))),
               ]
             )
           ),
+        color: Colors.white,
         onPressed: () {
           var route = MaterialPageRoute(
             builder: (BuildContext context) => new TalkPage(event: eventTitle,session: sessionTitle, talkId: talks[i].id),
@@ -332,20 +335,10 @@ class EventBox extends StatelessWidget {
                         child: Text(timeToString(beginTime) + '0 - ' + timeToString(endTime)),
                       ),
                       ExpansionTile(
-                          title: Text('Talks'),
+                           title: Text('Talks'),
                           children: talkWidgets
                       ),
                     ],
-                  )
-              ),
-              Container(
-                //margin: const EdgeInsets.only(left: 1),
-                  child:Align(
-                    alignment: Alignment.topLeft,
-                    child: Icon(
-                      Icons.star,
-                      color: Colors.blue[500],
-                    ),
                   )
               ),
             ],
@@ -353,7 +346,39 @@ class EventBox extends StatelessWidget {
     )
     );
   }
+}
 
+class Favorite extends StatefulWidget {
+  final Talk talk;
+
+  @override
+  Favorite({Key key, this.talk}): super(key: key);
+  FavoriteState createState() => new FavoriteState();
+}
+
+class FavoriteState extends State<Favorite> {
+
+  _pressed() {
+    setState(() {
+      widget.talk.isFavorite = !widget.talk.isFavorite;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: IconButton(
+        icon: Icon(
+            widget.talk.isFavorite ? Icons.star : Icons.star_border,
+            color: widget.talk.isFavorite ? Colors.blue[500] : Colors.grey
+        ),
+        onPressed: () {
+          _pressed();
+        }
+      ),
+    );
+  }
 }
 
 class CurrentPage extends StatelessWidget {
