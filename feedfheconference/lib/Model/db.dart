@@ -226,15 +226,15 @@ List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['1','2','3','4','5'];
 
 FormQuestion question1 = new FormQuestion(1, QuestionType.textBox, 'What did you like the most in the session?', List());
-FormQuestion question2 = new FormQuestion(2, QuestionType.textBox, 'What did you like the least in the session?', List());
-FormQuestion question3 = new FormQuestion(3, QuestionType.textBox, 'In your opinion, did the session met its objectives?', List());
-FormQuestion question4 = new FormQuestion(4, QuestionType.textBox, 'Was there enough time for discussion?', List());
-FormQuestion question5 = new FormQuestion(5, QuestionType.textBox,'Tell us some suggestions you may have for future events.', List());
-FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final comments?', List());
-FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
-FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
+//FormQuestion question2 = new FormQuestion(2, QuestionType.textBox, 'What did you like the least in the session?', List());
+//FormQuestion question3 = new FormQuestion(3, QuestionType.textBox, 'In your opinion, did the session met its objectives?', List());
+//FormQuestion question4 = new FormQuestion(4, QuestionType.textBox, 'Was there enough time for discussion?', List());
+//FormQuestion question5 = new FormQuestion(5, QuestionType.textBox,'Tell us some suggestions you may have for future events.', List());
+//FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final comments?', List());
+//FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
+//FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
 
-FormTalk form1 = new FormTalk(1, '1974-03-20 00:00:00' , '1974-03-20 00:00:00', [2,1, 3, 4, 5, 6, 7, 8]);
+FormTalk form1 = new FormTalk(1, '1974-03-20 00:00:00' , '1974-03-20 00:00:00', [1]);
 
 Talk talk1 = new Talk(1, 1, 'The Lisp of the prophet for the one true editor', 'While the editor war is long gone and '
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '
@@ -341,14 +341,7 @@ class Database {
   ];
 
   List<FormQuestion> formQuestionList = [
-    question1,
-    question2,
-    question3,
-    question4,
-    question5,
-    question6,
-    question7,
-    question8
+    question1
   ];
 
   List<User> userList = [
