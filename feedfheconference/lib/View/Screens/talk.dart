@@ -5,7 +5,7 @@ import '../../Model/db.dart';
 import './common.dart';
 import './createForm.dart';
 import './form.dart';
-
+import './statistic.dart';
 
 class TalkPage extends StatefulWidget {
 
@@ -238,6 +238,27 @@ List<Widget> listMyWidgets(talkId, context) {
           Navigator.of(context).push(route);
           },
         child: Text('Create/Modify Form (Speaker/Organizer only)', style: TextStyle(fontWeight: FontWeight.bold),),
+      )
+    )
+  );
+
+  widgetsList.add(
+    Container(
+      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+      child: FlatButton(
+        color: Colors.blue,
+        textColor: Colors.white,
+        disabledColor: Colors.grey,
+        disabledTextColor: Colors.black,
+        padding: EdgeInsets.all(8.0),
+        splashColor: Colors.blueAccent,
+        onPressed:  () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new StatisticsForForm(formId: talk.formId),
+          );  
+          Navigator.of(context).push(route);
+          },
+        child: Text('Answers/Statistics for the form)', style: TextStyle(fontWeight: FontWeight.bold),),
       )
     )
   );

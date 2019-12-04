@@ -241,8 +241,8 @@ Response response2 = new Response(3, QuestionType.textBox, "I think so", 3, 2);
 Response response3 = new Response(4, QuestionType.textBox, "No there wasn't", 4, 2);
 Response response4 = new Response(5, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 2);
 Response response5 = new Response(6, QuestionType.textBox, "Not really", 6, 2);
-Response response6 = new Response(7, QuestionType.textBox, '5', 7, 2);
-Response response7 = new Response(8, QuestionType.textBox, ['The speaker', 'The content'], 8, 2);
+Response response6 = new Response(7, QuestionType.radioButton, '5', 7, 2);
+Response response7 = new Response(8, QuestionType.checkBox, ['The speaker', 'The content'], 8, 2);
 
 Response response8 = new Response(9, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 2);
 Response response9 = new Response(10, QuestionType.textBox, "It was a bit longer than i expected and it started to bore me at the end", 2, 2);
@@ -250,8 +250,8 @@ Response response10 = new Response(11, QuestionType.textBox, "I think so", 3, 2)
 Response response11 = new Response(12, QuestionType.textBox, "No there wasn't", 4, 2);
 Response response12 = new Response(13, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 2);
 Response response13 = new Response(14, QuestionType.textBox, "Not really", 6, 2);
-Response response14 = new Response(15, QuestionType.textBox, '4', 7, 2);
-Response response15 = new Response(16, QuestionType.textBox, ['The speaker', 'The content'], 8, 2);
+Response response14 = new Response(15, QuestionType.radioButton, '4', 7, 2);
+Response response15 = new Response(16, QuestionType.checkBox, ['The speaker', 'The content'], 8, 2);
 
 Response response16 = new Response(17, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 2);
 Response response17 = new Response(18, QuestionType.textBox, "It was a bit longer than i expected and it started to bore me at the end", 2, 2);
@@ -259,8 +259,8 @@ Response response18 = new Response(19, QuestionType.textBox, "I think so", 3, 2)
 Response response19 = new Response(20, QuestionType.textBox, "No there wasn't", 4, 2);
 Response response20 = new Response(21, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 2);
 Response response21 = new Response(22, QuestionType.textBox, "Not really", 6, 2);
-Response response22 = new Response(23, QuestionType.textBox, '3', 7, 2);
-Response response23 = new Response(24, QuestionType.textBox, ['The speaker', 'The content'], 8, 2);
+Response response22 = new Response(23, QuestionType.radioButton, '3', 7, 2);
+Response response23 = new Response(24, QuestionType.checkBox, ['The speaker', 'The content'], 8, 2);
 
 List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['The speaker','The content','The space','The ambient','The interaction'];
