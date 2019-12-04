@@ -138,5 +138,6 @@ NestedScrollView buildQuestionStatisticPage(ScrollController _scrollViewControll
                 )
             )
       )
-    );
+    )
+  );
 }

@@ -254,7 +254,7 @@ List<Widget> listMyWidgets(talkId, context) {
         splashColor: Colors.blueAccent,
         onPressed:  () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new StatisticsForForm(formId: talk.formId),
+            builder: (BuildContext context) => new StatisticsForm(formId: talk.formId, talkName: talk.title),
           );  
           Navigator.of(context).push(route);
           },

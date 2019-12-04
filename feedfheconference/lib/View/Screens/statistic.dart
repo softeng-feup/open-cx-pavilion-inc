@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
+import './questionStatistic.dart';
 
 class StatisticsForm extends StatefulWidget {
   final String talkName;
@@ -19,6 +20,7 @@ class _StatisticsFormState extends State<StatisticsForm> {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
+      length: 2,
       child: Scaffold(
         body: buildStatisticsForm(context, _tabController, _scrollViewController, widget.formId, widget.talkName),
       ),
@@ -75,7 +77,7 @@ class QuestionText extends StatelessWidget {
       ),
       onTap: () {
         var route = MaterialPageRoute(
-          builder: (BuildContext context) => new QuestionStatisticsPage(talkName: this.talkName, index: this.index, questionId: questionId)
+          builder: (BuildContext context) => new QuestionStatisticsPage(talkName: this.talkName, questionIndex: this.index, questionId: questionId)
         );
         Navigator.of(context).push(route);
       },
