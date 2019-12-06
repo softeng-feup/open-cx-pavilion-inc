@@ -170,6 +170,14 @@ class Response{
   
 }
 
+class Rate {
+  int id;
+  double rate;
+  int talkId;
+
+  Rate(this.id, this.rate, this.talkId);
+}
+
 class FormTalk{
 
   int id;
@@ -277,6 +285,12 @@ Response response20 = new Response(21, QuestionType.textBox, "Try to engage with
 Response response21 = new Response(22, QuestionType.textBox, "Not really", 6, 1);
 Response response22 = new Response(23, QuestionType.radioButton, '3', 7, 1);
 Response response23 = new Response(24, QuestionType.checkBox, ['The speaker', 'The content'], 8, 1);
+
+Rate rate1 = new Rate(1, 3, 1);
+Rate rate2 = new Rate(2, 5, 1);
+Rate rate3 = new Rate(3, 4, 1);
+Rate rate4 = new Rate(4, 3.5, 1);
+Rate rate5 = new Rate(5, 4.5, 1);
 
 
 List<String> radioButtonoptions = ['1','2','3','4','5'];
@@ -450,5 +464,13 @@ class Database {
     response22,
     response23,
   ];
+
+   List<Rate> rateList = [
+     rate1,
+     rate2,
+     rate3,
+     rate4,
+     rate5
+   ];
 }
 Database db = new Database();
