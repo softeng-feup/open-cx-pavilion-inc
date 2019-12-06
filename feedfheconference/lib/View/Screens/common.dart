@@ -38,6 +38,13 @@ Drawer sideDrawer(BuildContext context) {
             Navigator.of(context).push(route);
           },
         ),
+        ListTile(
+          title: Text('My Profile'),
+          onTap: () {
+            Navigator.of(context).pop();
+            Navigator.of(context).pushNamed("/profile");
+          },
+        ),
       ],
     ),
   );
