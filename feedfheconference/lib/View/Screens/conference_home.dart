@@ -152,14 +152,19 @@ class EventBox extends StatelessWidget {
       talkWidgets.add(RaisedButton(child:
           Container(
             color: Colors.white,
-            padding: const EdgeInsets.only(bottom: 10),
-            child: Column(
-              children: [
-                Favorite(talk: talks[i]),
-                Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
-                SizedBox(height: 3),
-                Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
-              ]
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+                children: [
+                  Expanded(
+                      child:Column(
+                          children: [
+                            Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
+                            Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
+                          ]
+                      )
+                  ),
+                  Favorite(talk: talks[i]),
+                ]
             )
           ),
         color: Colors.white,
