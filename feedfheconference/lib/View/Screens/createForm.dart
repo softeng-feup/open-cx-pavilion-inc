@@ -15,7 +15,6 @@ class CreateFormPage extends StatefulWidget {
 }
 
 List<Widget> listMyWidgets(var formId, var context){
-  @override
   List<Widget> widgetsList = new List();
 
   for(int i = 0; i < db.formList.length; i++){
@@ -25,7 +24,7 @@ List<Widget> listMyWidgets(var formId, var context){
         for(int j = 0; j < db.formQuestionList.length; j++){
           if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
             widgetsList.add(QuestionText(
-              db.formQuestionList[j].questionText, h+1));
+              db.formQuestionList[j].questionText, h+1, formId));
             for (int k = 0; k < db.formQuestionList[j].questionSubText.length; k++){
               widgetsList.add(QuestionSubText(db.formQuestionList[j].questionSubText[k], k+1));
             }
@@ -56,15 +55,45 @@ List<Widget> listMyWidgets(var formId, var context){
 class QuestionText extends StatelessWidget {
   final String questionText;
   final int index;
+  final int formId;
 
-  QuestionText(this.questionText, this.index);
+  QuestionText(this.questionText, this.index, this.formId);
   @override
   Widget build(BuildContext context) {
     return Container(
-        child: Text(
-          index.toString() + ". " + questionText,
-          style: TextStyle(fontSize: 22),
-        ),
+        child: SafeArea(
+          child: Row(
+              children: <Widget>[
+            Expanded(
+                child: Text(
+              index.toString() + ". " + questionText,
+              style: TextStyle(fontSize: 22),
+            )),
+              IconButton(
+                onPressed: () {
+                  for(int i = 0; i < db.formList.length; i++){
+                    if(db.formList[i].id == formId){
+                      for (int j = 0; j < db.formList[i].listIdFormQuestions.length; j++) {
+                        if (db.formList[i].listIdFormQuestions[j] == db.formQuestionList[index-1].id) {
+                          db.formList[i].listIdFormQuestions.removeAt(j);
+                          break;
+                        }
+                      }
+                      break;
+                    }
+                  }
+
+                  db.formQuestionList.removeAt(index-1);
+
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              CreateFormPage(formId: formId)));
+
+                }, icon: Icon(Icons.delete))
+      ])
+    ),
         margin: const EdgeInsets.only(bottom: 8.0)
       //color: Colors.blue[100],
     );
@@ -90,7 +119,6 @@ class QuestionSubText extends StatelessWidget {
 }
 
 class AddQuestionText extends StatefulWidget {
-  List<Widget> widgetsList;
   int formId;
   AddQuestionText(this.formId);
 

@@ -1,5 +1,5 @@
-import 'dart:ffi';
 
+import 'dart:math';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './questionStatistic.dart';
@@ -28,17 +28,8 @@ class _StatisticsFormState extends State<StatisticsForm> {
   }
 }
 
-List<Response> questionResponses(int questionId) {
-  @override
-  List<Response> responsesList = new List();
 
-  for (int j = 0; j < db.responseList.length; j++) {
-    if(db.responseList[j].questionId == questionId) {
-      responsesList.add(db.responseList[j]);
-    }
-  }
-  return responsesList;
-}
+
 
 List<Widget> listMyQuestions(var formId, String talkName) {
   @override
@@ -172,42 +163,52 @@ class QuestionsListPage extends StatelessWidget {
   }
 }
 
+
+List <Widget> printQuestions(List <String> questions){
+
+  List <Widget> listOfQuestions = new List();
+  for(int i = 0; i < questions.length; i++){
+    listOfQuestions.add(Text(questions[i], style: TextStyle(
+              fontSize: 20,color: Colors.black)));
+  }
+
+  return listOfQuestions;
+}
+
+
+
 class GeneralStats extends StatelessWidget {
   final int formId;
 
    @override
    GeneralStats(this.formId);
    Widget build(BuildContext context) {
-     List<List<Response>> responses = new List();
-     FormTalk form;
+    List <String> mostAnswered = mostAnsweredQuestions(formId);
+    List <String> leastAnswered = leastAnsweredQuestions(formId);
+    if(mostAnswered.length == leastAnswered.length){
+      mostAnswered = ['Not enough data to display this statistic'];
+      leastAnswered = ['Not enough data to display this statistic'];
+    }
 
-     for(int i = 0; i < db.formList.length; i++) {
-       if(formId == db.formList[i].id) {
-         form = db.formList[i];
-         for(int j = 0; j < form.listIdFormQuestions.length; j++) {
-           responses.add(questionResponses(form.listIdFormQuestions[j]));
-         }
-       }
-     }
-
-     FormQuestion lessRespondedQuestion;
-     int lessRespondedQuestionId;
-
-     for(int i = 0; i < responses.length; i++) {
-       if(i == 0)
-         lessRespondedQuestionId = form.listIdFormQuestions[i];
-
-       else if(responses[i].length < responses[lessRespondedQuestionId].length)
-         lessRespondedQuestionId = form.listIdFormQuestions[i];
-
-     }
-
-     for(int i = 0; i < db.formQuestionList.length; i++) {
-       if(db.formQuestionList[i].id == lessRespondedQuestionId)
-         lessRespondedQuestion = db.formQuestionList[i];
-     }
-
-    return new Text(lessRespondedQuestion.questionText);
+     return Container(
+       child: Column(
+       children: <Widget>[
+          SizedBox(height: 40,),
+           Text("Nº of people who submitted the form: " + numberOfPeopleSubmittedForm(formId).toString(), style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+           SizedBox(height: 20,),
+            Text("Most answered questions: ", style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+            Column(children: printQuestions(mostAnswered),),
+               SizedBox(height: 20,),
+         Text("Least answered questions: ", style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+            Column(children: printQuestions(leastAnswered)), 
+           SizedBox(height: 20,),
+       ],
+     )
+     );
   }
 }
+
 
