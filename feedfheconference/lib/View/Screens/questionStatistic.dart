@@ -109,7 +109,7 @@ Widget questionTypeTextBox(BuildContext context, String response, String usernam
   return Container(
           color: Colors.transparent,
           child: Container(
-               decoration: new BoxDecoration(
+              decoration: new BoxDecoration(
                   color: Colors.blueGrey[300],
                   borderRadius: new BorderRadius.only(
                     bottomLeft: const Radius.circular(10.0),

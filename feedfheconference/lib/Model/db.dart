@@ -64,7 +64,14 @@ String dateToInvertedString(DateTime d){
   int month = d.month;
   int day = d.day;
 
-  return '$day-$month-$year';
+  if(day < 10 && month < 10)
+    return '0$day-0$month-$year';
+  else if(day < 10)
+    return '0$day-$month-$year';
+  else if(month < 10)
+    return '$day-0$month-$year';
+  else
+    return '$day-$month-$year';
 
 }
 
@@ -72,8 +79,17 @@ String timeToString(DateTime d){
 
   int hour = d.hour;
   int minutes = d.minute;
-
-  return '$hour:$minutes';
+  if(hour < 10 && minutes < 10){
+    return '0$hour:0$minutes';
+  }
+  else if(hour < 10){
+    return '0$hour:$minutes'; 
+  }
+  else if(minutes < 10){
+    return '$hour:0$minutes';
+  }
+  else
+    return '$hour:$minutes';
 
 }
 
@@ -306,7 +322,7 @@ Session session4 = new Session(4 ,'session 4', null, 'Michelangelo', [2], '2019-
 Session session5 = new Session(5, 'session 5', null, 'Paganini', [1, 1, 1, 2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
 Session session6 = new Session(6 ,'session 6', null, 'Michelangelo', [2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
 
-Session session7 = new Session(7, 'PX/19 #1', 'Jens Lincke' ,'Michelangelo', [3, 4, 5], '2019-04-01 09:00:00', '2019-04-01 10:30:00');
+Session session7 = new Session(7, 'PX/19 #1', 'Jens Lincke' ,'Michelangelo', [3, 4, 5], '2019-04-01 20:00:00', '2019-04-01 10:30:00');
 Session session8 = new Session(8, 'PX/19 #2', 'Tobias Pape' ,'Michelangelo', [3], '2019-04-01 11:00:00', '2019-04-01 12:30:00');
 Session session9 = new Session(9, 'PX/19 #3', 'Ademar Aguiar' ,'Michelangelo', [3], '2019-04-01 14:00:00', '2019-04-01 15:30:00');
 

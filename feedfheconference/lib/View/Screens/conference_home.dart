@@ -170,10 +170,18 @@ List<Talk> talkListForASession(int sessionId){
   }
 
   talkList.sort((a, b) =>
-      (dateAndTimeToString(b.beginTime).compareTo(dateAndTimeToString(a.beginTime))));
+       (a.beginTime.toString().compareTo(b.beginTime.toString())));
 
   return talkList;
 } 
+
+void printSessionList(List <Session> s){
+
+  for(int i = 0; i < s.length; i++){
+    print(s[i].beginTime.toString());
+  } 
+
+}
 
 List<Session> sessionListForAEvent(int eventId){
 
@@ -188,7 +196,9 @@ List<Session> sessionListForAEvent(int eventId){
     }
   }
   sessionList.sort((a, b) =>
-      (dateAndTimeToString(b.beginTime).compareTo(dateAndTimeToString(a.beginTime))));
+      (a.beginTime.toString().compareTo(b.beginTime.toString())));
+    
+  printSessionList(sessionList);
 
   return sessionList;
 }
@@ -286,7 +296,7 @@ class EventBox extends StatelessWidget {
                 Favorite(talk: talks[i]),
                 Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
                 SizedBox(height: 3),
-                Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + '0 - ' + timeToString(talks[i].endTime))),
+                Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
               ]
             )
           ),
@@ -332,7 +342,7 @@ class EventBox extends StatelessWidget {
                       SizedBox(height: 5),
                       Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(timeToString(beginTime) + '0 - ' + timeToString(endTime)),
+                        child: Text(timeToString(beginTime) + ' - ' + timeToString(endTime)),
                       ),
                       ExpansionTile(
                            title: Text('Talks'),
