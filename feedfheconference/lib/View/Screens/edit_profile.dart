@@ -1,4 +1,5 @@
 import 'package:feedfheconference/Model/db.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:random_color/random_color.dart';
 
@@ -39,6 +40,7 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var name = 'Jose Pedro Baptista';
+    var username = 'PedroB';
     var email = 'ze.pedro4532@gmail.com';
     var permitionLevel = user_type.Organizer;
 
@@ -56,10 +58,11 @@ class Home extends StatelessWidget {
 
 
     return Scaffold(
-      body: SafeArea(
-        child: Column(
+      resizeToAvoidBottomPadding: false,
+      body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+
             Container(
               margin: EdgeInsets.only(bottom: 20),
               child:CircleAvatar(
@@ -98,10 +101,120 @@ class Home extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Container(
-                      margin: EdgeInsets.only(right: 10),
+                      margin: EdgeInsets.only(left: 10, right: 10),
                       child: new Icon(Icons.email, color: Colors.white,)
                   ),
-                  new Text(email, style: TextStyle(color: Colors.white))
+
+                  Expanded(
+                    child: TextFormField(
+                      style: TextStyle(color: Colors.white),
+                      minLines: 1,
+                      maxLines: 1,
+                      initialValue: email,
+                      decoration: new InputDecoration(
+                        labelText: "Email",
+                        fillColor: Colors.white,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(50.0),
+                          borderSide: new BorderSide(),
+                        ),
+                        //fillColor: Colors.green
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(bottom: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      child: new Icon(Icons.face, color: Colors.white,)
+                  ),
+
+                  Expanded(
+                    child: TextFormField(
+                      style: TextStyle(color: Colors.white),
+                      minLines: 1,
+                      maxLines: 1,
+                      initialValue: username,
+                      decoration: new InputDecoration(
+                        labelText: "Username",
+                        fillColor: Colors.white,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(50.0),
+                          borderSide: new BorderSide(),
+                        ),
+                        //fillColor: Colors.green
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(bottom: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      child: new Icon(Icons.security, color: Colors.white,)
+                  ),
+
+                  Expanded(
+                    child: TextFormField(
+                      obscureText: true,
+                      style: TextStyle(color: Colors.white),
+                      minLines: 1,
+                      maxLines: 1,
+                      decoration: new InputDecoration(
+                        labelText: "New Password",
+                        fillColor: Colors.white,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(50.0),
+                          borderSide: new BorderSide(),
+                        ),
+                        //fillColor: Colors.green
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            Container(
+              margin: EdgeInsets.only(bottom: 15),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                      margin: EdgeInsets.only(left: 10, right: 10),
+                      child: new Icon(Icons.security, color: Colors.white,)
+                  ),
+
+                  Expanded(
+                    child: TextFormField(
+                      obscureText: true,
+                      style: TextStyle(color: Colors.white),
+                      minLines: 1,
+                      maxLines: 1,
+                      decoration: new InputDecoration(
+                        labelText: "Confirm New Password",
+                        fillColor: Colors.white,
+                        border: new OutlineInputBorder(
+                          borderRadius: new BorderRadius.circular(50.0),
+                          borderSide: new BorderSide(),
+                        ),
+                        //fillColor: Colors.green
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -122,7 +235,7 @@ class Home extends StatelessWidget {
 
             Container(
               color: Colors.white,
-              margin: EdgeInsets.only(top: 30 ,bottom: 15),
+              margin: EdgeInsets.only(top: 30),
               child:
               FlatButton(
                 onPressed: (){print('Click');},
@@ -131,17 +244,15 @@ class Home extends StatelessWidget {
                   children: <Widget>[
                     Container(
                       margin: EdgeInsets.only(right: 8),
-                      child: Icon(Icons.edit, color: _color),
+                      child: Icon(Icons.check, color: _color),
                     ),
-                    Text('Edit Profile', style: TextStyle(color: _color, fontWeight: FontWeight.bold),),
+                    Text('Submit Changes', style: TextStyle(color: _color, fontWeight: FontWeight.bold),),
                   ],
                 ),
               ),
             ),
-
           ],
         ),
-      ),
       backgroundColor: Colors.lightBlueAccent[100],
     );
   }

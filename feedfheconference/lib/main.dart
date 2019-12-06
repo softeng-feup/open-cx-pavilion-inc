@@ -7,7 +7,6 @@ import './View/Screens/register.dart';
 import './View/Screens/home.dart';
 import './View/Screens/form.dart';
 import 'View/Screens/conference_home.dart';
-import 'View/Screens/edit_profile.dart';
 import 'View/Screens/profile.dart';
 
 void main(){
@@ -34,8 +33,7 @@ class MyApp extends StatelessWidget {
         "/form": (context) => FormPage(),
         "/conference_home": (context) => ConferenceHomePage(),
         "/favorites": (context) => FavoritesPage(),
-        "/profile": (context) => ProfilePage(),
-        "/edit_profile": (context) => EditProfilePage(),
+        "/profile": (context) => ProfilePage()
       },
     );
   }

@@ -122,12 +122,12 @@ class DateAndTime{
 enum user_type {Attendee, Speaker, Organizer}
 
 class User{
-  int id;
-  String name;
+  int id; //Fixo
+  String name; //Fixo
   String userName;
   String email;
   String password;
-  user_type userType;
+  user_type userType; //Fixo
   User(this.id, this.name, this.userName,this.email, this.password, this.userType);
 }
 

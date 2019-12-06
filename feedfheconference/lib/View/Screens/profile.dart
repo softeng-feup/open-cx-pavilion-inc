@@ -2,6 +2,8 @@ import 'package:feedfheconference/Model/db.dart';
 import 'package:flutter/material.dart';
 import 'package:random_color/random_color.dart';
 
+import 'edit_profile.dart';
+
 void main() => runApp(ProfilePage());
 
 class ProfilePage extends StatelessWidget {
@@ -126,8 +128,10 @@ class Home extends StatelessWidget {
               child:
               FlatButton(
                 onPressed: (){
-                    Navigator.of(context).pop();
-                    Navigator.of(context).pushNamed("/edit_profile");
+                    var route = MaterialPageRoute(
+                      builder: (BuildContext context) => new EditProfilePage(),
+                    );
+                    Navigator.of(context).pushReplacement(route);
                   },
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.center,
