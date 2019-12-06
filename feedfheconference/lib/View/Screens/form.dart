@@ -94,12 +94,6 @@ class _AnswerBoxState extends State<AnswerBox> {
   Widget answerBox(QuestionType type, List questionSubText) {
     if (type == QuestionType.textBox) {
       return TextFormField(
-        validator: (value) {
-          if (value.isEmpty) {
-            return 'Please enter some text';
-          }
-          return null;
-        },
         minLines: 1,
         maxLines: 4,
         decoration: new InputDecoration(

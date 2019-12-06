@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './conference_home.dart';
@@ -10,8 +9,6 @@ class HomePage extends StatefulWidget {
   @override
   _HomePageState createState() => _HomePageState();
 }
-
-
 
 class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
@@ -56,14 +53,11 @@ NestedScrollView buildHomePage(
 }
 
 List<Widget> listMyWidgets() {
-
-
   db.conferenceList.sort((a, b) =>
       (dateToString(a.beginDate).compareTo(dateToString(b.beginDate))));
 
   db.sessionList.sort((a, b) =>
       (dateToString(a.beginTime).compareTo(dateToString(b.beginTime))));
-
 
   db.talkList.sort((a, b) =>
       (dateToString(a.beginTime).compareTo(dateToString(b.beginTime))));
@@ -100,56 +94,68 @@ class EventBox extends StatelessWidget {
   DateTime beginDate;
   DateTime endDate;
   int conferenceId;
-  EventBox(this.conferenceId,this.name, this.place, this.beginDate, this.endDate);
+  EventBox(
+      this.conferenceId, this.name, this.place, this.beginDate, this.endDate);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-          onTap: () {
-
+        onTap: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new ConferenceHomePage(conferenceId: conferenceId, conferenceName: name),
-          );  
+            builder: (BuildContext context) => new ConferenceHomePage(
+                conferenceId: conferenceId, conferenceName: name),
+          );
           Navigator.of(context).push(route);
-          }, // handle your onTap here
-          child: Container(
-              color: Color.fromARGB(60, 0, 0, 255),
-              margin: const EdgeInsets.only(top: 10.0),
-              padding: const EdgeInsets.only(top: 10.0),
-              child: Stack(
-                children: [
-                      Container(
-                      padding: const EdgeInsets.only(bottom: 10.0),
-                      //color: Colors.green[200],
-                      //width: 215,
-                      width: MediaQuery.of(context).size.width - 145,
-                      child: Column(
-                        children: <Widget>[
-                          Text(
-                            name,
-                            textAlign: TextAlign.left,
-                            style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                            place,
-                            style: TextStyle(fontSize: 15, color: Colors.white),
-                          ),
-                          SizedBox(height: 5),
-                          Text(
-                              dateToInvertedString(beginDate) +
-                                  ' <-> ' +
-                                  dateToInvertedString(endDate),
-                              style:
-                                  TextStyle(fontSize: 15, color: Colors.white)),
-                        ],
+        }, // handle your onTap here
+        child: Container(
+            decoration: new BoxDecoration(
+                color: Colors.blueGrey[300],
+                borderRadius: new BorderRadius.only(
+                    bottomLeft: const Radius.circular(30.0),
+                    bottomRight: const Radius.circular(30.0),
+                    topLeft: const Radius.circular(30.0),
+                    topRight: const Radius.circular(30.0))),
+            margin: const EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.only(top: 10.0),
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(bottom: 10.0),
+                  //color: Colors.green[200],
+                  //width: 215,
+                  width: MediaQuery.of(context).size.width - 145,
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        name,
+                        textAlign: TextAlign.left,
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
                       ),
-                    ),
-                ],
-              )));
+                      SizedBox(height: 5),
+                      Text(
+                        place,
+                        style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black),
+                      ),
+                      SizedBox(height: 5),
+                      Text(
+                          dateToInvertedString(beginDate) +
+                              ' <-> ' +
+                              dateToInvertedString(endDate),
+                          style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black)),
+                    ],
+                  ),
+                ),
+              ],
+            )));
   }
 }
 
@@ -162,4 +168,3 @@ class CurrentPage extends StatelessWidget {
     );
   }
 }
-
