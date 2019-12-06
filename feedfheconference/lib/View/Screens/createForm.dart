@@ -265,13 +265,11 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                             _saveFormVisible = true;
                           });
 
-                          Navigator.pushAndRemoveUntil(
+                          Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
                                   builder: (context) =>
-                                      CreateFormPage(formId: formId)),
-                                  (Route<dynamic> route) =>
-                              false);
+                                      CreateFormPage(formId: formId)));
                         }
                       },
                       child: Text('Save question')
