@@ -1,5 +1,6 @@
 // classes auxiliares
 import 'package:flutter/cupertino.dart';
+import 'dart:math';
 
 class Date{
 
@@ -256,16 +257,16 @@ Response response1 = new Response(2, QuestionType.textBox, "It was a bit longer 
 Response response2 = new Response(3, QuestionType.textBox, "I think so", 3, 2);
 Response response3 = new Response(4, QuestionType.textBox, "No there wasn't", 4, 2);
 Response response4 = new Response(5, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 2);
-Response response5 = new Response(6, QuestionType.textBox, "Not really", 6, 2);
+Response response5 = new Response(6, QuestionType.textBox, "Yes change the speaker", 6, 2);
 Response response6 = new Response(7, QuestionType.radioButton, '5', 7, 2);
 Response response7 = new Response(8, QuestionType.checkBox, ['The speaker', 'The content'], 8, 2);
 
-Response response8 = new Response(9, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 3);
+Response response8 = new Response(9, QuestionType.textBox, "", 1, 3);
 Response response9 = new Response(10, QuestionType.textBox, "It was a bit longer than i expected and it started to bore me at the end", 2, 3);
 Response response10 = new Response(11, QuestionType.textBox, "I think so", 3, 3);
 Response response11 = new Response(12, QuestionType.textBox, "No there wasn't", 4, 3);
 Response response12 = new Response(13, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 3);
-Response response13 = new Response(14, QuestionType.textBox, "Not really", 6, 3);
+Response response13 = new Response(14, QuestionType.textBox, "not really", 6, 3);
 Response response14 = new Response(15, QuestionType.radioButton, '4', 7, 3);
 Response response15 = new Response(16, QuestionType.checkBox, ['The speaker', 'The content'], 8, 3);
 
@@ -274,7 +275,7 @@ Response response17 = new Response(18, QuestionType.textBox, "It was a bit longe
 Response response18 = new Response(19, QuestionType.textBox, "I think so", 3, 1);
 Response response19 = new Response(20, QuestionType.textBox, "No there wasn't", 4, 1);
 Response response20 = new Response(21, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 1);
-Response response21 = new Response(22, QuestionType.textBox, "Not really", 6, 1);
+Response response21 = new Response(22, QuestionType.textBox, "Notreally", 6, 1);
 Response response22 = new Response(23, QuestionType.radioButton, '3', 7, 1);
 Response response23 = new Response(24, QuestionType.checkBox, ['The speaker', 'The content'], 8, 1);
 
@@ -431,6 +432,7 @@ class Database {
     response2,
     response3,
     response4,
+    response5,
     response6,
     response7,
     response8,
@@ -452,3 +454,312 @@ class Database {
   ];
 }
 Database db = new Database();
+
+
+// FUNCTIONS TO CHANGE THE DATABASE
+int numberDaysOfConference(int conferenceId){
+
+  DateTime begin;
+  DateTime end;
+
+   for(int i = 0; i < db.conferenceList.length; i++){
+    if(conferenceId == db.conferenceList[i].id){
+      begin = db.conferenceList[i].beginDate;
+      end = db.conferenceList[i].endDate;
+      break;
+    }
+  }
+
+  Duration difference = end.difference(begin);
+  return  (difference.inDays + 1);
+}
+
+
+List<Talk> talkListForASession(int sessionId){
+
+  List<Talk> talkList = new List();
+  for(int i = 0; i < db.sessionList.length; i++){
+    if(db.sessionList[i].id == sessionId){
+      for(int j = 0; j < db.sessionList[i].talkIdList.length; j++){ 
+        for(int h = 0; h < db.talkList.length; h++){
+          if(db.sessionList[i].talkIdList[j] == db.talkList[h].id){
+            talkList.add(db.talkList[h]);
+          }
+        }
+      }
+      break;
+    }
+  }
+
+  talkList.sort((a, b) =>
+       (a.beginTime.toString().compareTo(b.beginTime.toString())));
+
+  return talkList;
+} 
+
+List<Session> sessionListForAEvent(int eventId){
+
+  List<Session> sessionList = new List();
+  Event event = getEventFromId(eventId);
+
+  for(int j = 0; j < event.sessionIdList.length; j++){ 
+    for(int h = 0; h < db.sessionList.length; h++){
+      if(event.sessionIdList[j] == db.sessionList[h].id){
+        sessionList.add(db.sessionList[h]);
+      }
+    }
+  }
+  sessionList.sort((a, b) =>
+      (a.beginTime.toString().compareTo(b.beginTime.toString())));
+    
+  printSessionList(sessionList);
+
+  return sessionList;
+}
+
+void printSessionList(List <Session> s){
+
+  for(int i = 0; i < s.length; i++){
+    print(s[i].beginTime.toString());
+  } 
+
+}
+
+Event getEventFromId(int eventId){
+
+  Event event;
+
+  for(int i = 0; i < db.eventList.length; i++){
+    if(db.eventList[i].id == eventId){
+      event = db.eventList[i];
+      break;
+    }
+  }
+  return event;
+}
+
+
+List<String> getSubQuestionText(var questionId) {
+  for (int i = 0; i < db.formQuestionList.length; i++) {
+    if (db.formQuestionList[i].id == questionId) {
+      return db.formQuestionList[i].questionSubText;
+    }
+  }
+}
+
+String getQuestionText(var questionId) {
+  for (int i = 0; i < db.formQuestionList.length; i++) {
+    if (db.formQuestionList[i].id == questionId) {
+      return db.formQuestionList[i].questionText;
+    }
+  }
+}
+
+QuestionType getQuestionType(var questionId) {
+  for (int i = 0; i < db.formQuestionList.length; i++) {
+    if (db.formQuestionList[i].id == questionId) {
+      return db.formQuestionList[i].type;
+    }
+  }
+}
+
+String getUsernameFromId(int personId) {
+  String name;
+
+  for (int i = 0; i < db.userList.length; i++) {
+    if (db.userList[i].id == personId) {
+      name = db.userList[i].userName;
+      break;
+    }
+  }
+  return name;
+}
+
+String getAnswerPercentageTextBox(int questionId) {
+  int numberOfR = numberOfResponses(questionId);
+  int numberOfBlankR = numberOfBlankResponses(questionId);
+  double percentageTextBox = (numberOfR - numberOfBlankR) / numberOfR;
+  percentageTextBox = percentageTextBox * 100;
+
+  return percentageTextBox.toStringAsFixed(2).toString();
+}
+
+int numberOfResponses(int questionId) {
+  int counter = 0;
+
+  for (int i = 0; i < db.responseList.length; i++) {
+    if (db.responseList[i].questionId == questionId) {
+      counter++;
+    }
+  }
+
+  return counter;
+}
+
+int numberOfBlankResponses(int questionId) {
+  int counter = 0;
+
+  for (int i = 0; i < db.responseList.length; i++) {
+    if (db.responseList[i].questionId == questionId) {
+      if (db.responseList[i].response == null ||
+          db.responseList[i].response == "") counter++;
+    }
+  }
+
+  return counter;
+}
+
+int numberOfFavorableResponses(int questionId, String response) {
+  QuestionType type = getQuestionType(questionId);
+  int counter = 0;
+
+  if (type == QuestionType.checkBox) {
+    for (int i = 0; i < db.responseList.length; i++) {
+      for (int j = 0; j < db.responseList[i].response.length; j++) {
+        if (db.responseList[i].response[j] == response) {
+          counter++;
+        }
+      }
+    }
+  } else if (type == QuestionType.radioButton) {
+    for (int i = 0; i < db.responseList.length; i++) {
+      if (db.responseList[i].response == response) {
+        counter++;
+      }
+    }
+  }
+  return counter;
+}
+
+String questionAnswerPercentage(int questionId, var response) {
+  int numberOfResponsesForQuestion = numberOfResponses(questionId);
+  int numberOfFavorableResponsesForQuestion =
+      numberOfFavorableResponses(questionId, response);
+  double percentage =
+      numberOfFavorableResponsesForQuestion / numberOfResponsesForQuestion;
+  percentage = percentage * 100;
+  return percentage.toStringAsFixed(2).toString();
+}
+
+int numberOfNotBlankquestionResponses(int questionId) {
+  @override
+  
+  int counter = 0;
+
+  for (int j = 0; j < db.responseList.length; j++) {
+    if(db.responseList[j].questionId == questionId) {
+      if(db.responseList[j].response != ""){
+        counter++;
+      }
+    }
+  }
+  return counter;
+}
+
+List<Response> questionResponses(int questionId) {
+  @override
+  List<Response> responsesList = new List();
+
+  for (int j = 0; j < db.responseList.length; j++) {
+    if(db.responseList[j].questionId == questionId) {
+      responsesList.add(db.responseList[j]);
+    }
+  }
+  return responsesList;
+}
+
+
+
+int numberOfPeopleSubmittedForm(int formId){
+
+  int counter = 0;
+
+  for(int i = 0; i < db.formList.length; i++){
+    if(formId == db.formList[i].id){
+      for(int j = 0; j < db.responseList.length; j++){
+        if(db.responseList[j].questionId == db.formList[i].listIdFormQuestions[0])
+          counter++;
+      }
+      break;
+    }
+  }
+  return counter;
+}
+
+
+List <String> mostAnsweredQuestions(int formId){
+
+    List<int> numberOFResponsesPerQuestion = new List();
+    FormTalk form;
+    List<String> mostAnswered = new List();
+
+    for(int i = 0; i < db.formList.length; i++) {
+      if(formId == db.formList[i].id) {
+        form = db.formList[i];
+        for(int j = 0; j < form.listIdFormQuestions.length; j++) {
+          numberOFResponsesPerQuestion.add(numberOfNotBlankquestionResponses(form.listIdFormQuestions[j]));
+        }
+      }
+    }
+
+    // print('\n [');
+    // for(int i= 0; i < numberOFResponsesPerQuestion.length; i++){
+    //   print(numberOFResponsesPerQuestion[i].toString() + ', ');
+    // }
+
+    // print(']\n');
+
+    int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(max);
+    int questionId;
+
+    for(int i = 0; i < numberOFResponsesPerQuestion.length; i++){
+      if(numberOFResponsesPerQuestion[i] == minNumberOfReponses){
+        questionId = form.listIdFormQuestions[i];
+        mostAnswered.add(getQuestionText(questionId));
+      }
+    }
+    
+    return mostAnswered;
+
+}
+
+List <String> leastAnsweredQuestions(int formId){
+
+    List<int> numberOFResponsesPerQuestion = new List();
+    FormTalk form;
+    List<String> leastAnswered = new List();
+
+    for(int i = 0; i < db.formList.length; i++) {
+      if(formId == db.formList[i].id) {
+        form = db.formList[i];
+        for(int j = 0; j < form.listIdFormQuestions.length; j++) {
+          numberOFResponsesPerQuestion.add(numberOfNotBlankquestionResponses(form.listIdFormQuestions[j]));
+        }
+      }
+    }
+    // print('Number of question = '+ numberOFResponsesPerQuestion.length.toString());
+    //     print('\n [');
+    // for(int i= 0; i < numberOFResponsesPerQuestion.length; i++){
+    //   print(numberOFResponsesPerQuestion[i].toString() + ', ');
+    // }
+
+    // print(']\n');
+
+
+    int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(min);
+    int questionId;
+    for(int i = 0; i < numberOFResponsesPerQuestion.length; i++){
+      if(numberOFResponsesPerQuestion[i] == minNumberOfReponses){
+        questionId = form.listIdFormQuestions[i];
+        leastAnswered.add(getQuestionText(questionId));
+      }
+    }
+
+    return leastAnswered;
+}
+
+
+
+
+
+

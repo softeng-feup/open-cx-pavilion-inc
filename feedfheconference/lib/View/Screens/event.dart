@@ -2,6 +2,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 
+import './talk.dart';
+
 class EventPage extends StatefulWidget {
  
   String eventTitle;
@@ -77,7 +79,7 @@ NestedScrollView buildEventPage(
     body: new TabBarView(
       children: <Widget>[
         new CurrentPageDescription(eventId, eventTitle),
-        new CurrentPageSessions(eventId),
+        new CurrentPageSessions(eventId, conferenceName),
       ],
       controller: _tabController,
     ),
@@ -165,35 +167,130 @@ class SessionBox extends StatelessWidget {
 }
 
 
-List<Widget> listMySessions(int eventId) {
+class EventBox extends StatelessWidget {
+  final String eventTitle;
+  final String sessionTitle;
+  final String room;
+  final DateTime beginTime;
+  final DateTime endTime;
+  final List<Talk> talks;
+  final String conferenceName;
+  int eventId;
+
+  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks);
 
   @override
-  List<Widget> widgetsList = new List();
-  
-  for(int i = 0; i < db.eventList.length; i++){
-    if(db.eventList[i].id == eventId){
-      Event event = db.eventList[i];
-      for(int j = 0; j < event.sessionIdList.length; j++){
-        for(int l = 0; l < db.sessionList.length; l++){
-          if(db.sessionList[l].id == event.sessionIdList[j]){
-            Session session = db.sessionList[l];
-            List<Talk> talks = new List();
-            for(int k = 0; k < session.talkIdList.length; k++) {
-              for(int z = 0; z < db.talkList.length; z++) {
-                if(session.talkIdList[k] == db.talkList[z].id) {
-                  Talk talk = db.talkList[z];
-                  talks.add(talk);
-                }
-              }
-            }
-            widgetsList.add(SessionBox(event.title, session.title, session.room, session.beginTime, session.endTime, talks));
-            break;
-          }
-        }
-      }
-      break;
+  Widget build(BuildContext context){
+    var talkWidgets = List<Widget>();
+    for (int i = 0; i < talks.length; i++) {
+      talkWidgets.add(RaisedButton(child:
+          Container(
+            color: Colors.white,
+            padding: const EdgeInsets.only(bottom: 10),
+            child: Column(
+              children: [
+                Favorite(talk: talks[i]),
+                Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
+                SizedBox(height: 3),
+                Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
+              ]
+            )
+          ),
+        color: Colors.white,
+        onPressed: () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new TalkPage(event: eventTitle,session: sessionTitle, talkId: talks[i].id),
+          );
+          Navigator.of(context).push(route);
+        },
+      ));
+      talkWidgets.add(SizedBox(height: 10));
     }
+    return Container(
+          color: Colors.grey[100],
+          margin: const EdgeInsets.only(bottom: 8.0),
+          child: Stack(
+            children: [
+              Container(
+                  margin: const EdgeInsets.only(left: 30, top: 25, right: 30),
+                  child: Column(
+                    children: <Widget>[
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(eventTitle + " - " + sessionTitle, textAlign: TextAlign.left, style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold
+                        )
+                        ),
+                      ),
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(room),
+                      ),
+                      SizedBox(height: 5),
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(timeToString(beginTime) + ' - ' + timeToString(endTime)),
+                      ),
+                      ExpansionTile(
+                           title: Text('Talks'),
+                          children: talkWidgets
+                      ),
+                    ],
+                  )
+              ),
+            ],
+        )
+    );
   }
+}
+
+class Favorite extends StatefulWidget {
+  final Talk talk;
+
+  @override
+  Favorite({Key key, this.talk}): super(key: key);
+  FavoriteState createState() => new FavoriteState();
+}
+
+class FavoriteState extends State<Favorite> {
+
+  _pressed() {
+    setState(() {
+      widget.talk.isFavorite = !widget.talk.isFavorite;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topRight,
+      child: IconButton(
+        icon: Icon(
+            widget.talk.isFavorite ? Icons.star : Icons.star_border,
+            color: widget.talk.isFavorite ? Colors.blue[500] : Colors.grey
+        ),
+        onPressed: () {
+          _pressed();
+        }
+      ),
+    );
+  }
+}
+
+
+List<Widget> listMySessions(int eventId, String conferenceName) {
+
+   @override
+  List<Widget> widgetsList = new List();
+  Event event = getEventFromId(eventId);
+  List<Session> sessionList  = sessionListForAEvent(eventId);
+
+  for(int i = 0; i < sessionList.length; i++){
+      List<Talk> talkList = talkListForASession(sessionList[i].id);
+      widgetsList.add(EventBox(conferenceName, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList));
+    }  
   return widgetsList;
 }
   
@@ -245,13 +342,14 @@ class CurrentPageDescription extends StatelessWidget {
 
 class CurrentPageSessions extends StatelessWidget {
   int eventId;
+  String conferenceName;
   @override
-  CurrentPageSessions(this.eventId);
+  CurrentPageSessions(this.eventId, this.conferenceName);
 
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMySessions(eventId),
+      children: listMySessions(eventId, conferenceName),
     );
   }
 }

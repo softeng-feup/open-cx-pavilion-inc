@@ -15,23 +15,6 @@ class ConferenceHomePage extends StatefulWidget {
   _ConferenceHomePageState createState() => _ConferenceHomePageState();
 }
 
-int numberDaysOfConference(int conferenceId){
-
-  DateTime begin;
-  DateTime end;
-
-   for(int i = 0; i < db.conferenceList.length; i++){
-    if(conferenceId == db.conferenceList[i].id){
-      begin = db.conferenceList[i].beginDate;
-      end = db.conferenceList[i].endDate;
-      break;
-    }
-  }
-
-  Duration difference = end.difference(begin);
-  return  (difference.inDays + 1);
-}
-
 class _ConferenceHomePageState extends State<ConferenceHomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
@@ -52,66 +35,7 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
   }
 }
 
-String monthOfTheYear(DateTime d){
-  
-  String month;
-  switch(d.month){
-    
-    case 1:
-      month = "Jan";
-    break;
-    
-    case 2:
-      month = "Feb";
-    break;
-    
-    case 3:
-      month = "Mar";
-    break;
 
-    case 4:
-      month = "Apr";
-    break;
-    
-    case 5:
-      month = "May";
-    break;
-    
-    case 6:
-      month = "Jun";
-    break;
-
-    case 7:
-      month = "Jul";
-    break;
-    
-    case 8:
-      month = "Aug";
-    break;
-    
-    case 9:
-      month = "Sep";
-    break;
-
-    case 10:
-      month = "Oct";
-    break;
-    
-    case 11:
-    month = "Nov";
-    break;
-    
-    case 12:
-      month = "Dec";
-    break;
-    
-    default:
-      month = null;
-    break;
-  }
-
-  return month;
-}
 
 List<Tab> tabList(int conferenceId){
 
@@ -153,68 +77,6 @@ List<Widget> currentPageList(int conferenceId){
   return pageList;
 }
 
-List<Talk> talkListForASession(int sessionId){
-
-  List<Talk> talkList = new List();
-  for(int i = 0; i < db.sessionList.length; i++){
-    if(db.sessionList[i].id == sessionId){
-      for(int j = 0; j < db.sessionList[i].talkIdList.length; j++){ 
-        for(int h = 0; h < db.talkList.length; h++){
-          if(db.sessionList[i].talkIdList[j] == db.talkList[h].id){
-            talkList.add(db.talkList[h]);
-          }
-        }
-      }
-      break;
-    }
-  }
-
-  talkList.sort((a, b) =>
-       (a.beginTime.toString().compareTo(b.beginTime.toString())));
-
-  return talkList;
-} 
-
-void printSessionList(List <Session> s){
-
-  for(int i = 0; i < s.length; i++){
-    print(s[i].beginTime.toString());
-  } 
-
-}
-
-List<Session> sessionListForAEvent(int eventId){
-
-  List<Session> sessionList = new List();
-  Event event = getEventFromId(eventId);
-
-  for(int j = 0; j < event.sessionIdList.length; j++){ 
-    for(int h = 0; h < db.sessionList.length; h++){
-      if(event.sessionIdList[j] == db.sessionList[h].id){
-        sessionList.add(db.sessionList[h]);
-      }
-    }
-  }
-  sessionList.sort((a, b) =>
-      (a.beginTime.toString().compareTo(b.beginTime.toString())));
-    
-  printSessionList(sessionList);
-
-  return sessionList;
-}
-
-Event getEventFromId(int eventId){
-
-  Event event;
-
-  for(int i = 0; i < db.eventList.length; i++){
-    if(db.eventList[i].id == eventId){
-      event = db.eventList[i];
-      break;
-    }
-  }
-  return event;
-}
 
 NestedScrollView buildConferencePage(
     BuildContext context,
