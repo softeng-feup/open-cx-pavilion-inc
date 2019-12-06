@@ -65,9 +65,12 @@ List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
   if (questionType == QuestionType.checkBox ||
       questionType == QuestionType.radioButton) {
     List<String> questionSubText = getSubQuestionText(questionId);
-    widgetsList.add(Text(questionText,
-        style: TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)));
+    QuestionType type = getQuestionType(questionId);
+    if(type == QuestionType.textBox) {
+      widgetsList.add(Text(questionText,
+          style: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)));
+    }
     widgetsList.add(SizedBox(
       height: 10,
     ));
