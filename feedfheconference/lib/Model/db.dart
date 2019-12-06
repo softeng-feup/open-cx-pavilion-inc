@@ -119,30 +119,30 @@ class DateAndTime{
 }
 
 // classes da database
+enum user_type {Attendee, Speaker, Organizer}
 
 class User{
   int id;
   String name;
   String userName;
-  int age;
-  int cellPhoneNumber;
   String email;
   String password;
-  User(this.id, this.name, this.userName, this.age, this.cellPhoneNumber, this.email, this.password);
+  user_type userType;
+  User(this.id, this.name, this.userName,this.email, this.password, this.userType);
 }
 
 class Speaker extends User{
   String degree;
   String fieldOfExpertize;
-  Speaker(int id, String name, String userName, int age, int cellPhoneNumber, String email, String password, this.degree, this.fieldOfExpertize) : super( id,name, userName, age, cellPhoneNumber, email, password);
+  Speaker(int id, String name, String userName, String email, String password, this.degree, this.fieldOfExpertize) : super(id, name, userName, email, password, user_type.Speaker);
 }
 
 class Organizer extends User{
-  Organizer(int id, String name, String userName, int age, int cellPhoneNumber, String email, String password,) : super(id, name, userName, age, cellPhoneNumber, email, password);
+  Organizer(int id, String name, String userName, String email, String password) : super(id, name, userName, email, password, user_type.Organizer);
 }
 
 class Attendee extends User{
-  Attendee(int id, String name, String userName,  int age, int cellPhoneNumber, String email, String password,) : super(id, name, userName, age, cellPhoneNumber, email, password);
+  Attendee(int id, String name, String userName, String email, String password) : super(id, name, userName, email, password, user_type.Attendee);
 }
 
 enum QuestionType { radioButton, checkBox, textBox }
@@ -245,10 +245,10 @@ class Event{
   Event(this.id, this.acronym, this.title, this.description, this.sessionIdList);
 }
 
-Attendee attendee = new Attendee(1, 'jose guerra', 'lockdown', 19,  930474148, 'comander23@live.com.pt', 'password');
-Organizer organizer = new Organizer(2, 'Luis Silve', 'lockdown1', 35, 913333222, 'qualquercoisanaosei@treta.com', '1234');
-Speaker speaker1 = new Speaker(3, 'Stefan Monnier', 'lockdown2', 34, 912211221, 'lollololololl@live.com', 'qwerd',  'Master of rings', 'videogames');
-Speaker speaker2 = new Speaker(4 , 'Martim Carvalho', 'lockdown3', 34, 912211221, 'lollololololdeddl@live.com', '123456',  'Master of rings', 'videogames');
+Attendee attendee = new Attendee(1, 'jose guerra', 'lockdown', 'comander23@live.com.pt', 'password');
+Organizer organizer = new Organizer(2, 'Luis Silve', 'lockdown1', 'qualquercoisanaosei@treta.com', '1234');
+Speaker speaker1 = new Speaker(3, 'Stefan Monnier', 'lockdown2', 'lollololololl@live.com', 'qwerd',  'Master of rings', 'videogames');
+Speaker speaker2 = new Speaker(4 , 'Martim Carvalho', 'lockdown3','lollololololdeddl@live.com', '123456',  'Master of rings', 'videogames');
 
 
 Response response = new Response(1, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 2);
@@ -302,15 +302,15 @@ Talk talk2 = new Talk(2, 1, 'The NEXT NEXT Lisp of the prophet for the one true 
 
 Talk talk3 = new Talk(3, 1, 'IDVE: an Integrated Development and Verification Environment for JavaScript',
     '',
-    [5, 6], '2019-04-01 09:00:00', '2019-04-01 09:30:00');
+    [3, 4], '2019-04-01 09:00:00', '2019-04-01 09:30:00');
 
 Talk talk4 = new Talk(4, 1, 'Draw This Object: A Study of Debugging Representations',
     'Domain-specific debugging visualizations try to provide a view of a runtime object tailored to a specific domain and highlighting its important properties. The research in this area has focused mainly on the technical aspects of the creation of such views so far. However, we still lack answers to questions such as what properties of objects are considered important for these visualizations, whether all objects have an appropriate domain-specific view, or what clues could help us to construct these views fully automatically. In this paper, we describe an exploratory study where the participants were asked to inspect runtime states of objects displayed in a traditional debugger and draw ideal domain-specific views of these objects on paper. We describe interesting observations and findings obtained during this study and a preliminary taxonomy of these visualizations.',
-    [5, 6], '2019-04-01 09:30:00', '2019-04-01 10:00:00');
+    [3, 4], '2019-04-01 09:30:00', '2019-04-01 10:00:00');
 
 Talk talk5 = new Talk(5, 1, 'Faster Feedback through Lexical Test Prioritization',
     '',
-    [5, 6], '2019-04-01 10:00:00', '2019-04-01 10:30:00');
+    [3, 4], '2019-04-01 10:00:00', '2019-04-01 10:30:00');
 
 Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 2, 1, 2], '2019-01-02 09:30:00', '2019-01-02 11:30:00');
 Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [2], '2019-01-03 09:30:00', '2019-01-03 11:30:00');

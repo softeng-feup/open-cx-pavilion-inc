@@ -92,7 +92,7 @@ List<Widget> listMyWidgets(talkId, context) {
 
   //Speakers
   var talkSpeakerIDs = talk.speakersId;
-  List <Speaker> talkSpeakers = new List(); //Cointains all the speakers (object) for current talk
+  List <Speaker> talkSpeakers = new List(); //Contains all the speakers (object) for current talk
 
   for(int i = 0; i < talkSpeakerIDs.length; i++)
   {
@@ -131,6 +131,8 @@ List<Widget> listMyWidgets(talkId, context) {
       child: Text('Speakers: ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
     )
   );
+
+
 
   for(int i = 0; i < talkSpeakers.length; i++)
     {
