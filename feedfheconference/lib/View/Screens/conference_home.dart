@@ -383,8 +383,8 @@ class FavoriteState extends State<Favorite> {
 
 class CurrentPage extends StatelessWidget {
 
-  int conferenceId;
-  DateTime date;
+  final int conferenceId;
+  final DateTime date;
   @override
   CurrentPage(this.conferenceId, this.date);
   Widget build(BuildContext context) {

@@ -262,6 +262,7 @@ Response response21 = new Response(22, QuestionType.textBox, "Not really", 6, 1)
 Response response22 = new Response(23, QuestionType.radioButton, '3', 7, 1);
 Response response23 = new Response(24, QuestionType.checkBox, ['The speaker', 'The content'], 8, 1);
 
+
 List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['The speaker','The content','The space','The ambient','The interaction'];
 
@@ -389,6 +390,33 @@ class Database {
     question6,
     question7,
     question8
+  ];
+
+  List<Response> responseList = [
+    //response,
+    response1,
+    response2,
+    response3,
+    response4,
+    response5,
+    response6,
+    response7,
+    //response8,
+    response9,
+    response10,
+    response11,
+    response12,
+    response13,
+    response14,
+    response15,
+    response16,
+    response17,
+    response18,
+    response19,
+    response20,
+    response21,
+    response22,
+    response23
   ];
 
   List<User> userList = [
