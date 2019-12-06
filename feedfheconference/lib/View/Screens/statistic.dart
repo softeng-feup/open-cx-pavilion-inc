@@ -50,10 +50,10 @@ List<Widget> listMyQuestions(var formId, String talkName) {
     if(db.formList[i].id == formId){
       FormTalk form = db.formList[i];
       for(int h = 0; h < form.listIdFormQuestions.length; h++){
-        for(int j = 0; j < db.formQuestionList.length; j++){
+        for(int j = 0; j < db.formQuestionList.length; j++) {
           if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
             index++;
-            listQuestion.add(QuestionText(db.formQuestionList[j].questionText, form.listIdFormQuestions[h], talkName, index));
+            listQuestion.add(QuestionText(db.formQuestionList[j].type, db.formQuestionList[j].questionText, form.listIdFormQuestions[h], talkName, index));
             break;
           }
         }
@@ -65,16 +65,18 @@ List<Widget> listMyQuestions(var formId, String talkName) {
 }
 
 class QuestionText extends StatelessWidget {
+  final QuestionType type;
   final String questionText;
   final int questionId;
   final String talkName;
   final int index;
-  QuestionText(this.questionText, this.questionId, this.talkName, this.index);
+  QuestionText(this.type, this.questionText, this.questionId, this.talkName, this.index);
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      child: Container(
+    if(this.type == QuestionType.textBox) {
+      return InkWell(
+        child: Container(
           color: Colors.grey[200],
           padding: const EdgeInsets.all(10),
           child: Column(
@@ -83,19 +85,44 @@ class QuestionText extends StatelessWidget {
               Text(
                 index.toString() + ". " + questionText,
                 style: TextStyle(fontSize: 19),
+              ),
+            ],
+          ),
+          margin: const EdgeInsets.only(bottom: 8.0),
+          //color: Colors.blue[100],
+        ),
+        onTap: () {
+          var route = MaterialPageRoute(
+              builder: (BuildContext context) => new QuestionStatisticsPage(
+                  talkName: this.talkName,
+                  questionIndex: this.index,
+                  questionId: questionId)
+          );
+          Navigator.of(context).push(route);
+        },
+      );
+    }
+    else {
+      return Container(
+          color: Colors.grey[200],
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Text(
+                index.toString() + ". " + questionText,
+                style: TextStyle(fontSize: 19),
+              ),
+              ExpansionTile(
+                title: Text("Question statistics"),
+                children: listQuestionStatistics(context, questionId),
               )
             ],
           ),
-          margin: const EdgeInsets.only(bottom: 8.0)
-        //color: Colors.blue[100],
-      ),
-      onTap: () {
-        var route = MaterialPageRoute(
-          builder: (BuildContext context) => new QuestionStatisticsPage(talkName: this.talkName, questionIndex: this.index, questionId: questionId)
+          margin: const EdgeInsets.only(bottom: 8.0),
+          //color: Colors.blue[100],
         );
-        Navigator.of(context).push(route);
-      },
-    );
+    }
   }
 }
 
