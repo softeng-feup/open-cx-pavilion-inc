@@ -87,7 +87,6 @@ class TitleHome extends StatelessWidget {
           right: 0,
           bottom: 470,
         ),
-        decoration: BoxDecoration(border: Border.all(color: Colors.blueAccent)),
         alignment: Alignment.topCenter,
         child: Text(
           questionText,
