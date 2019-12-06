@@ -392,33 +392,7 @@ class Database {
     question8
   ];
 
-  List<Response> responseList = [
-    //response,
-    response1,
-    response2,
-    response3,
-    response4,
-    response5,
-    response6,
-    response7,
-    //response8,
-    response9,
-    response10,
-    response11,
-    response12,
-    response13,
-    response14,
-    response15,
-    response16,
-    response17,
-    response18,
-    response19,
-    response20,
-    response21,
-    response22,
-    response23
-  ];
-
+  
   List<User> userList = [
     attendee,
     organizer,
