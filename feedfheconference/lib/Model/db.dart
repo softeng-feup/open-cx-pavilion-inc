@@ -244,23 +244,23 @@ Response response5 = new Response(6, QuestionType.textBox, "Not really", 6, 2);
 Response response6 = new Response(7, QuestionType.radioButton, '5', 7, 2);
 Response response7 = new Response(8, QuestionType.checkBox, ['The speaker', 'The content'], 8, 2);
 
-Response response8 = new Response(9, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 2);
-Response response9 = new Response(10, QuestionType.textBox, "It was a bit longer than i expected and it started to bore me at the end", 2, 2);
-Response response10 = new Response(11, QuestionType.textBox, "I think so", 3, 2);
-Response response11 = new Response(12, QuestionType.textBox, "No there wasn't", 4, 2);
-Response response12 = new Response(13, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 2);
-Response response13 = new Response(14, QuestionType.textBox, "Not really", 6, 2);
-Response response14 = new Response(15, QuestionType.radioButton, '4', 7, 2);
-Response response15 = new Response(16, QuestionType.checkBox, ['The speaker', 'The content'], 8, 2);
+Response response8 = new Response(9, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 3);
+Response response9 = new Response(10, QuestionType.textBox, "It was a bit longer than i expected and it started to bore me at the end", 2, 3);
+Response response10 = new Response(11, QuestionType.textBox, "I think so", 3, 3);
+Response response11 = new Response(12, QuestionType.textBox, "No there wasn't", 4, 3);
+Response response12 = new Response(13, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 3);
+Response response13 = new Response(14, QuestionType.textBox, "Not really", 6, 3);
+Response response14 = new Response(15, QuestionType.radioButton, '4', 7, 3);
+Response response15 = new Response(16, QuestionType.checkBox, ['The speaker', 'The content'], 8, 3);
 
-Response response16 = new Response(17, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 2);
-Response response17 = new Response(18, QuestionType.textBox, "It was a bit longer than i expected and it started to bore me at the end", 2, 2);
-Response response18 = new Response(19, QuestionType.textBox, "I think so", 3, 2);
-Response response19 = new Response(20, QuestionType.textBox, "No there wasn't", 4, 2);
-Response response20 = new Response(21, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 2);
-Response response21 = new Response(22, QuestionType.textBox, "Not really", 6, 2);
-Response response22 = new Response(23, QuestionType.radioButton, '3', 7, 2);
-Response response23 = new Response(24, QuestionType.checkBox, ['The speaker', 'The content'], 8, 2);
+Response response16 = new Response(17, QuestionType.textBox, "The speaker was well informed in the matter he was discussing", 1, 1);
+Response response17 = new Response(18, QuestionType.textBox, "It was a bit longer than i expected and it started to bore me at the end", 2, 1);
+Response response18 = new Response(19, QuestionType.textBox, "I think so", 3, 1);
+Response response19 = new Response(20, QuestionType.textBox, "No there wasn't", 4, 1);
+Response response20 = new Response(21, QuestionType.textBox, "Try to engage with the public a little more, maybe ask more questions", 5, 1);
+Response response21 = new Response(22, QuestionType.textBox, "Not really", 6, 1);
+Response response22 = new Response(23, QuestionType.radioButton, '3', 7, 1);
+Response response23 = new Response(24, QuestionType.checkBox, ['The speaker', 'The content'], 8, 1);
 
 List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['The speaker','The content','The space','The ambient','The interaction'];
@@ -406,6 +406,32 @@ class Database {
   List<Speaker> speakerList = [
     speaker1,
     speaker2
+  ];
+
+   List<Response> responseList = [
+    response,
+    response1,
+    response2,
+    response3,
+    response4,
+    response6,
+    response7,
+    response8,
+    response9,
+    response10,
+    response11,
+    response12,
+    response13,
+    response14,
+    response15,
+    response16,
+    response17,
+    response18,
+    response19,
+    response20,
+    response21,
+    response22,
+    response23,
   ];
 }
 Database db = new Database();
