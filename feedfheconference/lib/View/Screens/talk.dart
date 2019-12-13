@@ -5,7 +5,8 @@ import '../../Model/db.dart';
 import './common.dart';
 import './createForm.dart';
 import './form.dart';
-
+import './statistic.dart';
+import 'talkRating.dart';
 
 class TalkPage extends StatefulWidget {
 
@@ -92,7 +93,7 @@ List<Widget> listMyWidgets(talkId, context) {
 
   //Speakers
   var talkSpeakerIDs = talk.speakersId;
-  List <Speaker> talkSpeakers = new List(); //Cointains all the speakers (object) for current talk
+  List <Speaker> talkSpeakers = new List(); //Contains all the speakers (object) for current talk
 
   for(int i = 0; i < talkSpeakerIDs.length; i++)
   {
@@ -124,6 +125,33 @@ List<Widget> listMyWidgets(talkId, context) {
     )
   );
 
+  double calculateRating() {
+
+    List<Rate> ratings = new List();
+    double soma = 0;
+
+    for (int i = 0; i < db.rateList.length; i++) {
+      if (db.rateList[i].talkId == talkId)
+        ratings.add(db.rateList[i]);
+    }
+
+    for(int i = 0; i < ratings.length; i++) {
+      soma += ratings[i].rate;
+    }
+
+    return soma /= ratings.length;
+  }
+
+  widgetsList.add(
+    Container(
+      margin: const EdgeInsets.symmetric(horizontal: 5),
+      child: Row(children: <Widget> [
+        Text("Rating: " + calculateRating().toStringAsFixed(1).toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Icon(Icons.star, color: Colors.amber)
+      ])
+    )
+  );
+
   //Speakers
   widgetsList.add(
     Container(
@@ -131,6 +159,8 @@ List<Widget> listMyWidgets(talkId, context) {
       child: Text('Speakers: ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
     )
   );
+
+
 
   for(int i = 0; i < talkSpeakers.length; i++)
     {
@@ -239,6 +269,45 @@ List<Widget> listMyWidgets(talkId, context) {
           },
         child: Text('Create/Modify Form (Speaker/Organizer only)', style: TextStyle(fontWeight: FontWeight.bold),),
       )
+    )
+  );
+
+  widgetsList.add(
+    Container(
+      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+      child: FlatButton(
+        color: Colors.blue,
+        textColor: Colors.white,
+        disabledColor: Colors.grey,
+        disabledTextColor: Colors.black,
+        padding: EdgeInsets.all(8.0),
+        splashColor: Colors.blueAccent,
+        onPressed:  () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new StatisticsForm(formId: talk.formId, talkName: talk.title),
+          );  
+          Navigator.of(context).push(route);
+          },
+        child: Text('Answers/Statistics for the form)', style: TextStyle(fontWeight: FontWeight.bold),),
+      )
+    )
+  );
+
+  widgetsList.add(
+    Container(
+      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+      child: FlatButton(
+        color: Colors.blue,
+        textColor: Colors.white,
+        padding: EdgeInsets.all(8),
+        onPressed: () {
+          var route = MaterialPageRoute(
+            builder: (BuildContext context) => new TalkRating(talkId: talkId)
+          );
+          Navigator.of(context).push(route);
+        },
+        child: Text('Rate talk', style: TextStyle(fontWeight: FontWeight.bold))
+      ),
     )
   );
 
