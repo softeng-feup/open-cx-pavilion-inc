@@ -42,7 +42,7 @@ class _TalkPageState extends State<TalkPage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildTalkPage(
-              context, _scrollViewController, widget.event, widget.session, widget.title, widget.talkId),
+              context, _scrollViewController, widget.event, widget.session, widget.title, widget.talkId, widget.username),
 
           drawer: sideDrawer(context, widget.username), // Passed BuildContext in function.
         ));
@@ -55,7 +55,7 @@ NestedScrollView buildTalkPage(
     String event,
     String session,
     String title,
-    int talkId) {
+    int talkId, String username) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -74,11 +74,37 @@ NestedScrollView buildTalkPage(
         ),
       ];
     },
-    body: new CurrentPage(talkId),
+    body: new CurrentPage(talkId, username),
   );
 }
 
-List<Widget> listMyWidgets(talkId, context) {
+double calculateRating(talkId) {
+
+    List<Rate> ratings = new List();
+    double soma = 0;
+
+    for (int i = 0; i < db.rateList.length; i++) {
+      if (db.rateList[i].talkId == talkId)
+        ratings.add(db.rateList[i]);
+    }
+
+    for(int i = 0; i < ratings.length; i++) {
+      soma += ratings[i].rate;
+    }
+
+    return soma /= ratings.length;
+  }
+
+int get_id_from_username(username){
+  for(var i = 0; i < db.userList.length; i++){
+    if(db.userList[i].userName = username){
+      return db.userList[i].id;
+    }
+  }
+  return 0;
+}
+
+List<Widget> listMyWidgets(talkId, context, username) {
 
   Talk talk;
 
@@ -126,28 +152,13 @@ List<Widget> listMyWidgets(talkId, context) {
     )
   );
 
-  double calculateRating() {
-
-    List<Rate> ratings = new List();
-    double soma = 0;
-
-    for (int i = 0; i < db.rateList.length; i++) {
-      if (db.rateList[i].talkId == talkId)
-        ratings.add(db.rateList[i]);
-    }
-
-    for(int i = 0; i < ratings.length; i++) {
-      soma += ratings[i].rate;
-    }
-
-    return soma /= ratings.length;
-  }
+ 
 
   widgetsList.add(
     Container(
       margin: const EdgeInsets.symmetric(horizontal: 5),
       child: Row(children: <Widget> [
-        Text("Rating: " + calculateRating().toStringAsFixed(1).toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+        Text("Rating: " + calculateRating(talkId).toStringAsFixed(1).toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
         Icon(Icons.star, color: Colors.amber)
       ])
     )
@@ -252,26 +263,37 @@ List<Widget> listMyWidgets(talkId, context) {
     )
   );
 
-  widgetsList.add(
-    Container(
-      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
-      child: FlatButton(
-        color: Colors.blue,
-        textColor: Colors.white,
-        disabledColor: Colors.grey,
-        disabledTextColor: Colors.black,
-        padding: EdgeInsets.all(8.0),
-        splashColor: Colors.blueAccent,
-        onPressed:  () {
-          var route = MaterialPageRoute(
-            builder: (BuildContext context) => new CreateFormPage(formId: talk.formId),
-          );  
-          Navigator.of(context).push(route);
-          },
-        child: Text('Create/Modify Form (Speaker/Organizer only)', style: TextStyle(fontWeight: FontWeight.bold),),
+  bool speakerIdAux = false;
+
+  for(var i = 0 ; i < talkSpeakers.length; i++){
+    if(talkSpeakers[i].userName == username){
+      speakerIdAux = true;
+      break;
+    }
+  }
+
+  if(speakerIdAux){
+    widgetsList.add(
+      Container(
+        margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+        child: FlatButton(
+          color: Colors.blue,
+          textColor: Colors.white,
+          disabledColor: Colors.grey,
+          disabledTextColor: Colors.black,
+          padding: EdgeInsets.all(8.0),
+          splashColor: Colors.blueAccent,
+          onPressed:  () {
+            var route = MaterialPageRoute(
+              builder: (BuildContext context) => new CreateFormPage(formId: talk.formId),
+            );  
+            Navigator.of(context).push(route);
+            },
+          child: Text('Create/Modify Form (Speaker/Organizer only)', style: TextStyle(fontWeight: FontWeight.bold),),
+        )
       )
-    )
-  );
+    );
+  }
 
   widgetsList.add(
     Container(
@@ -317,14 +339,16 @@ List<Widget> listMyWidgets(talkId, context) {
 
 class CurrentPage extends StatelessWidget {
   
-  int talkId;
+  final int talkId;
+  final String username;
+
 
   @override
-  CurrentPage(this.talkId);
+  CurrentPage(this.talkId,  this.username);
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMyWidgets(talkId, context),
+      children: listMyWidgets(talkId, context, username),
     );
   }
 }
