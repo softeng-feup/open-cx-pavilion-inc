@@ -41,6 +41,7 @@ class _TalkRatingState extends State<TalkRating> {
                           rating = v;
                         });
                         },
+                      allowHalfRating: false,
                       starCount: 5,
                       rating: rating,
                       size: 40.0,

@@ -37,7 +37,6 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
 }
 
 
-
 List<Tab> tabList(int conferenceId){
 
   List<Tab> tList = new List();
