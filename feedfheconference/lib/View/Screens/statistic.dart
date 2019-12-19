@@ -1,8 +1,7 @@
-
-import 'dart:math';
+import 'package:feedfheconference/Util/Question.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
 import './questionStatistic.dart';
+import 'package:feedfheconference/Controller/controller.dart';
 
 class StatisticsForm extends StatefulWidget {
   final String talkName;
@@ -37,14 +36,17 @@ List<Widget> listMyQuestions(var formId, String talkName) {
 
   int index = 0;
 
-  for(int i = 0; i < db.formList.length; i++){
-    if(db.formList[i].id == formId){
-      FormTalk form = db.formList[i];
+  var formList = controller.getFormList();
+  var formQuestionList = controller.getFormQuestionList();
+
+  for(int i = 0; i < formList.length; i++){
+    if(formList[i].id == formId){
+      var form = formList[i];
       for(int h = 0; h < form.listIdFormQuestions.length; h++){
-        for(int j = 0; j < db.formQuestionList.length; j++) {
-          if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
+        for(int j = 0; j < formQuestionList.length; j++) {
+          if(form.listIdFormQuestions[h] == formQuestionList[j].id){
             index++;
-            listQuestion.add(QuestionText(db.formQuestionList[j].type, db.formQuestionList[j].questionText, form.listIdFormQuestions[h], talkName, index));
+            listQuestion.add(QuestionText(formQuestionList[j].type, formQuestionList[j].questionText, form.listIdFormQuestions[h], talkName, index));
             break;
           }
         }
@@ -183,8 +185,8 @@ class GeneralStats extends StatelessWidget {
    @override
    GeneralStats(this.formId);
    Widget build(BuildContext context) {
-    List <String> mostAnswered = mostAnsweredQuestions(formId);
-    List <String> leastAnswered = leastAnsweredQuestions(formId);
+    List <String> mostAnswered = controller.mostAnsweredQuestions(formId);
+    List <String> leastAnswered = controller.leastAnsweredQuestions(formId);
     if(mostAnswered.length == leastAnswered.length){
       mostAnswered = ['Not enough data to display this statistic'];
       leastAnswered = ['Not enough data to display this statistic'];
@@ -194,7 +196,7 @@ class GeneralStats extends StatelessWidget {
        child: Column(
        children: <Widget>[
           SizedBox(height: 40,),
-           Text("Nº of people who submitted the form: " + numberOfPeopleSubmittedForm(formId).toString(), style: TextStyle(
+           Text("Nº of people who submitted the form: " + controller.numberOfPeopleSubmittedForm(formId).toString(), style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
            SizedBox(height: 20,),
             Text("Most answered questions: ", style: TextStyle(

@@ -1,6 +1,6 @@
-import 'dart:ffi';
+import 'package:feedfheconference/Controller/controller.dart';
+import 'package:feedfheconference/Util/Question.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
 import './common.dart';
 // Create a Form widget.
 
@@ -24,13 +24,13 @@ List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
   @override
   List<Widget> widgetsList = new List();
 
-  String questionText = getQuestionText(questionId);
-  QuestionType questionType = getQuestionType(questionId);
+  String questionText = controller.getQuestionText(questionId);
+  QuestionType questionType = controller.getQuestionType(questionId);
 
   if (questionType == QuestionType.checkBox ||
       questionType == QuestionType.radioButton) {
-    List<String> questionSubText = getSubQuestionText(questionId);
-    QuestionType type = getQuestionType(questionId);
+    List<String> questionSubText = controller.getSubQuestionText(questionId);
+    QuestionType type = controller.getQuestionType(questionId);
     if (type == QuestionType.textBox) {
       widgetsList.add(Text(questionText,
           style: TextStyle(
@@ -43,7 +43,7 @@ List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
       widgetsList.add(Text(
           questionSubText[i] +
               " " +
-              questionAnswerPercentage(questionId, questionSubText[i]) +
+              controller.questionAnswerPercentage(questionId, questionSubText[i]) +
               "%",
           style: TextStyle(fontWeight: FontWeight.bold)));
       widgetsList.add(SizedBox(
@@ -60,7 +60,7 @@ List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
     ));
     widgetsList.add(Text(
         'Percentage of people who answered this question : ' +
-            getAnswerPercentageTextBox(questionId) +
+            controller.getAnswerPercentageTextBox(questionId) +
             '%',
         textAlign: TextAlign.center,
         style: TextStyle(fontSize: 20, color: Colors.black)));
@@ -74,13 +74,15 @@ List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
     widgetsList.add(SizedBox(
       height: 10,
     ));
-    for (int i = 0; i < db.responseList.length; i++) {
-      if (db.responseList[i].questionId == questionId) {
-        if (db.responseList[i].response != null && db.responseList[i].response != "") {
+
+    var responseList = controller.getResponseList();
+    for (int i = 0; i < responseList.length; i++) {
+      if (responseList[i].questionId == questionId) {
+        if (responseList[i].response != null && responseList[i].response != "") {
           widgetsList.add(questionTypeTextBox(
               context,
-              db.responseList[i].response,
-              getUsernameFromId(db.responseList[i].userId)));
+              responseList[i].response,
+              controller.getUsernameFromId(responseList[i].userId)));
           widgetsList.add(SizedBox(
             height: 20,
           ));

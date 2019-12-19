@@ -1,5 +1,6 @@
+import 'package:feedfheconference/Util/Date.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
+import 'package:feedfheconference/Controller/controller.dart';
 import './conference_home.dart';
 import './common.dart';
 
@@ -53,14 +54,10 @@ NestedScrollView buildHomePage(
 }
 
 List<Widget> listMyWidgets() {
-  db.conferenceList.sort((a, b) =>
-      (dateToString(a.beginDate).compareTo(dateToString(b.beginDate))));
 
-  db.sessionList.sort((a, b) =>
-      (dateToString(a.beginTime).compareTo(dateToString(b.beginTime))));
-
-  db.talkList.sort((a, b) =>
-      (dateToString(a.beginTime).compareTo(dateToString(b.beginTime))));
+  controller.sortConferenceList();
+  controller.sortSessionList();
+  controller.sortTalkList();
 
   @override
   List<Widget> widgetsList = new List();
@@ -74,16 +71,17 @@ List<Widget> listMyWidgets() {
     ),
   ));
 
-  for (int i = 0; i < db.conferenceList.length; i++) {
+  var conferenceList = controller.getConferenceList();
+  for (int i = 0; i < conferenceList.length; i++) {
     widgetsList.add(EventBox(
-        db.conferenceList[i].id,
-        db.conferenceList[i].name,
-        db.conferenceList[i].place,
-        db.conferenceList[i].beginDate,
-        db.conferenceList[i].endDate));
+        conferenceList[i].id,
+        conferenceList[i].name,
+        conferenceList[i].place,
+        conferenceList[i].beginDate,
+        conferenceList[i].endDate));
   }
 
-  for (int i = 0; i < db.sessionList.length; i++) {}
+  //for (int i = 0; i < db.sessionList.length; i++) {}
 
   return widgetsList;
 }

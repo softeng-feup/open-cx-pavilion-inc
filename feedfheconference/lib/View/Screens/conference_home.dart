@@ -1,10 +1,12 @@
+import 'package:feedfheconference/Model/db.dart';
+import 'package:feedfheconference/Util/Date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
 import './event.dart';
 import './talk.dart';
 import './common.dart';
 import 'package:jiffy/jiffy.dart';
+import 'package:feedfheconference/Controller/controller.dart';
 
 
 class ConferenceHomePage extends StatefulWidget {
@@ -22,7 +24,7 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
   
   @override
   Widget build(BuildContext context) {
-    var numberOfdays = numberDaysOfConference(widget.conferenceId); // Added
+    var numberOfdays = controller.numberDaysOfConference(widget.conferenceId); // Added
     return DefaultTabController(
         // Added
         length: numberOfdays, // Added
@@ -36,39 +38,18 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
 }
 
 
-
-List<Tab> tabList(int conferenceId){
-
-  List<Tab> tList = new List();
-  var numberOfDays = numberDaysOfConference(conferenceId);
-  DateTime now;
-  Conference conference;
-  for(int i = 0; i < db.conferenceList.length; i++){
-    if(db.conferenceList[i].id == conferenceId){
-      conference = db.conferenceList[i];
-      for(int j = 0; j < numberOfDays; j++){
-        now = Jiffy(conference.beginDate).add(days: j); //2018-07-13 00:00:00.000
-        var day = now.day;
-        var month = monthOfTheYear(now);
-        tList.add(Tab(text: "$day/$month"));
-      }
-      break;
-    }
-  }
-  return tList;
-}
-
 List<Widget> currentPageList(int conferenceId){
 
   List<Widget> pageList = new List();
-  var numberOfDays = numberDaysOfConference(conferenceId);
+  var numberOfDays = controller.numberDaysOfConference(conferenceId);
   DateTime now;
-  Conference conference;
-  for(int i = 0; i < db.conferenceList.length; i++){
-    if(db.conferenceList[i].id == conferenceId){
-      conference = db.conferenceList[i];
+
+  var conferenceList = controller.getConferenceList();
+
+  for(int i = 0; i < conferenceList.length; i++){
+    if(conferenceList[i].id == conferenceId){
       for(int j = 0; j < numberOfDays; j++){
-        now = Jiffy(conference.beginDate).add(days: j); //2018-07-13 00:00:00.000
+        now = Jiffy(conferenceList[i].beginDate).add(days: j); //2018-07-13 00:00:00.000
         pageList.add(CurrentPage(conferenceId, now));
       }
       break;
@@ -95,7 +76,7 @@ NestedScrollView buildConferencePage(
           snap: true,
           forceElevated: innerBoxIsScrolled,
           bottom: new TabBar(
-            tabs: tabList(conferenceId),
+            tabs: controller.getTabList(conferenceId),
             controller: _tabController,
             isScrollable: true,
             labelPadding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -113,17 +94,19 @@ NestedScrollView buildConferencePage(
 List<Widget> listMyWidgets(int conferenceId, DateTime date) {
   @override
   List<Widget> widgetsList = new List();
-    
-  for(int y = 0; y < db.conferenceList.length; y++){
-    if(db.conferenceList[y].id == conferenceId){
-     for(int j = 0; j < db.conferenceList[y].eventIdList.length; j++){
-       Event event = getEventFromId(db.conferenceList[y].eventIdList[j]);
-       List<Session> sessionList  = sessionListForAEvent(db.conferenceList[y].eventIdList[j]);
+
+  var conferenceList = controller.getConferenceList();
+
+  for(int y = 0; y < conferenceList.length; y++){
+    if(conferenceList[y].id == conferenceId){
+     for(int j = 0; j < conferenceList[y].eventIdList.length; j++){
+       var event = controller.getEventFromId(conferenceList[y].eventIdList[j]);
+       var sessionList  = controller.sessionListForAEvent(conferenceList[y].eventIdList[j]);
 
        for(int i = 0; i < sessionList.length; i++){
          if(sessionList[i].beginTime.day == date.day && sessionList[i].beginTime.month == date.month && sessionList[i].beginTime.day == date.day){
-         List<Talk> talkList = talkListForASession(sessionList[i].id);
-            widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList));
+         var talkList = controller.talkListForASession(sessionList[i].id);
+            widgetsList.add(EventBox_ConfHome(conferenceList[y].name, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList));
          }
        }
       }
@@ -133,44 +116,42 @@ List<Widget> listMyWidgets(int conferenceId, DateTime date) {
   return widgetsList;
 }
 
-class EventBox extends StatelessWidget {
-  final String eventTitle;
-  final String sessionTitle;
-  final String room;
-  final DateTime beginTime;
-  final DateTime endTime;
-  final List<Talk> talks;
-  final String conferenceName;
-  int eventId;
-
-  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks);
+class EventBox_ConfHome extends EventBox
+{
+  EventBox_ConfHome(String conferenceName, int eventId, String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, List<Talk> talks) : super(conferenceName, eventId, eventTitle, sessionTitle, room, beginTime, endTime, talks);
 
   @override
-  Widget build(BuildContext context){
+  Widget build(BuildContext context) {
     var talkWidgets = List<Widget>();
     for (int i = 0; i < talks.length; i++) {
       talkWidgets.add(RaisedButton(child:
-          Container(
-            color: Colors.white,
-            padding: const EdgeInsets.symmetric(vertical: 10),
-            child: Row(
-                children: [
-                  Expanded(
-                      child:Column(
-                          children: [
-                            Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
-                            Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
-                          ]
-                      )
-                  ),
-                  Favorite(talk: talks[i]),
-                ]
-            )
-          ),
+      Container(
+          color: Colors.white,
+          padding: const EdgeInsets.symmetric(vertical: 10),
+          child: Row(
+              children: [
+                Expanded(
+                    child: Column(
+                        children: [
+                          Align(alignment: Alignment.centerLeft,
+                              child: Text(talks[i].title)),
+                          Align(alignment: Alignment.centerLeft,
+                              child: Text(
+                                  timeToString(talks[i].beginTime) + ' - ' +
+                                      timeToString(talks[i].endTime))),
+                        ]
+                    )
+                ),
+                Favorite(talk: talks[i]),
+              ]
+          )
+      ),
         color: Colors.white,
         onPressed: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new TalkPage(event: eventTitle,session: sessionTitle, talkId: talks[i].id),
+            builder: (BuildContext context) =>
+            new TalkPage(
+                event: eventTitle, session: sessionTitle, talkId: talks[i].id),
           );
           Navigator.of(context).push(route);
         },
@@ -180,49 +161,53 @@ class EventBox extends StatelessWidget {
     return InkWell(
         onTap: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new EventPage(conferenceName:  conferenceName, eventId: eventId),
-          );  
+            builder: (BuildContext context) =>
+            new EventPage(conferenceName: conferenceName, eventId: eventId),
+          );
           Navigator.of(context).push(route);
-          },
+        },
         child: Container(
-          color: Colors.grey[100],
-          margin: const EdgeInsets.only(bottom: 8.0),
-          child: Stack(
-            children: [
-              Container(
-                  margin: const EdgeInsets.only(left: 30, top: 25, right: 30),
-                  child: Column(
-                    children: <Widget>[
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(eventTitle + " - " + sessionTitle, textAlign: TextAlign.left, style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold
-                        )
+            color: Colors.grey[100],
+            margin: const EdgeInsets.only(bottom: 8.0),
+            child: Stack(
+              children: [
+                Container(
+                    margin: const EdgeInsets.only(left: 30, top: 25, right: 30),
+                    child: Column(
+                      children: <Widget>[
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(eventTitle + " - " + sessionTitle,
+                              textAlign: TextAlign.left, style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold
+                              )
+                          ),
                         ),
-                      ),
-                      SizedBox(height: 5),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(room),
-                      ),
-                      SizedBox(height: 5),
-                      Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(timeToString(beginTime) + ' - ' + timeToString(endTime)),
-                      ),
-                      ExpansionTile(
-                           title: Text('Talks'),
-                          children: talkWidgets
-                      ),
-                    ],
-                  )
-              ),
-            ],
+                        SizedBox(height: 5),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(room),
+                        ),
+                        SizedBox(height: 5),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(timeToString(beginTime) + ' - ' +
+                              timeToString(endTime)),
+                        ),
+                        ExpansionTile(
+                            title: Text('Talks'),
+                            children: talkWidgets
+                        ),
+                      ],
+                    )
+                ),
+              ],
+            )
         )
-    )
     );
   }
+
 }
 
 class Favorite extends StatefulWidget {

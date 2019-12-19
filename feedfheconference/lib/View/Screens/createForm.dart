@@ -1,6 +1,7 @@
+import 'package:feedfheconference/Controller/controller.dart';
+import 'package:feedfheconference/Util/Question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
 import './common.dart';
 // Create a Form widget.
 
@@ -17,16 +18,19 @@ class CreateFormPage extends StatefulWidget {
 List<Widget> listMyWidgets(var formId, var context){
   List<Widget> widgetsList = new List();
 
-  for(int i = 0; i < db.formList.length; i++){
-    if(db.formList[i].id == formId){
-      FormTalk form = db.formList[i];
+  var formList = controller.getFormList();
+  var formQuestionList = controller.getFormQuestionList();
+
+  for(int i = 0; i < formList.length; i++){
+    if(formList[i].id == formId){
+      var form = formList[i];
       for(int h = 0; h < form.listIdFormQuestions.length; h++){
-        for(int j = 0; j < db.formQuestionList.length; j++){
-          if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
+        for(int j = 0; j < formQuestionList.length; j++){
+          if(form.listIdFormQuestions[h] == formQuestionList[j].id){
             widgetsList.add(QuestionText(
-              db.formQuestionList[j].questionText, h+1, formId));
-            for (int k = 0; k < db.formQuestionList[j].questionSubText.length; k++){
-              widgetsList.add(QuestionSubText(db.formQuestionList[j].questionSubText[k], k+1));
+              formQuestionList[j].questionText, h+1, formId));
+            for (int k = 0; k < formQuestionList[j].questionSubText.length; k++){
+              widgetsList.add(QuestionSubText(formQuestionList[j].questionSubText[k], k+1));
             }
             break;
           }  
@@ -71,11 +75,14 @@ class QuestionText extends StatelessWidget {
             )),
               IconButton(
                 onPressed: () {
-                  for(int i = 0; i < db.formList.length; i++){
-                    if(db.formList[i].id == formId){
-                      for (int j = 0; j < db.formList[i].listIdFormQuestions.length; j++) {
-                        if (db.formList[i].listIdFormQuestions[j] == db.formQuestionList[index-1].id) {
-                          db.formList[i].listIdFormQuestions.removeAt(j);
+                  var formList = controller.getFormList();
+                  var formQuestionList = controller.getFormQuestionList();
+
+                  for(int i = 0; i < formList.length; i++){
+                    if(formList[i].id == formId){
+                      for (int j = 0; j < formList[i].listIdFormQuestions.length; j++) {
+                        if (formList[i].listIdFormQuestions[j] == formQuestionList[index-1].id) {
+                          controller.deletelistIdFormQuestion(i, j);
                           break;
                         }
                       }
@@ -83,7 +90,7 @@ class QuestionText extends StatelessWidget {
                     }
                   }
 
-                  db.formQuestionList.removeAt(index-1);
+                  controller.deleteFormQuestion(index - 1);
 
                   Navigator.pushReplacement(
                       context,
@@ -278,12 +285,15 @@ class _AddQuestionTextState extends State<AddQuestionText> {
                 children: <Widget>[
                   RaisedButton(
                       onPressed: () {
-                        FormQuestion question = new FormQuestion(db.formQuestionList.length+1, questionType, questionText, questionSubText);
-                        db.formQuestionList.add(question);
+
+                        int questionID = controller.addFormQuestion(questionType, questionText, questionSubText);
+
+                        var formList = controller.getFormList();
+
                         if (_questionKey.currentState.validate()) {
-                          for(int i = 0; i < db.formList.length; i++){
-                            if(db.formList[i].id == formId){
-                              db.formList[i].listIdFormQuestions.add(question.id);
+                          for(int i = 0; i < formList.length; i++){
+                            if(formList[i].id == formId){
+                              controller.addListIdFormQuestion(i, questionID);
                               break;
                             }
                           }
