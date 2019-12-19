@@ -32,49 +32,75 @@ class _RegisterState extends State<RegisterPage> {
                 ),
               ),
               SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                child: TextFormField(
+              TextFormField(
                   onSaved: (value) => _email = value,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Email"
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please enter a email';
+                  }
+                  return null;
+                },
+                decoration: new InputDecoration(
+                  labelText: "Email",
+                  fillColor: Colors.white,
+                  border: new OutlineInputBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                    borderSide: new BorderSide(),
                   ),
+                  //fillColor: Colors.green
                 ),
-              ),
+                ),
               SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                child: TextFormField(
+             TextFormField(
                   onSaved: (value) => _username = value,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Username"
-                  ),
+               validator: (value) {
+                 if (value.isEmpty) {
+                   return 'Please enter a username';
+                 }
+                 return null;
+               },
+               decoration: new InputDecoration(
+                 labelText: "Username",
+                 fillColor: Colors.white,
+                 border: new OutlineInputBorder(
+                   borderRadius: new BorderRadius.circular(25.0),
+                   borderSide: new BorderSide(),
+                 ),
+                 //fillColor: Colors.green
+               ),
                 ),
-              ),
               SizedBox(height: 20),
-              SizedBox(
-                height: 50,
-                child: TextFormField(
+             TextFormField(
                   onSaved: (value) => _password = value,
                   obscureText: true,
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: "Password"
-                  ),
+               validator: (value) {
+                 if (value.isEmpty) {
+                   return 'Please enter your password';
+                 }
+                 return null;
+               },
+               decoration: new InputDecoration(
+                 labelText: "Password",
+                 fillColor: Colors.white,
+                 border: new OutlineInputBorder(
+                   borderRadius: new BorderRadius.circular(25.0),
+                   borderSide: new BorderSide(),
+                 ),
+                 //fillColor: Colors.green
+               ),
                 ),
-              ),
               SizedBox(height: 20),
               SizedBox(
                 width:400,
                 height: 50,
                 child: RaisedButton(
+                  shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(25.0), side: BorderSide()),
                   color: Colors.black,
                   child: Text(
-                      "SIGN UP",
-                      style: TextStyle(color: Colors.white)),
+                      "Sign up",
+                      style: TextStyle(color: Colors.white, fontSize: 20,   fontWeight: FontWeight.bold,
+                        fontStyle: FontStyle.italic,)),
                   onPressed: () {
                     // save the fields..
                     final form = _formKey.currentState;
@@ -82,7 +108,7 @@ class _RegisterState extends State<RegisterPage> {
 
                     // Validate will return true if is valid, or false if invalid.
                     if(form.validate()) {
-                      print("$_email $_username $_password");
+                      Navigator.of(context).pushNamed("/home");
                     }
                   },
                 ),

@@ -9,10 +9,11 @@ class QuestionStatisticsPage extends StatefulWidget {
   final int questionId;
   final String talkName;
   final int questionIndex;
+  final String username;
 
   @override
   QuestionStatisticsPage(
-      {Key key, this.questionIndex, this.talkName, this.questionId})
+      {Key key, this.questionIndex, this.talkName, this.questionId, this.username})
       : super(key: key);
   QuestionStatisticsState createState() {
     return QuestionStatisticsState();
@@ -134,7 +135,7 @@ class QuestionStatisticsState extends State<QuestionStatisticsPage>
         child: Scaffold(
           body: buildQuestionStatisticPage(context, _scrollViewController,
               widget.questionId, widget.talkName, widget.questionIndex),
-          drawer: sideDrawer(context), // Passed BuildContext in function.
+          drawer: sideDrawer(context, widget.username), // Passed BuildContext in function.
         ));
   }
 }

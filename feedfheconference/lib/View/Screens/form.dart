@@ -6,9 +6,10 @@ import './common.dart';
 class FormPage extends StatefulWidget {
   final String title = 'Form Page';
   final int formId;
+  final String username;
   
   @override
-  FormPage({Key key, this.formId}): super(key: key);
+  FormPage({Key key, this.formId, this.username}): super(key: key);
   
   FormPageState createState() {
     return FormPageState();
@@ -163,7 +164,6 @@ class FormPageState extends State<FormPage>
         child: Scaffold(
           body: buildFormPage(context, _tabController, _scrollViewController,
               _formKey,widget.formId, widget.title),
-          drawer: sideDrawer(context), // Passed BuildContext in function.
         ));
   }
 }

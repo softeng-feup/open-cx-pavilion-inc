@@ -2,8 +2,22 @@ import 'package:feedfheconference/View/Screens/favorites.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
+import 'package:feedfheconference/View/Screens/profile.dart';
+import 'package:feedfheconference/View/Screens/home.dart';
 
-Drawer sideDrawer(BuildContext context) {
+Drawer sideDrawer(BuildContext context, String username) {
+
+  var routeProfile = MaterialPageRoute(
+    builder: (BuildContext context) => new ProfilePage(username: username),
+  );
+   var routeFavorites = MaterialPageRoute(
+    builder: (BuildContext context) => new FavoritesPage(username: username),
+  );
+
+  var routeHomepage = MaterialPageRoute(
+                        builder: (BuildContext context) => new HomePage(username: username),
+  );
+
   return new Drawer(
     // Add a ListView to the drawer. This ensures the user can scroll
     // through the options in the drawer if there isn't enough vertical
@@ -25,24 +39,21 @@ Drawer sideDrawer(BuildContext context) {
           title: Text('Home Page'),
           onTap: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pushReplacementNamed("/home");
+            Navigator.of(context).pushReplacement(routeHomepage);
           },
         ),
         ListTile(
           title: Text('Favorites'),
           onTap: () {
-            var route = MaterialPageRoute(
-              builder: (BuildContext context) => FavoritesPage()
-            );
             Navigator.of(context).pop();
-            Navigator.of(context).push(route);
+            Navigator.of(context).pushReplacement(routeFavorites);
           },
         ),
         ListTile(
           title: Text('My Profile'),
           onTap: () {
             Navigator.of(context).pop();
-            Navigator.of(context).pushNamed("/profile");
+            Navigator.of(context).push(routeProfile);
           },
         ),
       ],

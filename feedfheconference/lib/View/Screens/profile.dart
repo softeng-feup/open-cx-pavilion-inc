@@ -7,15 +7,48 @@ import 'edit_profile.dart';
 void main() => runApp(ProfilePage());
 
 class ProfilePage extends StatelessWidget {
+
+  final String username;
+
   @override
+  ProfilePage({Key key, this.username}): super(key: key);
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: Home(username),
     );
   }
 }
 
+String get_name_from_username(String username){
+  for(var i = 0; i < db.userList.length; i++){
+    if(db.userList[i].userName == username){
+      return db.userList[i].name;
+    }
+  }
+
+}
+String get_email_from_username(String username){
+  for(var i = 0; i < db.userList.length; i++){
+    if(db.userList[i].userName == username){
+      return db.userList[i].email;
+    }
+  }
+
+
+}
+user_type get_permissions_from_username(String username){
+  for(var i = 0; i < db.userList.length; i++){
+    if(db.userList[i].userName == username){
+       return db.userList[i].userType;
+    }
+  }
+
+
+}
+
 class Home extends StatelessWidget {
+
+  final String username;
   void _showDialog(BuildContext context, {String title, String msg}) {
     final dialog = AlertDialog(
       title: Text(title),
@@ -38,11 +71,14 @@ class Home extends StatelessWidget {
     showDialog(context: context, builder: (x) => dialog);
   }
 
+  Home(this.username);
+
   @override
   Widget build(BuildContext context) {
-    var name = 'Jose Pedro Baptista';
-    var email = 'ze.pedro4532@gmail.com';
-    var permitionLevel = user_type.Organizer;
+
+    var name = get_name_from_username(username);
+    var email = get_email_from_username(username);
+    var permitionLevel = get_permissions_from_username(username);
 
     //Used for profile 'icon'
     var _initialLetter = name[0].toUpperCase();
@@ -129,7 +165,7 @@ class Home extends StatelessWidget {
               FlatButton(
                 onPressed: (){
                     var route = MaterialPageRoute(
-                      builder: (BuildContext context) => new EditProfilePage(),
+                      builder: (BuildContext context) => new EditProfilePage(username: username),
                     );
                     Navigator.of(context).pushReplacement(route);
                   },

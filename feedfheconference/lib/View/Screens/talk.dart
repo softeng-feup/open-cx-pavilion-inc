@@ -14,10 +14,11 @@ class TalkPage extends StatefulWidget {
   final int talkId;
   final String session;
   final String event;
+  final String username;
 
 
   @override
-  TalkPage({Key key, this.event, this.session, this.talkId})
+  TalkPage({Key key, this.event, this.session, this.talkId, this.username})
       : super(key: key) {
     for (int i = 0; i < db.talkList.length; i++) {
       if (this.talkId == db.talkList[i].id){
@@ -43,7 +44,7 @@ class _TalkPageState extends State<TalkPage>
           body: buildTalkPage(
               context, _scrollViewController, widget.event, widget.session, widget.title, widget.talkId),
 
-          drawer: sideDrawer(context), // Passed BuildContext in function.
+          drawer: sideDrawer(context, widget.username), // Passed BuildContext in function.
         ));
   }
 }

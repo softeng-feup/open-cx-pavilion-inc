@@ -6,8 +6,9 @@ import '../../Model/db.dart';
 
 class FavoritesPage extends StatefulWidget {
   final String title = 'Favorites';
-
+  final String username;
   @override
+  FavoritesPage({Key key, this.username}): super(key: key);
   _FavoritesPageState createState() => _FavoritesPageState();
 }
 
@@ -23,7 +24,7 @@ class _FavoritesPageState extends State<FavoritesPage>
         initialIndex: 0,
         child: Scaffold(
           body: buildFavoritesPage(context, _tabController, _scrollViewController, widget.title),
-          drawer: sideDrawer(context),
+          drawer: sideDrawer(context, widget.username),
       ));
   }
 }

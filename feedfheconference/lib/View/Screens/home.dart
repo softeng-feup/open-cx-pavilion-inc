@@ -6,7 +6,10 @@ import './common.dart';
 class HomePage extends StatefulWidget {
   final String title = 'Home Page';
 
+  final String username;
+
   @override
+  HomePage({Key key, this.username}): super(key: key);
   _HomePageState createState() => _HomePageState();
 }
 
@@ -17,15 +20,16 @@ class _HomePageState extends State<HomePage>
 
   @override
   Widget build(BuildContext context) {
+
     return DefaultTabController(
         // Added
         length: 2, // Added
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildHomePage(
-              context, _tabController, _scrollViewController, widget.title),
+              context, _tabController, _scrollViewController, widget.title, widget.username),
 
-          drawer: sideDrawer(context), // Passed BuildContext in function.
+          drawer: sideDrawer(context, widget.username), // Passed BuildContext in function.
         ));
   }
 }
@@ -34,7 +38,7 @@ NestedScrollView buildHomePage(
     BuildContext context,
     TabController _tabController,
     ScrollController _scrollViewController,
-    String title) {
+    String title, String username) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -48,11 +52,11 @@ NestedScrollView buildHomePage(
         ),
       ];
     },
-    body: new CurrentPage(),
+    body: new CurrentPage(username),
   );
 }
 
-List<Widget> listMyWidgets() {
+List<Widget> listMyWidgets(username) {
   db.conferenceList.sort((a, b) =>
       (dateToString(a.beginDate).compareTo(dateToString(b.beginDate))));
 
@@ -80,7 +84,8 @@ List<Widget> listMyWidgets() {
         db.conferenceList[i].name,
         db.conferenceList[i].place,
         db.conferenceList[i].beginDate,
-        db.conferenceList[i].endDate));
+        db.conferenceList[i].endDate, username),
+        );
   }
 
   for (int i = 0; i < db.sessionList.length; i++) {}
@@ -94,8 +99,9 @@ class EventBox extends StatelessWidget {
   DateTime beginDate;
   DateTime endDate;
   int conferenceId;
+  String username;
   EventBox(
-      this.conferenceId, this.name, this.place, this.beginDate, this.endDate);
+      this.conferenceId, this.name, this.place, this.beginDate, this.endDate, this.username);
 
   @override
   Widget build(BuildContext context) {
@@ -103,7 +109,7 @@ class EventBox extends StatelessWidget {
         onTap: () {
           var route = MaterialPageRoute(
             builder: (BuildContext context) => new ConferenceHomePage(
-                conferenceId: conferenceId, conferenceName: name),
+                conferenceId: conferenceId, conferenceName: name, username: username,),
           );
           Navigator.of(context).push(route);
         }, // handle your onTap here
@@ -161,10 +167,14 @@ class EventBox extends StatelessWidget {
 
 class CurrentPage extends StatelessWidget {
   @override
+  final String username;
+
+  CurrentPage(this.username);
+
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMyWidgets(),
+      children: listMyWidgets(username),
     );
   }
 }

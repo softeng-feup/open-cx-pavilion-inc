@@ -1,4 +1,5 @@
 import 'package:feedfheconference/Model/db.dart';
+import 'package:feedfheconference/View/Screens/profile.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:random_color/random_color.dart';
@@ -6,15 +7,22 @@ import 'package:random_color/random_color.dart';
 void main() => runApp(EditProfilePage());
 
 class EditProfilePage extends StatelessWidget {
+  final String username;
+
+
   @override
+  EditProfilePage({Key key, this.username}): super(key: key);
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Home(),
+      home: Home(username),
     );
   }
 }
 
 class Home extends StatelessWidget {
+
+  final String username;
+
   void _showDialog(BuildContext context, {String title, String msg}) {
     final dialog = AlertDialog(
       title: Text(title),
@@ -37,12 +45,14 @@ class Home extends StatelessWidget {
     showDialog(context: context, builder: (x) => dialog);
   }
 
+  Home(this.username);
+
+
   @override
   Widget build(BuildContext context) {
-    var name = 'Jose Pedro Baptista';
-    var username = 'PedroB';
-    var email = 'ze.pedro4532@gmail.com';
-    var permitionLevel = user_type.Organizer;
+    var name = get_name_from_username(username);
+    var email = get_email_from_username(username);
+    var permitionLevel = get_permissions_from_username(username);
 
     //Used for profile 'icon'
     var _initialLetter = name[0].toUpperCase();

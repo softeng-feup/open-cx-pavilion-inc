@@ -122,9 +122,7 @@ class MyButton extends StatelessWidget {
           height: 50,
           child: FloatingActionButton(
             onPressed: onPressed,
-            shape: RoundedRectangleBorder(
-                borderRadius: new BorderRadius.circular(0),
-                side: BorderSide(color: Colors.black)),
+            shape: RoundedRectangleBorder(borderRadius: new BorderRadius.circular(25.0), side: BorderSide()),
             backgroundColor: Colors.black,
             child: Text(
               title,

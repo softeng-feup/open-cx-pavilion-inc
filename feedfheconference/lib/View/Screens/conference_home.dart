@@ -10,8 +10,9 @@ import 'package:jiffy/jiffy.dart';
 class ConferenceHomePage extends StatefulWidget {
   final String conferenceName;
   final int conferenceId;
+  final String username;
   @override
-   ConferenceHomePage({Key key, this.conferenceId, this.conferenceName}): super(key: key);
+   ConferenceHomePage({Key key, this.conferenceId, this.conferenceName, this.username}): super(key: key);
   _ConferenceHomePageState createState() => _ConferenceHomePageState();
 }
 
@@ -29,8 +30,8 @@ class _ConferenceHomePageState extends State<ConferenceHomePage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildConferencePage(
-              context, _tabController, _scrollViewController, widget.conferenceName, widget.conferenceId),
-          drawer: sideDrawer(context), // Passed BuildContext in function.
+              context, _tabController, _scrollViewController, widget.conferenceName, widget.conferenceId, widget.username),
+          drawer: sideDrawer(context, widget.username), // Passed BuildContext in function.
         ));
   }
 }
@@ -58,7 +59,7 @@ List<Tab> tabList(int conferenceId){
   return tList;
 }
 
-List<Widget> currentPageList(int conferenceId){
+List<Widget> currentPageList(int conferenceId, String username){
 
   List<Widget> pageList = new List();
   var numberOfDays = numberDaysOfConference(conferenceId);
@@ -69,7 +70,7 @@ List<Widget> currentPageList(int conferenceId){
       conference = db.conferenceList[i];
       for(int j = 0; j < numberOfDays; j++){
         now = Jiffy(conference.beginDate).add(days: j); //2018-07-13 00:00:00.000
-        pageList.add(CurrentPage(conferenceId, now));
+        pageList.add(CurrentPage(conferenceId, now, username));
       }
       break;
     }
@@ -83,7 +84,7 @@ NestedScrollView buildConferencePage(
     TabController _tabController,
     ScrollController _scrollViewController,
     String title,
-    int conferenceId) {
+    int conferenceId,String username) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -104,13 +105,13 @@ NestedScrollView buildConferencePage(
       ];
     },
     body: new TabBarView(
-      children: currentPageList(conferenceId),
+      children: currentPageList(conferenceId, username),
       controller: _tabController,
     ),
   );
 }
 
-List<Widget> listMyWidgets(int conferenceId, DateTime date) {
+List<Widget> listMyWidgets(int conferenceId, DateTime date, String username) {
   @override
   List<Widget> widgetsList = new List();
     
@@ -123,7 +124,7 @@ List<Widget> listMyWidgets(int conferenceId, DateTime date) {
        for(int i = 0; i < sessionList.length; i++){
          if(sessionList[i].beginTime.day == date.day && sessionList[i].beginTime.month == date.month && sessionList[i].beginTime.day == date.day){
          List<Talk> talkList = talkListForASession(sessionList[i].id);
-            widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList));
+            widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList, username));
          }
        }
       }
@@ -141,9 +142,10 @@ class EventBox extends StatelessWidget {
   final DateTime endTime;
   final List<Talk> talks;
   final String conferenceName;
+  final String username;
   int eventId;
 
-  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks);
+  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks, this.username);
 
   @override
   Widget build(BuildContext context){
@@ -170,7 +172,7 @@ class EventBox extends StatelessWidget {
         color: Colors.white,
         onPressed: () {
           var route = MaterialPageRoute(
-            builder: (BuildContext context) => new TalkPage(event: eventTitle,session: sessionTitle, talkId: talks[i].id),
+            builder: (BuildContext context) => new TalkPage(event: eventTitle,session: sessionTitle, talkId: talks[i].id, username: username,),
           );
           Navigator.of(context).push(route);
         },
@@ -262,12 +264,13 @@ class CurrentPage extends StatelessWidget {
 
   final int conferenceId;
   final DateTime date;
+  final String username;
   @override
-  CurrentPage(this.conferenceId, this.date);
+  CurrentPage(this.conferenceId, this.date, this.username);
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMyWidgets(conferenceId, date),
+      children: listMyWidgets(conferenceId, date, username),
     );
   }
 }
