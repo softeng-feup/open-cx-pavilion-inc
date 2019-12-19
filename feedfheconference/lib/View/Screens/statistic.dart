@@ -1,5 +1,5 @@
-
 import 'dart:math';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import '../../Model/db.dart';
 import './questionStatistic.dart';
@@ -156,26 +156,24 @@ class QuestionsListPage extends StatelessWidget {
         child: SingleChildScrollView(
             padding: const EdgeInsets.all(6),
             child: new Column(
-                children: listMyQuestions(formId, talkName)
+                children: listMyQuestions(formId, talkName),
             )
         )
     );
   }
 }
 
-
 List <Widget> printQuestions(List <String> questions){
 
   List <Widget> listOfQuestions = new List();
   for(int i = 0; i < questions.length; i++){
-    listOfQuestions.add(Text(questions[i], style: TextStyle(
-              fontSize: 20,color: Colors.black)));
+    listOfQuestions.add(Text(
+        questions[i],
+        style: TextStyle(fontSize: 20, color: Colors.black)));
+    listOfQuestions.add(SizedBox(height: 10));
   }
-
   return listOfQuestions;
 }
-
-
 
 class GeneralStats extends StatelessWidget {
   final int formId;
@@ -191,24 +189,24 @@ class GeneralStats extends StatelessWidget {
     }
 
      return Container(
+       padding: EdgeInsets.only(left: 5),
        child: Column(
-       children: <Widget>[
-          SizedBox(height: 40,),
+         children: <Widget>[
+           SizedBox(height: 40,),
            Text("Nº of people who submitted the form: " + numberOfPeopleSubmittedForm(formId).toString(), style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
            SizedBox(height: 20,),
-            Text("Most answered questions: ", style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
-            Column(children: printQuestions(mostAnswered),),
-               SizedBox(height: 20,),
-         Text("Least answered questions: ", style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
-            Column(children: printQuestions(leastAnswered)), 
-           SizedBox(height: 20,),
-       ],
-     )
+           Text("Most answered questions: ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+           SizedBox(height: 15),
+           Column(children: printQuestions(mostAnswered), crossAxisAlignment: CrossAxisAlignment.start),
+           SizedBox(height: 20),
+           Text("Least answered questions: ", style: TextStyle(
+               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
+           SizedBox(height: 15),
+           Column(children: printQuestions(leastAnswered), crossAxisAlignment: CrossAxisAlignment.start),
+           SizedBox(height: 20)
+         ],
+       )
      );
   }
 }
-
-
