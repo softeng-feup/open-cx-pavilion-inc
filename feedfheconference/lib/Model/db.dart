@@ -1,5 +1,4 @@
 // classes auxiliares
-import 'package:flutter/cupertino.dart';
 import 'dart:math';
 
 class Date{
@@ -129,7 +128,10 @@ class User{
   String email;
   String password;
   user_type userType; //Fixo
-  User(this.id, this.name, this.userName,this.email, this.password, this.userType);
+  List<int> favoriteTalks;
+  User(this.id, this.name, this.userName,this.email, this.password, this.userType) {
+    this.favoriteTalks = new List();
+  }
 }
 
 class Speaker extends User{
@@ -317,29 +319,66 @@ Talk talk2 = new Talk(2, 1, 'The NEXT NEXT Lisp of the prophet for the one true 
 
 Talk talk3 = new Talk(3, 1, 'IDVE: an Integrated Development and Verification Environment for JavaScript',
     '',
-    [3, 4], '2019-04-01 09:00:00', '2019-04-01 09:30:00');
+    [3, 4], '0000-00-00 09:30:00', '0000-00-00 11:30:00');
 
 Talk talk4 = new Talk(4, 1, 'Draw This Object: A Study of Debugging Representations',
     'Domain-specific debugging visualizations try to provide a view of a runtime object tailored to a specific domain and highlighting its important properties. The research in this area has focused mainly on the technical aspects of the creation of such views so far. However, we still lack answers to questions such as what properties of objects are considered important for these visualizations, whether all objects have an appropriate domain-specific view, or what clues could help us to construct these views fully automatically. In this paper, we describe an exploratory study where the participants were asked to inspect runtime states of objects displayed in a traditional debugger and draw ideal domain-specific views of these objects on paper. We describe interesting observations and findings obtained during this study and a preliminary taxonomy of these visualizations.',
-    [3, 4], '2019-04-01 09:30:00', '2019-04-01 10:00:00');
+    [3, 4], '0000-00-00 11:30:00', '0000-00-00 12:30:00');
 
 Talk talk5 = new Talk(5, 1, 'Faster Feedback through Lexical Test Prioritization',
     '',
-    [3, 4], '2019-04-01 10:00:00', '2019-04-01 10:30:00');
+    [3, 4], '0000-00-00 10:00:00', '0000-00-00 10:30:00');
 
-Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 2, 1, 2], '2019-01-02 09:30:00', '2019-01-02 11:30:00');
-Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [2], '2019-01-03 09:30:00', '2019-01-03 11:30:00');
+Talk talk6 = new Talk(6, 1, 'Test Talk',
+    'This is a random description for a random talk just for tests',
+    [3], '0000-00-00 10:30:00', '0000-00-00 11:30:00');
 
-Session session3 = new Session(3, 'session 3', null, 'Paganini', [1, 2, 1, 2], '2019-01-02 10:30:00', '2019-01-02 11:30:00');
-Session session4 = new Session(4 ,'session 4', null, 'Michelangelo', [2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
+Talk talk7 = new Talk(7, 1, 'Talk 7 - seven',
+    'It can be challenging to teach a person something new.',
+    [4], '0000-00-00 09:30:00', '0000-00-00 10:30:00');
 
+Talk talk8 = new Talk(8, 1, 'Talk 8 - eight',
+    'Lorem ipsum dolor sit amet, ad usu suscipiantur comprehensam. Amet verterem et vix, congue decore ne vis. '
+    'In usu graece inciderint suscipiantur, oporteat disputationi pro ea, tale lobortis complectitur ea pro. '
+    'Qui ne nibh iudicabit, pro cu lorem docendi detracto.',
+    [3, 4], '0000-00-00 10:30:00', '0000-00-00 11:00:00');
 
-Session session5 = new Session(5, 'session 5', null, 'Paganini', [1, 1, 1, 2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
-Session session6 = new Session(6 ,'session 6', null, 'Michelangelo', [2], '2019-11-15 09:30:00', '2019-11-15 11:30:00');
+Talk talk9 = new Talk(9, 1, 'Talk 9 - nine',
+    'Lorem ipsum dolor sit amet, ut vidit viderer duo, putant prompta sea in. In mel vocent delicata intellegebat, cu civibus assentior quo. Alii vero accusata.',
+    [3, 4], '0000-00-00 11:00:00', '0000-00-00 11:30:00');
 
-Session session7 = new Session(7, 'PX/19 #1', 'Jens Lincke' ,'Michelangelo', [3, 4, 5], '2019-04-01 09:00:00', '2019-04-01 10:30:00');
-Session session8 = new Session(8, 'PX/19 #2', 'Tobias Pape' ,'Michelangelo', [3], '2019-04-01 11:00:00', '2019-04-01 12:30:00');
-Session session9 = new Session(9, 'PX/19 #3', 'Ademar Aguiar' ,'Michelangelo', [3], '2019-04-01 14:00:00', '2019-04-01 15:30:00');
+Talk talk10 = new Talk(10, 1, 'Talk 10 - ten',
+    'Lorem ipsum dolor sit amet, vim natum interpretaris ut. Elitr deleniti definitiones pro in. Ne qui aeque possim voluptaria, aperiri.',
+    [4], '0000-00-00 11:30:00', '0000-00-00 13:00:00');
+
+Talk talk11 = new Talk(11, 1, 'Talk 11 - eleven',
+    'Lorem ipsum dolor sit amet, per no prima fastidii deleniti, efficiantur liberavisse in cum te.',
+    [3], '0000-00-00 09:00:00', '0000-00-00 09:45:00');
+
+Talk talk12 = new Talk(12, 1, 'Talk 12 - twelve',
+    'Lorem ipsum dolor sit amet, vel no iudico laudem tractatos. Viderer indoctum ex usu, et harum oratio.',
+    [4], '0000-00-00 09:45:00', '0000-00-00 10:30:00');
+
+Talk talk13 = new Talk(13, 1, 'Talk 13 - thirteen',
+    'Lorem ipsum dolor sit amet, harum labore possit sit ne, ex mel summo exerci concludaturque. Oblique nonumes.',
+    [3, 4], '0000-00-00 11:00:00', '0000-00-00 12:30:00');
+
+Talk talk14 = new Talk(14, 1, 'Talk 14 - fourteen',
+    'Lorem ipsum dolor sit amet, omnes philosophia eum ex. No sed ponderum insolens.',
+    [3], '0000-00-00 14:00:00', '0000-00-00 15:30:00');
+
+Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 2], '2019-04-02 09:30:00', '2019-04-02 11:30:00');
+Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [3], '2019-04-03 09:30:00', '2019-04-03 11:30:00');
+Session session3 = new Session(3, 'session 3', null, 'Paganini', [4, 5, 6 ], '2019-04-01 11:30:00', '2019-04-01 12:30:00');
+
+Session session4 = new Session(4 ,'session 4', null, 'Michelangelo', [6], '2019-05-23 10:30:00', '2019-05-23 11:30:00');
+Session session5 = new Session(5, 'session 5', null, 'Paganini', [7, 8, 9], '2019-05-24 09:30:00', '2019-05-24 11:30:00');
+
+Session session6 = new Session(6 ,'session 6', null, 'Michelangelo', [10], '2019-07-01 11:30:00', '2019-07-01 13:00:00');
+Session session7 = new Session(7, 'PX/19 #1', 'Jens Lincke' ,'Michelangelo', [11, 12], '2019-07-02 09:00:00', '2019-07-02 10:30:00');
+
+Session session8 = new Session(8, 'PX/19 #2', 'Tobias Pape' ,'Michelangelo', [13], '2019-01-01 11:00:00', '2019-01-01 12:30:00');
+Session session9 = new Session(9, 'PX/19 #3', 'Ademar Aguiar' ,'Michelangelo', [14], '2019-01-01 14:00:00', '2019-01-01 15:30:00');
 
 Event event1 = new Event(1 ,'ELS 2019 ', 'European Lisp Symposium', 'The purpose of the European '
     'Lisp Symposium is to provide a forum for the discussion and dissemination of '
@@ -353,24 +392,23 @@ Event event2 = new Event(2 ,'LOL 2019', 'Loletas', 'The purpose of the European 
     'all aspects of design, implementation and application of any of the Lisp and '
     'Lisp-inspired dialects, including Common Lisp, Scheme, Emacs Lisp, AutoLisp, '
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
-    'encourage everyone interested in Lisp to participate.', [1, 2]);
+    'encourage everyone interested in Lisp to participate.', [4, 5]);
 
 Event event3 = new Event(3 , 'ICW 2019', 'Interconnecting Code Workshop' , 'The purpose of the European '
     'Lisp Symposium is to provide a forum for the discussion and dissemination of '
     'all aspects of design, implementation and application of any of the Lisp and '
     'Lisp-inspired dialects, including Common Lisp, Scheme, Emacs Lisp, AutoLisp, '
     'ISLISP, Dylan, Clojure, ACL2, ECMAScript, Racket, SKILL, Hop and so on. We '
-    'encourage everyone interested in Lisp to participate.', [1, 2]);
-
+    'encourage everyone interested in Lisp to participate.', [6, 7]);
 
 Event event4 = new Event(4, 'PX/19', 'Programming Experience Workshop',
     'Imagine a software development task: some sort of requirements and perhaps a platform and programming language. A group of developers head into a vast workroom. As they design, debate and program they discover they need learn more about the domain and the nature of potential solutions–they are exploring via programming.\nThe Programming Experience (PX) Workshop is about what happens in that room when programmers sit down in front of computers and produce code, especially in an exploratory way. Do they create text that is transformed into running behavior (the old way), or do they operate on behavior directly (“liveness”); are they exploring the live domain to understand the true nature of the requirements; are they like authors creating new worlds; does visualization matter; is the experience immediate, immersive, vivid and continuous; do fluency, literacy, and learning matter; do they build tools, meta-tools; are they creating languages to express new concepts quickly and easily; and curiously, is joy relevant to the experience?',
-    [7, 8, 9]);
+    [8, 9]);
 
-Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [4], '2019-04-01 00:00:00', '2019-04-04 00:00:00');
-Conference programming2020 = new Conference(4, 'Programming 2020', 'Porto, Portugal', [4], '2020-05-23 00:00:00', '2020-05-26 00:00:00');
-Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Porto, Portugal', [1], '2019-07-01 00:00:00', '2019-07-04 00:00:00');
-Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Lisboa, Portugal', [1], '2019-01-01 00:00:00', '2019-01-03 00:00:00');
+Conference programming2019 = new Conference(1, 'Programming 2019', 'Genoa, Italy', [1], '2019-04-01 00:00:00', '2019-04-04 00:00:00');
+Conference programming2020 = new Conference(4, 'Programming 2020', 'Porto, Portugal', [2], '2020-05-23 00:00:00', '2020-05-26 00:00:00');
+Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Porto, Portugal', [3], '2019-07-01 00:00:00', '2019-07-04 00:00:00');
+Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Lisboa, Portugal', [4], '2019-01-01 00:00:00', '2019-01-03 00:00:00');
 
 class Database {
 
@@ -405,7 +443,16 @@ class Database {
     talk2,
     talk3,
     talk4,
-    talk5
+    talk5,
+    talk6,
+    talk7,
+    talk8,
+    talk9,
+    talk10,
+    talk11,
+    talk12,
+    talk13,
+    talk14
   ];
 
   List<FormTalk> formList = [
@@ -567,6 +614,7 @@ List<String> getSubQuestionText(var questionId) {
       return db.formQuestionList[i].questionSubText;
     }
   }
+  return null;
 }
 
 String getQuestionText(var questionId) {
@@ -575,6 +623,7 @@ String getQuestionText(var questionId) {
       return db.formQuestionList[i].questionText;
     }
   }
+  return null;
 }
 
 QuestionType getQuestionType(var questionId) {
@@ -583,6 +632,7 @@ QuestionType getQuestionType(var questionId) {
       return db.formQuestionList[i].type;
     }
   }
+  return null;
 }
 
 String getUsernameFromId(int personId) {
