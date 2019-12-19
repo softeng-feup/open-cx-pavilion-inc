@@ -23,13 +23,13 @@ class _FavoritesPageState extends State<FavoritesPage>
         length: 2,
         initialIndex: 0,
         child: Scaffold(
-          body: buildFavoritesPage(context, _tabController, _scrollViewController, widget.title),
+          body: buildFavoritesPage(context, _tabController, _scrollViewController, widget.title, widget.username),
           drawer: sideDrawer(context, widget.username),
       ));
   }
 }
 
-NestedScrollView buildFavoritesPage(BuildContext context, TabController _tabController, ScrollController _scrollViewController, String title) {
+NestedScrollView buildFavoritesPage(BuildContext context, TabController _tabController, ScrollController _scrollViewController, String title, String username) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -43,13 +43,20 @@ NestedScrollView buildFavoritesPage(BuildContext context, TabController _tabCont
         ),
       ];
     },
-    body: new CurrentPage(),
+    body: new CurrentPage(username),
   );
 }
 
-List<Widget> listMyWidgets() {
+List<Widget> listMyWidgets(String username) {
   @override
   List<Widget> widgetList = new List();
+  List<int> favorites;
+
+  for (var i = 0; i < db.userList.length; i++) {
+    if (db.userList[i].userName == username) {
+      favorites = db.userList[i].favoriteTalks;
+    }
+  }
 
   for(int y = 0; y < db.conferenceList.length; y++){
     for(int i = 0; i < db.conferenceList[y].eventIdList.length; i++) {
@@ -63,7 +70,7 @@ List<Widget> listMyWidgets() {
                 for(int k = 0; k < session.talkIdList.length; k++) {
                   for(int z = 0; z < db.talkList.length; z++) {
                     if(session.talkIdList[k] == db.talkList[z].id) {
-                        if(db.talkList[z].isFavorite) {
+                        if(favorites.indexOf(db.talkList[z].id) != -1) {
                           widgetList.add(EventBox(db.conferenceList[y].name, event.title, session.title, session.room, db.talkList[z].id, db.talkList[z].title, db.talkList[z].beginTime, db.talkList[z].endTime));
                         }
                     }
@@ -152,11 +159,14 @@ class EventBox extends StatelessWidget {
 }
 
 class CurrentPage extends StatelessWidget {
+  final String username;
+
+  CurrentPage(this.username);
   @override
   Widget build(BuildContext context) {
     return new ListView(
         padding: EdgeInsets.zero,
-        children: listMyWidgets()
+        children: listMyWidgets(this.username)
     );
   }
 }

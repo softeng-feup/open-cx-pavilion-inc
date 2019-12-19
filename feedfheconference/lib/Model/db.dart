@@ -202,7 +202,6 @@ class Talk{
   String description;
   List<int> speakersId;
   int formId;
-  bool isFavorite = false;
   DateTime beginTime;
   DateTime endTime;
 

@@ -164,7 +164,7 @@ class EventBox extends StatelessWidget {
                           ]
                       )
                   ),
-                  Favorite(talk: talks[i]),
+                  Favorite(talk: talks[i], username: this.username),
                 ]
             )
           ),
@@ -228,9 +228,18 @@ class EventBox extends StatelessWidget {
 
 class Favorite extends StatefulWidget {
   final Talk talk;
+  final String username;
+  List<int> userFavorites = new List();
 
   @override
-  Favorite({Key key, this.talk}): super(key: key);
+  Favorite({Key key, this.talk, this.username}): super(key: key) {
+    for (var i = 0; i < db.userList.length; i++) {
+      if (db.userList[i].userName == this.username) {
+        this.userFavorites = db.userList[i].favoriteTalks;
+      }
+    }
+  }
+
   FavoriteState createState() => new FavoriteState();
 }
 
@@ -238,8 +247,21 @@ class FavoriteState extends State<Favorite> {
 
   _pressed() {
     setState(() {
-      widget.talk.isFavorite = !widget.talk.isFavorite;
+      if(isFavorite(widget.talk)) {
+        widget.userFavorites.remove(widget.talk.id);
+      }
+      else {
+        widget.userFavorites.add(widget.talk.id);
+      }
     });
+  }
+
+  isFavorite(Talk t) {
+    if(widget.userFavorites.indexOf(widget.talk.id) == -1) {
+      return false;
+    }
+    else
+      return true;
   }
 
   @override
@@ -248,8 +270,8 @@ class FavoriteState extends State<Favorite> {
       alignment: Alignment.topRight,
       child: IconButton(
         icon: Icon(
-            widget.talk.isFavorite ? Icons.star : Icons.star_border,
-            color: widget.talk.isFavorite ? Colors.blue[500] : Colors.grey
+            isFavorite(widget.talk) ? Icons.star : Icons.star_border,
+            color: isFavorite(widget.talk) ? Colors.blue[500] : Colors.grey
         ),
         onPressed: () {
           _pressed();

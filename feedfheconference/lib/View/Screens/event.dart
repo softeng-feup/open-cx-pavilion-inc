@@ -10,8 +10,9 @@ class EventPage extends StatefulWidget {
   final String conferenceName;
   final int eventId;
   String eventAcronym;
+  final String username;
   @override
-  EventPage({Key key, this.conferenceName, this.eventId})
+  EventPage({Key key, this.conferenceName, this.eventId, this.username})
       : super(key: key) {
     for (int i = 0; i < db.eventList.length; i++) {
       if (this.eventId == db.eventList[i].id) {
@@ -43,7 +44,8 @@ class _EventPageState extends State<EventPage>
               widget.eventAcronym,
               widget.eventTitle,
               widget.eventId,
-              widget.conferenceName),
+              widget.conferenceName,
+              widget.username),
         ));
   }
 }
@@ -55,7 +57,8 @@ NestedScrollView buildEventPage(
     String eventAcronym,
     String eventTitle,
     int eventId,
-    String conferenceName) {
+    String conferenceName,
+    String username) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -79,7 +82,7 @@ NestedScrollView buildEventPage(
     body: new TabBarView(
       children: <Widget>[
         new CurrentPageDescription(eventId, eventTitle),
-        new CurrentPageSessions(eventId, conferenceName),
+        new CurrentPageSessions(eventId, conferenceName, username),
       ],
       controller: _tabController,
     ),
@@ -175,9 +178,10 @@ class EventBox extends StatelessWidget {
   final DateTime endTime;
   final List<Talk> talks;
   final String conferenceName;
+  final String username;
   int eventId;
 
-  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks);
+  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks, this.username);
 
   @override
   Widget build(BuildContext context){
@@ -189,7 +193,7 @@ class EventBox extends StatelessWidget {
             padding: const EdgeInsets.only(bottom: 10),
             child: Column(
               children: [
-                Favorite(talk: talks[i]),
+                Favorite(talk: talks[i], username: username),
                 Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
                 SizedBox(height: 3),
                 Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
@@ -248,9 +252,18 @@ class EventBox extends StatelessWidget {
 
 class Favorite extends StatefulWidget {
   final Talk talk;
+  final String username;
+  List<int> userFavorites = new List();
 
   @override
-  Favorite({Key key, this.talk}): super(key: key);
+  Favorite({Key key, this.talk, this.username}): super(key: key) {
+    for (var i = 0; i < db.userList.length; i++) {
+      if (db.userList[i].userName == this.username) {
+        this.userFavorites = db.userList[i].favoriteTalks;
+      }
+    }
+  }
+
   FavoriteState createState() => new FavoriteState();
 }
 
@@ -258,8 +271,21 @@ class FavoriteState extends State<Favorite> {
 
   _pressed() {
     setState(() {
-      widget.talk.isFavorite = !widget.talk.isFavorite;
+        if(isFavorite(widget.talk)) {
+          widget.userFavorites.remove(widget.talk.id);
+        }
+        else {
+          widget.userFavorites.add(widget.talk.id);
+        }
     });
+  }
+
+  isFavorite(Talk t) {
+    if(widget.userFavorites.indexOf(widget.talk.id) == -1) {
+      return false;
+    }
+    else
+      return true;
   }
 
   @override
@@ -268,8 +294,8 @@ class FavoriteState extends State<Favorite> {
       alignment: Alignment.topRight,
       child: IconButton(
         icon: Icon(
-            widget.talk.isFavorite ? Icons.star : Icons.star_border,
-            color: widget.talk.isFavorite ? Colors.blue[500] : Colors.grey
+            isFavorite(widget.talk) ? Icons.star : Icons.star_border,
+            color: isFavorite(widget.talk) ? Colors.blue[500] : Colors.grey
         ),
         onPressed: () {
           _pressed();
@@ -280,7 +306,7 @@ class FavoriteState extends State<Favorite> {
 }
 
 
-List<Widget> listMySessions(int eventId, String conferenceName) {
+List<Widget> listMySessions(int eventId, String conferenceName, String username) {
 
    @override
   List<Widget> widgetsList = new List();
@@ -289,7 +315,7 @@ List<Widget> listMySessions(int eventId, String conferenceName) {
 
   for(int i = 0; i < sessionList.length; i++){
       List<Talk> talkList = talkListForASession(sessionList[i].id);
-      widgetsList.add(EventBox(conferenceName, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList));
+      widgetsList.add(EventBox(conferenceName, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList, username));
     }  
   return widgetsList;
 }
@@ -343,13 +369,14 @@ class CurrentPageDescription extends StatelessWidget {
 class CurrentPageSessions extends StatelessWidget {
   int eventId;
   String conferenceName;
+  final String username;
   @override
-  CurrentPageSessions(this.eventId, this.conferenceName);
+  CurrentPageSessions(this.eventId, this.conferenceName, this.username);
 
   Widget build(BuildContext context) {
     return new ListView(
       padding: EdgeInsets.zero,
-      children: listMySessions(eventId, conferenceName),
+      children: listMySessions(eventId, conferenceName, username),
     );
   }
 }
