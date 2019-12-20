@@ -313,7 +313,7 @@ List<Widget> listMyWidgets(talkId, context, username) {
                 onPressed: () {
                   var route = MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return new FormPage(formId: talk.formId);
+                      return new FormPage(formId: talk.formId, username: username,);
                     },
                   );
                   Navigator.of(context).push(route);

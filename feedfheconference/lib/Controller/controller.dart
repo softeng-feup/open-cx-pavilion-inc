@@ -515,6 +515,12 @@ class Controller
   {
     int id = db.responseList.length + 1;
     db.responseList.add(new Response(id, type, response, questionId, userId));
+    print('========================Response added========================');
+    print(type.toString());
+    print(response);
+    print(questionId);
+    print(userId);
+    print('==============================================================');
     return id;
   }
 

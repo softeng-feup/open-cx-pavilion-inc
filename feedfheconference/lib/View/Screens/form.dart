@@ -16,7 +16,7 @@ class FormPage extends StatefulWidget {
   }
 }
 
-List<Widget> listMyWidgets(var formKey, var formId, var context)
+List<Widget> listMyWidgets(var formKey, var formId, var context, var uid)
 {
   @override
   List<Widget> widgetsList = new List();
@@ -55,18 +55,16 @@ List<Widget> listMyWidgets(var formKey, var formId, var context)
 
               switch(temp.type)
               {
-
                 case QuestionType.radioButton:
-                  controller.addResponse(temp.type, temp._radioValue, temp.questionID, controller.getIdfromusername(username));
+                  controller.addResponse(temp.type, temp._radioValue, temp.questionID, uid);
                   break;
                 case QuestionType.checkBox:
-                  controller.addResponse(temp.type, temp._checkBoxValues, temp.questionID, controller.getIdfromusername(username));
+                  controller.addResponse(temp.type, temp._checkBoxValues, temp.questionID, uid);
                   break;
                 case QuestionType.textBox:
-                  controller.addResponse(temp.type, temp._userTextAnswer, temp.questionID, controller.getIdfromusername(username));
+                  controller.addResponse(temp.type, temp._userTextAnswer, temp.questionID, uid);
                   break;
               }
-
             }
         }
 
@@ -112,20 +110,17 @@ class AnswerBox extends StatefulWidget {
   List _checkBoxValues = new List();
   String _userTextAnswer;
 
+
   @override
-  State<StatefulWidget> createState() => _AnswerBoxState(this.type, this.questionSubText);
+  State<StatefulWidget> createState() => _AnswerBoxState();
 }
 
 class _AnswerBoxState extends State<AnswerBox> {
-  QuestionType type;
-  List questionSubText;
-
-  _AnswerBoxState(this.type, this.questionSubText);
 
   Widget answerBox(QuestionType type, List questionSubText) {
     if (type == QuestionType.textBox) {
       return TextFormField(
-        onSaved: (value) => widget._userTextAnswer = value,
+        onChanged: (value) => widget._userTextAnswer = value,
         minLines: 1,
         maxLines: 4,
         decoration: new InputDecoration(
@@ -171,7 +166,7 @@ class _AnswerBoxState extends State<AnswerBox> {
   Widget build(BuildContext context) {
 
     return Container(
-        child: answerBox(this.type, this.questionSubText),
+        child: answerBox(widget.type, widget.questionSubText),
         margin: const EdgeInsets.only(bottom: 18.0)
       //color: Colors.blue[200],
     );
@@ -195,7 +190,7 @@ class FormPageState extends State<FormPage>
         initialIndex: 0, //Added
         child: Scaffold(
           body: buildFormPage(context, _tabController, _scrollViewController,
-              _formKey,widget.formId, widget.title),
+              _formKey,widget.formId, widget.title, widget.username),
         ));
   }
 }
@@ -205,7 +200,8 @@ NestedScrollView buildFormPage(
     TabController _tabController,
     ScrollController _scrollViewController,
     GlobalKey<FormState> _formKey, int formId,
-    String title) {
+    String title,
+    String username) {
   return new NestedScrollView(
     controller: _scrollViewController,
     headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -229,7 +225,7 @@ NestedScrollView buildFormPage(
                 padding: const EdgeInsets.all(6),
                 child: new Column(
                  // crossAxisAlignment: CrossAxisAlignment.start,
-                    children: listMyWidgets(_formKey, formId, context)
+                    children: listMyWidgets(_formKey, formId, context, controller.getIdfromusername(username))
                 )
 
 
