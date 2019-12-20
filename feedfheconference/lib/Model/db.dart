@@ -87,7 +87,7 @@ class FormQuestion{
   String questionText;
 
   QuestionType type;
-  List questionSubText;
+  List<String> questionSubText;
 
   FormQuestion(this.id, this.type, this.questionText, this.questionSubText);
 }
@@ -174,12 +174,9 @@ class Conference{
 
   Conference(this.id, this.name, this.place, this.eventIdList,  String beginDate, String endDate)
   {
-
     this.beginDate = DateTime.parse(beginDate);
     this.endDate = DateTime.parse(endDate);
-  
   }
-
 }
 
 

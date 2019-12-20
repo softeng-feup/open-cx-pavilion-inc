@@ -98,24 +98,23 @@ class QuestionText extends StatelessWidget {
     }
     else {
       return Container(
-          color: Colors.grey[200],
-          padding: const EdgeInsets.all(10),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-              Text(
-                index.toString() + ". " + questionText,
-                style: TextStyle(fontSize: 19),
-              ),
-              ExpansionTile(
-                title: Text("Question statistics"),
-                children: listQuestionStatistics(context, questionId),
-              )
-            ],
-          ),
-          margin: const EdgeInsets.only(bottom: 8.0),
-          //color: Colors.blue[100],
-        );
+        color: Colors.grey[200],
+        padding: const EdgeInsets.all(10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: <Widget>[
+            Text(
+              index.toString() + ". " + questionText,
+              style: TextStyle(fontSize: 19),
+            ),
+            ExpansionTile(
+              title: Text("Question statistics"),
+              children: listQuestionStatistics(context, questionId),
+            )
+          ],
+        ),
+        margin: const EdgeInsets.only(bottom: 8.0),
+      );
     }
   }
 }

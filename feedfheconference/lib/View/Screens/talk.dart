@@ -123,7 +123,6 @@ List<Widget> listMyWidgets(talkId, context, username) {
     {
       form = formList[i];
       formCreated = true;
-      //  print(talk);
       break;
     }
   }

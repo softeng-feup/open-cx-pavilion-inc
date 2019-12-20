@@ -143,7 +143,7 @@ class _AddQuestionTextState extends State<AddQuestionText> {
   bool _saveQuestionVisible = false;
   bool _saveFormVisible = true;
   String optionText;
-  List questionSubText = new List();
+  List<String> questionSubText = new List();
   QuestionType questionType = QuestionType.textBox;
   String questionText;
   String dropdownValue = 'Text';
