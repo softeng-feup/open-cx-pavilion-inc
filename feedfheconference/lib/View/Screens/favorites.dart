@@ -1,4 +1,5 @@
 import 'package:feedfheconference/Controller/controller.dart';
+import 'package:feedfheconference/Util/Date.dart';
 import 'package:feedfheconference/View/Screens/common.dart';
 import 'package:feedfheconference/View/Screens/talk.dart';
 import 'package:flutter/cupertino.dart';
@@ -149,7 +150,7 @@ class TalkBox extends StatelessWidget {
               SizedBox(height: 5),
               Align(
                 alignment: Alignment.centerLeft,
-                child: Text(beginTime.hour.toString() + ':' + beginTime.minute.toString() + ' - ' + endTime.hour.toString() + ':' + endTime.minute.toString()),
+                child: Text(timeToString(beginTime) + ' - ' + timeToString(endTime)),
               ),
             ],
           )
