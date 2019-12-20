@@ -1,4 +1,5 @@
 import 'package:feedfheconference/Util/Date.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:feedfheconference/Controller/controller.dart';
 import './conference_home.dart';
@@ -66,13 +67,13 @@ List<Widget> listMyWidgets(String username) {
   @override
   List<Widget> widgetsList = new List();
 
-  widgetsList.add(Text(
-    'Available Conferences',
-    textAlign: TextAlign.center,
-    style: TextStyle(
-      fontSize: 30,
-      fontWeight: FontWeight.bold,
-    ),
+  widgetsList.add(Container(
+      padding: EdgeInsets.only(top: 10, bottom: 20),
+      child: Text(
+        'Available Conferences',
+        textAlign: TextAlign.center,
+        style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+      )
   ));
 
   var conferenceList = controller.getConferenceList();
@@ -113,53 +114,44 @@ class EventBox extends StatelessWidget {
         }, // handle your onTap here
         child: Container(
             decoration: new BoxDecoration(
-                color: Colors.blueGrey[300],
-                borderRadius: new BorderRadius.only(
-                    bottomLeft: const Radius.circular(30.0),
-                    bottomRight: const Radius.circular(30.0),
-                    topLeft: const Radius.circular(30.0),
-                    topRight: const Radius.circular(30.0))),
+                color: Colors.grey[200],
+            ),
             margin: const EdgeInsets.only(top: 10.0),
-            padding: const EdgeInsets.only(top: 10.0),
+            padding: const EdgeInsets.all(20.0),
             child: Stack(
               children: [
-                Container(
-                  padding: const EdgeInsets.only(bottom: 10.0),
-                  //color: Colors.green[200],
-                  //width: 215,
-                  width: MediaQuery.of(context).size.width - 145,
-                  child: Column(
-                    children: <Widget>[
-                      Text(
-                        name,
-                        textAlign: TextAlign.left,
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                        place,
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Text(
+                      name,
+                      textAlign: TextAlign.left,
+                      style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                      place,
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.black),
+                    ),
+                    SizedBox(height: 5),
+                    Text(
+                        dateToInvertedString(beginDate) + ' <-> ' + dateToInvertedString(endDate),
                         style: TextStyle(
                             fontSize: 15,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black),
-                      ),
-                      SizedBox(height: 5),
-                      Text(
-                          dateToInvertedString(beginDate) +
-                              ' <-> ' +
-                              dateToInvertedString(endDate),
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.black)),
-                    ],
-                  ),
+                            color: Colors.black)),
+                  ],
                 ),
               ],
-            )));
+            )
+        )
+    );
   }
 }
 

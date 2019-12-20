@@ -150,16 +150,6 @@ class SessionBox_Event extends SessionBox {
                     ],
                   )
               ),
-              Container(
-                //margin: const EdgeInsets.only(left: 1),
-                  child:Align(
-                    alignment: Alignment.topLeft,
-                    child: Icon(
-                      Icons.star,
-                      color: Colors.blue[500],
-                    ),
-                  )
-              ),
             ],
         )
     );
@@ -182,7 +172,7 @@ class EventBox_Event extends EventBox {
             padding: const EdgeInsets.only(bottom: 10),
             child: Column(
               children: [
-                Favorite(talk: talks[i], username: username),
+                Favorite(talk: talks[i], username: this.username),
                 Align(alignment: Alignment.centerLeft, child: Text(talks[i].title)),
                 SizedBox(height: 3),
                 Align(alignment: Alignment.centerLeft, child: Text(timeToString(talks[i].beginTime) + ' - ' + timeToString(talks[i].endTime))),
@@ -262,12 +252,12 @@ class FavoriteState extends State<Favorite> {
 
   _pressed() {
     setState(() {
-        if(isFavorite(widget.talk)) {
-          widget.userFavorites.remove(widget.talk.id);
-        }
-        else {
-          widget.userFavorites.add(widget.talk.id);
-        }
+      if(isFavorite(widget.talk)) {
+        widget.userFavorites.remove(widget.talk.id);
+      }
+      else {
+        widget.userFavorites.add(widget.talk.id);
+      }
     });
   }
 

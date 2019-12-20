@@ -161,7 +161,7 @@ class EventBox_ConfHome extends EventBox
           Navigator.of(context).push(route);
         },
         child: Container(
-            color: Colors.grey[100],
+            color: Colors.grey[200],
             margin: const EdgeInsets.only(bottom: 8.0),
             child: Stack(
               children: [

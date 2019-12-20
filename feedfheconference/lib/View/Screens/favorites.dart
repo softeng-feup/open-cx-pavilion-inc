@@ -116,50 +116,43 @@ class TalkBox extends StatelessWidget {
         Navigator.of(context).push(route);
       },
       child: Container(
-        color: Colors.grey[100],
-        child: Stack(
-          children: [
-            Container(
-                margin: const EdgeInsets.all(20),
-                child: Column(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Talk title: " + title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
-                    ),
-                    SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Conference: " + conferenceName, textAlign: TextAlign.left, style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      )
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text("Session: " + sessionTitle, textAlign: TextAlign.left, style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold
-                      )
-                      ),
-                    ),
-                    SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(room),
-                    ),
-                    SizedBox(height: 5),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(beginTime.hour.toString() + ':' + beginTime.minute.toString() + ' - ' + endTime.hour.toString() + ':' + endTime.minute.toString()),
-                    ),
-                  ],
-                )
-            )
-          ],
-        ),
+          color: Colors.grey[200],
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+          margin: EdgeInsets.only(bottom: 10),
+          child: Column(
+            children: <Widget>[
+              Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text("Talk title: " + title, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold))
+              ),
+              SizedBox(height: 5),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Conference: " + conferenceName, textAlign: TextAlign.left, style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold
+                )),
+              ),
+              SizedBox(height: 5),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Session: " + sessionTitle, textAlign: TextAlign.left, style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.bold
+                )),
+              ),
+              SizedBox(height: 5),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(room),
+              ),
+              SizedBox(height: 5),
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(beginTime.hour.toString() + ':' + beginTime.minute.toString() + ' - ' + endTime.hour.toString() + ':' + endTime.minute.toString()),
+              ),
+            ],
+          )
       ),
     );
   }
@@ -173,7 +166,7 @@ class CurrentPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return new ListView(
         padding: EdgeInsets.zero,
-        children: listMyWidgets(this.username)
+        children: listMyWidgets(this.username),
     );
   }
 }

@@ -195,8 +195,6 @@ class Controller
     sessionList.sort((a, b) =>
     (a.beginTime.toString().compareTo(b.beginTime.toString())));
 
-    printSessionList(sessionList);
-
     return sessionList;
   }
 
@@ -385,13 +383,6 @@ class Controller
       }
     }
 
-    // print('\n [');
-    // for(int i= 0; i < numberOFResponsesPerQuestion.length; i++){
-    //   print(numberOFResponsesPerQuestion[i].toString() + ', ');
-    // }
-
-    // print(']\n');
-
     int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(max);
     int questionId;
 
@@ -420,13 +411,6 @@ class Controller
         }
       }
     }
-    // print('Number of question = '+ numberOFResponsesPerQuestion.length.toString());
-    //     print('\n [');
-    // for(int i= 0; i < numberOFResponsesPerQuestion.length; i++){
-    //   print(numberOFResponsesPerQuestion[i].toString() + ', ');
-    // }
-
-    // print(']\n');
 
 
     int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(min);

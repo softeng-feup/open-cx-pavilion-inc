@@ -248,7 +248,6 @@ class Home extends StatelessWidget {
               child:
               FlatButton(
                 onPressed: (){
-                  print('Click');
                   },
                 child:Row(
                   mainAxisAlignment: MainAxisAlignment.center,
