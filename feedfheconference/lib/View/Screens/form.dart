@@ -31,8 +31,8 @@ List<Widget> listMyWidgets(var formKey, var formId, var context)
           if(formList[i].listIdFormQuestions[h] == formQuestionList[j].id){
             widgetsList.add(QuestionText(
               formQuestionList[j].questionText));
-              widgetsList.add(AnswerBox(formQuestionList[j].type, formQuestionList[j].questionSubText));
-            break;
+              widgetsList.add(AnswerBox(formQuestionList[j].id, formQuestionList[j].type, formQuestionList[j].questionSubText));
+              break;
           }  
         }
       }
@@ -46,6 +46,30 @@ List<Widget> listMyWidgets(var formKey, var formId, var context)
         // Validate returns true if the form is valid, or false
         // otherwise.
         if (formKey.currentState.validate()) {
+
+        for(int i = 0; i < widgetsList.length; i++)
+        {
+            if(widgetsList[i] is AnswerBox)
+            {
+              AnswerBox temp = widgetsList[i];
+
+              switch(temp.type)
+              {
+
+                case QuestionType.radioButton:
+                  controller.addResponse(temp.type, temp._radioValue, temp.questionID, controller.getIdfromusername(username));
+                  break;
+                case QuestionType.checkBox:
+                  controller.addResponse(temp.type, temp._checkBoxValues, temp.questionID, controller.getIdfromusername(username));
+                  break;
+                case QuestionType.textBox:
+                  controller.addResponse(temp.type, temp._userTextAnswer, temp.questionID, controller.getIdfromusername(username));
+                  break;
+              }
+
+            }
+        }
+
           Navigator.pop(context);
         }
       },
@@ -80,8 +104,13 @@ class QuestionText extends StatelessWidget {
 class AnswerBox extends StatefulWidget {
   QuestionType type;
   List questionSubText;
+  int questionID;
 
-  AnswerBox(this.type, this.questionSubText);
+  AnswerBox(this.questionID, this.type, this.questionSubText);
+
+  int _radioValue = -1;
+  List _checkBoxValues = new List();
+  String _userTextAnswer;
 
   @override
   State<StatefulWidget> createState() => _AnswerBoxState(this.type, this.questionSubText);
@@ -90,14 +119,13 @@ class AnswerBox extends StatefulWidget {
 class _AnswerBoxState extends State<AnswerBox> {
   QuestionType type;
   List questionSubText;
-  int _radioValue = -1;
-  List _checkBoxValues = new List();
 
   _AnswerBoxState(this.type, this.questionSubText);
 
   Widget answerBox(QuestionType type, List questionSubText) {
     if (type == QuestionType.textBox) {
       return TextFormField(
+        onSaved: (value) => widget._userTextAnswer = value,
         minLines: 1,
         maxLines: 4,
         decoration: new InputDecoration(
@@ -117,21 +145,22 @@ class _AnswerBoxState extends State<AnswerBox> {
                 title: Text(questionSubText[index]),
                 leading: Radio(
                     value: index,
-                    groupValue: _radioValue,
-                    onChanged: (int e) => setState(() {_radioValue = e;}))
+                    groupValue: widget._radioValue,
+                    onChanged: (int e) => setState(() {widget._radioValue = e;}))
               );
             }),
           );
     } else if (type == QuestionType.checkBox) {
       return Column(
         children: List.generate(questionSubText.length, (index) {
-          _checkBoxValues.add(false);
+          if(widget._checkBoxValues.length != questionSubText.length)
+            widget._checkBoxValues.add(false);
 
           return ListTile(
               title: Text(questionSubText[index]),
               leading: Checkbox(
-                  value: _checkBoxValues[index],
-                  onChanged: (bool e) => setState(() {_checkBoxValues[index] = e;}))
+                  value: widget._checkBoxValues[index],
+                  onChanged: (bool e) => setState(() {widget._checkBoxValues[index] = e;}))
           );
         }),
       );

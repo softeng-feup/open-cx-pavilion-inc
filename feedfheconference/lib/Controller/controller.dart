@@ -511,6 +511,13 @@ class Controller
     return id;
   }
 
+  int addResponse(type, response, questionId, userId)
+  {
+    int id = db.responseList.length + 1;
+    db.responseList.add(new Response(id, type, response, questionId, userId));
+    return id;
+  }
+
 }
 
 Controller controller = new Controller();
