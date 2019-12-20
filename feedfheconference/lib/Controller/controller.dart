@@ -115,6 +115,14 @@ class Controller
     }
   }
 
+  int getIdfromusername(String username){
+    for(var i = 0; i < db.userList.length; i++){
+      if(db.userList[i].userName == username){
+        return db.userList[i].id;
+      }
+    }
+  }
+
   String get_email_from_username(String username){
     for(var i = 0; i < db.userList.length; i++){
       if(db.userList[i].userName == username){
@@ -472,6 +480,7 @@ class Controller
     return tList;
   }
 
+
   void deletelistIdFormQuestion(int formID, int questionIndex)
   {
     db.formList[formID].listIdFormQuestions.removeAt(questionIndex);
@@ -495,10 +504,10 @@ class Controller
     db.formList[formIndex].listIdFormQuestions.add(questionID);
   }
 
-  int addRate(rating, talkID)
+  int addRate(rating, talkID, userId)
   {
     int id = db.rateList.length + 1;
-    db.rateList.add(new Rate(id, rating, talkID));
+    db.rateList.add(new Rate(id, rating, talkID, userId));
     return id;
   }
 

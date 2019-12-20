@@ -5,9 +5,10 @@ import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 class TalkRating extends StatefulWidget {
   final int talkId;
+  final int userId;
 
   @override
-  TalkRating({Key key, this.talkId}): super(key: key);
+  TalkRating({Key key, this.talkId, this.userId}): super(key: key);
   _TalkRatingState createState() => _TalkRatingState();
 }
 
@@ -57,7 +58,7 @@ class _TalkRatingState extends State<TalkRating> {
                       color: Colors.blue,
                       textColor: Colors.white,
                       onPressed: () {
-                          controller.addRate(rating, widget.talkId);
+                          controller.addRate(rating, widget.talkId, widget.userId);
                           Navigator.of(context).pop();
                         },
                       child: Text('Rate!', style: TextStyle(fontWeight: FontWeight.bold)))

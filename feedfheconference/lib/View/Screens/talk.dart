@@ -102,6 +102,7 @@ List<Widget> listMyWidgets(talkId, context, username) {
 
   var talk;
   var talkList = controller.getTalkList();
+  var userId = controller.getIdfromusername(username);
 
   for(int i = 0; i < talkList.length; i++)
   {
@@ -113,7 +114,35 @@ List<Widget> listMyWidgets(talkId, context, username) {
     }
   }
 
+  var form;
+  var formCreated = false;
+  var formList = controller.getFormList();
+
+  for(int i = 0; i < formList.length; i++)
+  {
+    if(formList[i].id == talk.formId)
+    {
+      form = formList[i];
+      formCreated = true;
+      //  print(talk);
+      break;
+    }
+  }
+
+
+  var organizerList = controller.getOrganizerList();
+  var organizer = false;
+  for(int i = 0; i < organizerList.length; i++){
+    if(organizerList[i].id == userId) {
+      organizer = true;
+      break;
+    }
+  }
+
+
+
   //Speakers
+
   var talkSpeakerIDs = talk.speakersId;
   var talkSpeakers = new List(); //Contains all the speakers (object) for current talk
   var speakerList = controller.getSpeakerList();
@@ -237,28 +266,6 @@ List<Widget> listMyWidgets(talkId, context, username) {
       )
   );
 
-  //Form button
-  widgetsList.add(
-      Container(
-          margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
-          child: FlatButton(
-            color: Colors.blue,
-            textColor: Colors.white,
-            disabledColor: Colors.grey,
-            disabledTextColor: Colors.black,
-            padding: EdgeInsets.all(8.0),
-            splashColor: Colors.blueAccent,
-            onPressed: () {
-              var route = MaterialPageRoute(
-                builder: (BuildContext context){return new FormPage(formId: talk.formId);},
-              );
-              Navigator.of(context).push(route);
-            },
-            child: Text('Feed our talk!', style: TextStyle(fontWeight: FontWeight.bold),),
-          )
-      )
-  );
-
   bool speakerIdAux = false;
 
   for(var i = 0 ; i < talkSpeakers.length; i++){
@@ -268,7 +275,60 @@ List<Widget> listMyWidgets(talkId, context, username) {
     }
   }
 
-  if(speakerIdAux){
+  var responseList = controller.getResponseList();
+  var questionList = controller.getFormQuestionList();
+
+
+  //Form button
+  if(!speakerIdAux && formCreated) {
+
+    bool respondedToForm = false;
+    for(int i = 0; i < responseList.length; i++){
+      if(responseList[i].userId == userId){
+        for(int j = 0; j < questionList.length; j++){
+          if(responseList[i].questionId == questionList[j].id){
+            if(form.listIdFormQuestions.indexOf(questionList[j].id) != -1){
+              respondedToForm = true;
+              break;
+            }
+          }
+        }
+        if(respondedToForm){
+          break;
+        }
+      }
+    }
+
+    if(!respondedToForm && !organizer) {
+      widgetsList.add(
+          Container(
+              margin: const EdgeInsets.only(top: 10, left: 35, right: 35),
+              child: FlatButton(
+                color: Colors.blue,
+                textColor: Colors.white,
+                disabledColor: Colors.grey,
+                disabledTextColor: Colors.black,
+                padding: EdgeInsets.all(8.0),
+                splashColor: Colors.blueAccent,
+                onPressed: () {
+                  var route = MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return new FormPage(formId: talk.formId);
+                    },
+                  );
+                  Navigator.of(context).push(route);
+                },
+                child: Text('Feed our talk!',
+                  style: TextStyle(fontWeight: FontWeight.bold),),
+              )
+          )
+      );
+    }
+  }
+
+
+
+  if((speakerIdAux || organizer) && formCreated){
     widgetsList.add(
         Container(
             margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
@@ -312,23 +372,39 @@ List<Widget> listMyWidgets(talkId, context, username) {
       )
   );
 
-  widgetsList.add(
-      Container(
-        margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
-        child: FlatButton(
-            color: Colors.blue,
-            textColor: Colors.white,
-            padding: EdgeInsets.all(8),
-            onPressed: () {
-              var route = MaterialPageRoute(
-                  builder: (BuildContext context) => new TalkRating(talkId: talkId)
-              );
-              Navigator.of(context).push(route);
-            },
-            child: Text('Rate talk', style: TextStyle(fontWeight: FontWeight.bold))
-        ),
-      )
-  );
+  var rateList = controller.getRateList();
+  bool rateAux = true;
+  for(var i = 0 ; i < rateList.length; i++){
+
+    if(rateList[i].userId == userId){
+      if(rateList[i].talkId == talkId) {
+        rateAux = false;
+        break;
+      }
+    }
+  }
+
+  if(rateAux && !speakerIdAux && !organizer){
+    widgetsList.add(
+        Container(
+          margin: const EdgeInsets.only(top: 10, left: 35, right: 35),
+          child: FlatButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              padding: EdgeInsets.all(8),
+              onPressed: () {
+                var route = MaterialPageRoute(
+                    builder: (BuildContext context) =>
+                    new TalkRating(talkId: talkId, userId: userId)
+                );
+                Navigator.of(context).push(route);
+              },
+              child: Text(
+                  'Rate talk', style: TextStyle(fontWeight: FontWeight.bold))
+          ),
+        )
+    );
+  }
 
   return widgetsList;
 }

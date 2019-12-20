@@ -110,8 +110,9 @@ class Rate {
   int id;
   double rate;
   int talkId;
+  int userId;
 
-  Rate(this.id, this.rate, this.talkId);
+  Rate(this.id, this.rate, this.talkId, this.userId);
 }
 
 
@@ -193,9 +194,9 @@ class Event{
 }
 
 //Populate db
-
-
 Attendee attendee = new Attendee(1, 'jose guerra', 'lockdown', 'comander23@live.com.pt', 'password');
+Attendee attendee2 = new Attendee(5, 'jose guerra', 'lockdown4', 'comander23@live.com.pt', 'password');
+
 Organizer organizer = new Organizer(2, 'Luis Silve', 'lockdown1', 'qualquercoisanaosei@treta.com', '1234');
 Speaker speaker1 = new Speaker(3, 'Stefan Monnier', 'lockdown2', 'lollololololl@live.com', 'qwerd',  'Master of rings', 'videogames');
 Speaker speaker2 = new Speaker(4 , 'Martim Carvalho', 'lockdown3','lollololololdeddl@live.com', '123456',  'Master of rings', 'videogames');
@@ -228,11 +229,10 @@ Response response21 = new Response(22, QuestionType.textBox, "Notreally", 6, 1);
 Response response22 = new Response(23, QuestionType.radioButton, '3', 7, 1);
 Response response23 = new Response(24, QuestionType.checkBox, ['The speaker', 'The content'], 8, 1);
 
-Rate rate1 = new Rate(1, 3, 1);
-Rate rate2 = new Rate(2, 5, 1);
-Rate rate3 = new Rate(3, 4, 1);
-Rate rate4 = new Rate(4, 3.5, 1);
-Rate rate5 = new Rate(5, 4.5, 1);
+Rate rate1 = new Rate(1, 3, 1, 1);
+Rate rate2 = new Rate(2, 5, 1, 2);
+Rate rate3 = new Rate(3, 4, 1, 3);
+Rate rate4 = new Rate(4, 3.5, 1, 4);
 
 
 List<String> radioButtonoptions = ['1','2','3','4','5'];
@@ -405,6 +405,7 @@ class Database {
 
   List<User> userList = [
     attendee,
+    attendee2,
     organizer,
     speaker1,
     speaker2
@@ -451,8 +452,7 @@ class Database {
      rate1,
      rate2,
      rate3,
-     rate4,
-     rate5
+     rate4
    ];
 }
 
