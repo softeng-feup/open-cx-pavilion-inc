@@ -580,7 +580,7 @@ List<Session> sessionListForAEvent(int eventId){
   sessionList.sort((a, b) =>
       (a.beginTime.toString().compareTo(b.beginTime.toString())));
     
-  printSessionList(sessionList);
+
 
   return sessionList;
 }
@@ -773,12 +773,7 @@ List <String> mostAnsweredQuestions(int formId){
       }
     }
 
-    // print('\n [');
-    // for(int i= 0; i < numberOFResponsesPerQuestion.length; i++){
-    //   print(numberOFResponsesPerQuestion[i].toString() + ', ');
-    // }
-
-    // print(']\n');
+    
 
     int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(max);
     int questionId;
@@ -808,13 +803,7 @@ List <String> leastAnsweredQuestions(int formId){
         }
       }
     }
-    // print('Number of question = '+ numberOFResponsesPerQuestion.length.toString());
-    //     print('\n [');
-    // for(int i= 0; i < numberOFResponsesPerQuestion.length; i++){
-    //   print(numberOFResponsesPerQuestion[i].toString() + ', ');
-    // }
-
-    // print(']\n');
+   
 
 
     int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(min);

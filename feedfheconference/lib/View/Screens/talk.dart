@@ -113,7 +113,6 @@ List<Widget> listMyWidgets(talkId, context, username) {
     if(db.talkList[i].id == talkId)
     {
       talk = db.talkList[i];
-   //  print(talk);
       break;
     }
   }
