@@ -1,5 +1,6 @@
 import 'package:feedfheconference/Controller/controller.dart';
 import 'package:feedfheconference/Util/Question.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import './common.dart';
 // Create a Form widget.
@@ -21,7 +22,7 @@ class QuestionStatisticsPage extends StatefulWidget {
 }
 
 
-List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
+List<Widget>  listQuestionStatistics(BuildContext context, var questionId) {
   @override
   List<Widget> widgetsList = new List();
 
@@ -33,40 +34,49 @@ List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
     List<String> questionSubText = controller.getSubQuestionText(questionId);
     QuestionType type = controller.getQuestionType(questionId);
     if (type == QuestionType.textBox) {
-      widgetsList.add(Text(questionText,
-          style: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)));
+      widgetsList.add(Container(
+          padding: EdgeInsets.only(left: 30),
+          child: Text(questionText,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)
+          )
+      ));
     }
     widgetsList.add(SizedBox(
       height: 10,
     ));
     for (int i = 0; i < questionSubText.length; i++) {
-      widgetsList.add(Text(
-          questionSubText[i] +
-              " " +
-              controller.questionAnswerPercentage(questionId, questionSubText[i]) +
-              "%",
-          style: TextStyle(fontWeight: FontWeight.bold)));
+      widgetsList.add(Container(
+          margin: EdgeInsets.all(10),
+          child:Text(
+              questionSubText[i] + " " + controller.questionAnswerPercentage(questionId, questionSubText[i]) + "%", 
+              style: TextStyle(fontWeight: FontWeight.bold)
+          )
+      ));
       widgetsList.add(SizedBox(
         height: 10,
       ));
     }
   } else {
-    widgetsList.add(Text(questionText,
-        textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)));
+    widgetsList.add(Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Text(questionText,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)
+        )
+    ));
     widgetsList.add(SizedBox(
       height: 10,
     ));
-    widgetsList.add(Text(
-        'Percentage of people who answered this question : ' +
-            controller.getAnswerPercentageTextBox(questionId) +
-            '%',
-        textAlign: TextAlign.center,
-        style: TextStyle(fontSize: 20, color: Colors.black)));
+    widgetsList.add(Container(
+        padding: EdgeInsets.symmetric(horizontal: 10),
+        child: Text(
+            'Percentage of people who answered this question : ' + controller.getAnswerPercentageTextBox(questionId) + '%',
+            textAlign: TextAlign.left,
+            style: TextStyle(fontSize: 20, color: Colors.black)
+        )
+    ));
     widgetsList.add(SizedBox(
-      height: 10,
+      height: 25,
     ));
     widgetsList.add(Text('Answers:',
         textAlign: TextAlign.center,
@@ -97,26 +107,26 @@ List<Widget> listQuestionStatistics(BuildContext context, var questionId) {
 Widget questionTypeTextBox(
     BuildContext context, String response, String username) {
   return Container(
-      color: Colors.transparent,
-      child: Container(
-          decoration: new BoxDecoration(
-              color: Colors.blueGrey[300],
-              borderRadius: new BorderRadius.only(
-                  bottomLeft: const Radius.circular(10.0),
-                  bottomRight: const Radius.circular(10.0),
-                  topLeft: const Radius.circular(10.0),
-                  topRight: const Radius.circular(10.0))),
-          child: Column(children: <Widget>[
+      padding: EdgeInsets.all(10),
+      decoration: new BoxDecoration(
+        color: Colors.grey[200],
+      ),
+      child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
             Text(username + " says: ",
                 textAlign: TextAlign.left,
                 style: TextStyle(
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                     color: Colors.black)),
+            SizedBox(height: 10),
             Text(response,
                 textAlign: TextAlign.left,
                 style: TextStyle(fontSize: 20, color: Colors.black))
-          ])));
+          ]
+      )
+  );
 }
 
 
@@ -163,10 +173,9 @@ NestedScrollView buildQuestionStatisticPage(
       },
       body: new Scaffold(
           body: Container(
-              margin: const EdgeInsets.all(20.0),
+              margin: const EdgeInsets.only(top: 15.0),
               //color: Colors.amber[600],
               child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(6),
                   child: new Column(
                       // crossAxisAlignment: CrossAxisAlignment.start,
                       children:

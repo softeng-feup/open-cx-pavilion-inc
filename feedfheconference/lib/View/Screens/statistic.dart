@@ -172,7 +172,7 @@ List <Widget> printQuestions(List <String> questions){
   for(int i = 0; i < questions.length; i++){
     listOfQuestions.add(Text(
         questions[i],
-        style: TextStyle(fontSize: 20, color: Colors.black)));
+        style: TextStyle(fontSize: 17, color: Colors.black)));
     listOfQuestions.add(SizedBox(height: 10));
   }
   return listOfQuestions;
@@ -192,21 +192,28 @@ class GeneralStats extends StatelessWidget {
     }
 
      return Container(
-       padding: EdgeInsets.only(left: 5),
+       padding: EdgeInsets.symmetric(horizontal: 10),
        child: Column(
-       children: <Widget>[
-          SizedBox(height: 40,),
+         crossAxisAlignment: CrossAxisAlignment.start,
+         children: <Widget>[
+           SizedBox(height: 40,),
            Text("Nº of people who submitted the form: " + controller.numberOfPeopleSubmittedForm(formId).toString(), style: TextStyle(
               fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
            SizedBox(height: 20,),
            Text("Most answered questions: ", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
            SizedBox(height: 15),
-           Column(children: printQuestions(mostAnswered), crossAxisAlignment: CrossAxisAlignment.start),
+           Container(
+               padding: EdgeInsets.symmetric(horizontal: 10),
+               child: Column(children: printQuestions(mostAnswered), crossAxisAlignment: CrossAxisAlignment.start)
+           ),
            SizedBox(height: 20),
            Text("Least answered questions: ", style: TextStyle(
                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black)),
            SizedBox(height: 15),
-           Column(children: printQuestions(leastAnswered), crossAxisAlignment: CrossAxisAlignment.start),
+           Container(
+             padding: EdgeInsets.symmetric(horizontal: 10),
+             child: Column(children: printQuestions(leastAnswered), crossAxisAlignment: CrossAxisAlignment.start)
+           ),
            SizedBox(height: 20)
          ],
        )

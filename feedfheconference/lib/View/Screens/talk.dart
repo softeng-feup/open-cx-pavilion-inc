@@ -108,7 +108,6 @@ List<Widget> listMyWidgets(talkId, context, username) {
     if(talkList[i].id == talkId)
     {
       talk = talkList[i];
-      //  print(talk);
       break;
     }
   }
@@ -152,7 +151,7 @@ List<Widget> listMyWidgets(talkId, context, username) {
 
   widgetsList.add(
       Container(
-          margin: const EdgeInsets.symmetric(horizontal: 5),
+          margin: const EdgeInsets.symmetric(horizontal: 10),
           child: Row(children: <Widget> [
             Text("Rating: " + calculateRating(talkId).toStringAsFixed(1).toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             Icon(Icons.star, color: Colors.amber)
@@ -163,20 +162,19 @@ List<Widget> listMyWidgets(talkId, context, username) {
   //Speakers
   widgetsList.add(
       Container(
-          margin: const EdgeInsets.only(top: 20, bottom: 5, left: 5),
-          child: Text('Speakers: ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
+          decoration: BoxDecoration(border: Border(top: BorderSide())),
+          padding: EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.only(top: 20, bottom: 5, left: 10, right: 10),
+          child: Text('Speakers: ', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
       )
   );
-
-
 
   for(int i = 0; i < talkSpeakers.length; i++)
   {
     //Info to be added about each Speaker
     widgetsList.add(
         Container(
-          //color: Colors.green,
-            margin: const EdgeInsets.all(10),
+            margin: const EdgeInsets.only(left: 15, top: 5, bottom: 5),
             height: 48,
             child:
             Stack(
@@ -193,9 +191,6 @@ List<Widget> listMyWidgets(talkId, context, username) {
                   alignment: Alignment.bottomLeft,
                   child: Text('Field Expertize: ' + talkSpeakers[i].fieldOfExpertize, style: TextStyle(fontSize: 13),),
                 ),
-
-                //Speaker Image Goes Here
-
               ],
             )
         )
@@ -205,8 +200,9 @@ List<Widget> listMyWidgets(talkId, context, username) {
   //Duration
   widgetsList.add(
     Container(
-      //color: Colors.green,
-        margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
+        decoration: BoxDecoration(border: Border(top: BorderSide())),
+        padding: EdgeInsets.only(top: 10),
+        margin: const EdgeInsets.only(top: 8, left: 10, right: 10),
         child: Text('Starts at: ' + timeToString(talk.beginTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
     ),
   );
@@ -214,7 +210,7 @@ List<Widget> listMyWidgets(talkId, context, username) {
   widgetsList.add(
     Container(
       //color: Colors.green,
-        margin: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
+        margin: const EdgeInsets.only(bottom: 5, left: 10, right: 10),
         child: Text('Ends at: ' + timeToString(talk.endTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
     ),
   );
@@ -222,8 +218,9 @@ List<Widget> listMyWidgets(talkId, context, username) {
   //About this talk
   widgetsList.add(
       Container(
-        //color: Colors.green,
-          margin: const EdgeInsets.only(top: 10, bottom: 5, left: 5),
+          decoration: BoxDecoration(border: Border(top: BorderSide())),
+          padding: EdgeInsets.only(top: 10),
+          margin: const EdgeInsets.all(10),
           child: Text('About this talk:', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
       )
   );
@@ -232,7 +229,7 @@ List<Widget> listMyWidgets(talkId, context, username) {
   widgetsList.add(
       Container(
         //color: Colors.green,
-          margin: const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
+          margin: const EdgeInsets.only(top: 5, bottom: 10, left: 8, right: 8),
           child: Text(talk.description, style: TextStyle(fontSize: 15),)
       )
   );
