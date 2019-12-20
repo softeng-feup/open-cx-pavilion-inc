@@ -1,4 +1,3 @@
-import 'package:feedfheconference/Model/db.dart';
 import 'package:feedfheconference/Util/Date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -50,7 +49,7 @@ List<Widget> currentPageList(int conferenceId, String username){
   for(int i = 0; i < conferenceList.length; i++){
     if(conferenceList[i].id == conferenceId){
       for(int j = 0; j < numberOfDays; j++){
-        now = Jiffy(conference.beginDate).add(days: j); //2018-07-13 00:00:00.000
+        now = Jiffy(conferenceList[i].beginDate).add(days: j); //2018-07-13 00:00:00.000
         pageList.add(CurrentPage(conferenceId, now, username));
       }
       break;
@@ -106,8 +105,8 @@ List<Widget> listMyWidgets(int conferenceId, DateTime date, String username) {
 
        for(int i = 0; i < sessionList.length; i++){
          if(sessionList[i].beginTime.day == date.day && sessionList[i].beginTime.month == date.month && sessionList[i].beginTime.day == date.day){
-         List<Talk> talkList = talkListForASession(sessionList[i].id);
-            widgetsList.add(EventBox(db.conferenceList[y].name, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList, username));
+         var talkList = controller.talkListForASession(sessionList[i].id);
+            widgetsList.add(EventBox_ConfHome(conferenceList[y].name, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList, username));
          }
        }
       }
@@ -119,7 +118,7 @@ List<Widget> listMyWidgets(int conferenceId, DateTime date, String username) {
 
 class EventBox_ConfHome extends EventBox
 {
-  EventBox_ConfHome(String conferenceName, int eventId, String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, List<Talk> talks, String username) : super(conferenceName, eventId, eventTitle, sessionTitle, room, beginTime, endTime, talks, username);
+  EventBox_ConfHome(String conferenceName, int eventId, String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, var talks, String username) : super(conferenceName, eventId, eventTitle, sessionTitle, room, beginTime, endTime, talks, username);
 
   @override
   Widget build(BuildContext context) {
@@ -206,15 +205,17 @@ class EventBox_ConfHome extends EventBox
 }
 
 class Favorite extends StatefulWidget {
-  final Talk talk;
+  var talk;
   final String username;
   List<int> userFavorites = new List();
 
   @override
   Favorite({Key key, this.talk, this.username}): super(key: key) {
-    for (var i = 0; i < db.userList.length; i++) {
-      if (db.userList[i].userName == this.username) {
-        this.userFavorites = db.userList[i].favoriteTalks;
+    var userList = controller.getUserList();
+
+    for (var i = 0; i < userList.length; i++) {
+      if (userList[i].userName == this.username) {
+        this.userFavorites = userList[i].favoriteTalks;
       }
     }
   }
@@ -235,8 +236,8 @@ class FavoriteState extends State<Favorite> {
     });
   }
 
-  isFavorite(Talk t) {
-    if(widget.userFavorites.indexOf(widget.talk.id) == -1) {
+  isFavorite(var t) {
+    if(widget.userFavorites.indexOf(t.id) == -1) {
       return false;
     }
     else

@@ -57,7 +57,7 @@ NestedScrollView buildHomePage(
   );
 }
 
-List<Widget> listMyWidgets() {
+List<Widget> listMyWidgets(String username) {
 
   controller.sortConferenceList();
   controller.sortSessionList();
@@ -82,7 +82,8 @@ List<Widget> listMyWidgets() {
         conferenceList[i].name,
         conferenceList[i].place,
         conferenceList[i].beginDate,
-        conferenceList[i].endDate));
+        conferenceList[i].endDate,
+        username));
   }
 
   //for (int i = 0; i < db.sessionList.length; i++) {}

@@ -1,4 +1,4 @@
-import 'package:feedfheconference/Model/db.dart';
+import 'package:feedfheconference/Controller/controller.dart';
 import 'package:flutter/material.dart';
 import 'package:random_color/random_color.dart';
 
@@ -17,33 +17,6 @@ class ProfilePage extends StatelessWidget {
       home: Home(username),
     );
   }
-}
-
-String get_name_from_username(String username){
-  for(var i = 0; i < db.userList.length; i++){
-    if(db.userList[i].userName == username){
-      return db.userList[i].name;
-    }
-  }
-
-}
-String get_email_from_username(String username){
-  for(var i = 0; i < db.userList.length; i++){
-    if(db.userList[i].userName == username){
-      return db.userList[i].email;
-    }
-  }
-
-
-}
-user_type get_permissions_from_username(String username){
-  for(var i = 0; i < db.userList.length; i++){
-    if(db.userList[i].userName == username){
-       return db.userList[i].userType;
-    }
-  }
-
-
 }
 
 class Home extends StatelessWidget {
@@ -76,9 +49,9 @@ class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    var name = get_name_from_username(username);
-    var email = get_email_from_username(username);
-    var permitionLevel = get_permissions_from_username(username);
+    var name = controller.get_name_from_username(username);
+    var email = controller.get_email_from_username(username);
+    var permitionLevel = controller.get_permissions_from_username(username);
 
     //Used for profile 'icon'
     var _initialLetter = name[0].toUpperCase();

@@ -50,12 +50,20 @@ NestedScrollView buildFavoritesPage(BuildContext context, TabController _tabCont
 List<Widget> listMyWidgets(String username) {
   @override
   List<Widget> widgetList = new List();
-  List<int> favorites;
 
   var conferenceList = controller.getConferenceList();
   var eventList = controller.getEventList();
   var sessionList = controller.getSessionList();
   var talkList = controller.getTalkList();
+
+  List<int> favorites;
+  var userList = controller.getUserList();
+
+  for (var i = 0; i < userList.length; i++) {
+    if (userList[i].userName == username) {
+      favorites = userList[i].favoriteTalks;
+    }
+  }
 
   for(int y = 0; y < conferenceList.length; y++){
     for(int i = 0; i < conferenceList[y].eventIdList.length; i++) {
@@ -69,7 +77,7 @@ List<Widget> listMyWidgets(String username) {
                 for(int k = 0; k < session.talkIdList.length; k++) {
                   for(int z = 0; z < talkList.length; z++) {
                     if(session.talkIdList[k] == talkList[z].id) {
-                        if(talkList[z].isFavorite) {
+                        if(favorites.indexOf(talkList[z].id) != -1) {
                           widgetList.add(TalkBox(conferenceList[y].name, event.title, session.title, session.room, talkList[z].id, talkList[z].title, talkList[z].beginTime, talkList[z].endTime));
                         }
                     }

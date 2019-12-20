@@ -20,9 +20,10 @@ abstract class EventBox extends StatelessWidget
   final DateTime endTime;
   final List<Talk>talks;
   final String conferenceName;
+  final String username;
   int eventId;
 
-  EventBox(this.conferenceName,this.eventId,this.eventTitle,this.sessionTitle,this.room,this.beginTime,this.endTime,this.talks);
+  EventBox(this.conferenceName,this.eventId,this.eventTitle,this.sessionTitle,this.room,this.beginTime,this.endTime,this.talks,this.username);
 
   Widget build(BuildContext context);
 }
@@ -104,6 +105,30 @@ class Controller
   List<Rate> getRateList()
   {
     return db.rateList;
+  }
+
+  String get_name_from_username(String username){
+    for(var i = 0; i < db.userList.length; i++){
+      if(db.userList[i].userName == username){
+        return db.userList[i].name;
+      }
+    }
+  }
+
+  String get_email_from_username(String username){
+    for(var i = 0; i < db.userList.length; i++){
+      if(db.userList[i].userName == username){
+        return db.userList[i].email;
+      }
+    }
+  }
+
+  user_type get_permissions_from_username(String username){
+    for(var i = 0; i < db.userList.length; i++){
+      if(db.userList[i].userName == username){
+        return db.userList[i].userType;
+      }
+    }
   }
 
   // Functions that change the db

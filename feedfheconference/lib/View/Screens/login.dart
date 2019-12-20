@@ -1,7 +1,7 @@
+import 'package:feedfheconference/Controller/controller.dart';
 import 'package:feedfheconference/View/Screens/home.dart';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
+
 
 class LoginPage extends StatefulWidget {
   @override
@@ -72,10 +72,11 @@ class _LoginPageState extends State<LoginPage> {
                     if (value.isEmpty) {
                       return 'Please enter your password';
                     } else {
-                      for (var i = 0; i < db.userList.length; i++) {
-                        if (db.userList[i].email == _emailOrUsername ||
-                            db.userList[i].userName == _emailOrUsername) {
-                          if (db.userList[i].password == _password) {
+                      var userList = controller.getUserList();
+                      for (var i = 0; i < userList.length; i++) {
+                        if (userList[i].email == _emailOrUsername ||
+                            userList[i].userName == _emailOrUsername) {
+                          if (userList[i].password == _password) {
                             return null;
                           }
                         }
@@ -104,9 +105,10 @@ class _LoginPageState extends State<LoginPage> {
                       var username;
                       bool emailValid = RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+").hasMatch(_emailOrUsername);
                       if(emailValid){
-                        for(var i = 0; i < db.userList.length; i++) {
-                          if (db.userList[i].email == _emailOrUsername) {
-                            username = db.userList[i].userName;
+                        var userList = controller.getUserList();
+                        for(var i = 0; i < userList.length; i++) {
+                          if (userList[i].email == _emailOrUsername) {
+                            username = userList[i].userName;
                             break;
                           }
                         }

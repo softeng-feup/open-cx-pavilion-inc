@@ -2,7 +2,6 @@ import 'package:feedfheconference/Controller/controller.dart';
 import 'package:feedfheconference/Util/Question.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import './common.dart';
 // Create a Form widget.
 
 class CreateFormPage extends StatefulWidget {

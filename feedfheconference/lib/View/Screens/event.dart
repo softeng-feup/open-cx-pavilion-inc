@@ -1,6 +1,6 @@
 import 'package:feedfheconference/Controller/controller.dart';
-import 'package:feedfheconference/Model/db.dart';
 import 'package:feedfheconference/Util/Date.dart';
+import 'package:feedfheconference/View/Screens/conference_home.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -96,7 +96,8 @@ NestedScrollView buildEventPage(
 
 
 class SessionBox_Event extends SessionBox {
-  SessionBox_Event(String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, List<Talk> talks) : super(eventTitle, sessionTitle, room, beginTime, endTime, talks);
+  SessionBox_Event(String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, var talks) : super(eventTitle, sessionTitle, room, beginTime, endTime, talks);
+
 
   @override
   Widget build(BuildContext context){
@@ -168,7 +169,7 @@ class SessionBox_Event extends SessionBox {
 
 class EventBox_Event extends EventBox {
 
-  EventBox_Event(String conferenceName, int eventId, String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, List<Talk> talks, String username) : super(conferenceName, eventId, eventTitle, sessionTitle, room, beginTime, endTime, talks, username);
+  EventBox_Event(String conferenceName, int eventId, String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, var talks, String username) : super(conferenceName, eventId, eventTitle, sessionTitle, room, beginTime, endTime, talks, username);
 
 
   @override
@@ -239,15 +240,17 @@ class EventBox_Event extends EventBox {
 }
 
 class Favorite extends StatefulWidget {
-  final Talk talk;
+  var talk;
   final String username;
   List<int> userFavorites = new List();
 
   @override
   Favorite({Key key, this.talk, this.username}): super(key: key) {
-    for (var i = 0; i < db.userList.length; i++) {
-      if (db.userList[i].userName == this.username) {
-        this.userFavorites = db.userList[i].favoriteTalks;
+    var userList = controller.getUserList();
+
+    for (var i = 0; i < userList.length; i++) {
+      if (userList[i].userName == this.username) {
+        this.userFavorites = userList[i].favoriteTalks;
       }
     }
   }
@@ -268,8 +271,8 @@ class FavoriteState extends State<Favorite> {
     });
   }
 
-  isFavorite(Talk t) {
-    if(widget.userFavorites.indexOf(widget.talk.id) == -1) {
+  isFavorite(var t) {
+    if(widget.userFavorites.indexOf(t.id) == -1) {
       return false;
     }
     else
@@ -302,8 +305,8 @@ List<Widget> listMySessions(int eventId, String conferenceName, String username)
   var sessionList  = controller.sessionListForAEvent(eventId);
 
   for(int i = 0; i < sessionList.length; i++){
-      List<Talk> talkList = talkListForASession(sessionList[i].id);
-      widgetsList.add(EventBox(conferenceName, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList, username));
+      var talkList = controller.talkListForASession(sessionList[i].id);
+      widgetsList.add(EventBox_ConfHome(conferenceName, event.id, event.title, sessionList[i].title, sessionList[i].room, sessionList[i].beginTime, sessionList[i].endTime, talkList, username));
     }  
   return widgetsList;
 }

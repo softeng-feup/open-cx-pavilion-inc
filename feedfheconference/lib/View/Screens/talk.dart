@@ -82,6 +82,24 @@ NestedScrollView buildTalkPage(
 
 double calculateRating(talkId) {
 
+  var ratings = new List();
+  var rateList = controller.getRateList();
+  double soma = 0;
+
+  for (int i = 0; i < rateList.length; i++) {
+    if (rateList[i].talkId == talkId)
+      ratings.add(rateList[i]);
+  }
+
+  for(int i = 0; i < ratings.length; i++) {
+    soma += ratings[i].rate;
+  }
+
+  return soma /= ratings.length;
+}
+
+List<Widget> listMyWidgets(talkId, context, username) {
+
   var talk;
   var talkList = controller.getTalkList();
 
@@ -90,7 +108,7 @@ double calculateRating(talkId) {
     if(talkList[i].id == talkId)
     {
       talk = talkList[i];
-   //  print(talk);
+      //  print(talk);
       break;
     }
   }
@@ -105,10 +123,10 @@ double calculateRating(talkId) {
     for(int y = 0; y < speakerList.length; y++)
     {
       if(speakerList[y].id == talkSpeakerIDs[i])
-        {
-          talkSpeakers.add(speakerList[y]);
-          break;
-        }
+      {
+        talkSpeakers.add(speakerList[y]);
+        break;
+      }
     }
   }
 
@@ -117,102 +135,85 @@ double calculateRating(talkId) {
 
   //Title
   widgetsList.add(
-    Container(
+      Container(
         //color: Colors.green,
-        margin: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 15),
-        child: Text( talk.title,
-      textAlign: TextAlign.center,
-      style: TextStyle(
-          fontSize: 26,
-          fontWeight: FontWeight.bold,
-        ),
+          margin: const EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 15),
+          child: Text( talk.title,
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 26,
+              fontWeight: FontWeight.bold,
+            ),
+          )
       )
-    )
   );
 
- 
 
-    var ratings = new List();
-    double soma = 0;
-
-    var rateList = controller.getRateList();
-
-    for (int i = 0; i < rateList.length; i++) {
-      if (rateList[i].talkId == talkId)
-        ratings.add(rateList[i]);
-    }
-
-    for(int i = 0; i < ratings.length; i++) {
-      soma += ratings[i].rate;
-    }
-
-    return soma /= ratings.length;
-  }
 
   widgetsList.add(
-    Container(
-      margin: const EdgeInsets.symmetric(horizontal: 5),
-      child: Row(children: <Widget> [
-        Text("Rating: " + calculateRating(talkId).toStringAsFixed(1).toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-        Icon(Icons.star, color: Colors.amber)
-      ])
-    )
+      Container(
+          margin: const EdgeInsets.symmetric(horizontal: 5),
+          child: Row(children: <Widget> [
+            Text("Rating: " + calculateRating(talkId).toStringAsFixed(1).toString(), style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Icon(Icons.star, color: Colors.amber)
+          ])
+      )
   );
 
   //Speakers
   widgetsList.add(
-    Container(
-      margin: const EdgeInsets.only(top: 20, bottom: 5, left: 5),
-      child: Text('Speakers: ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
-    )
+      Container(
+          margin: const EdgeInsets.only(top: 20, bottom: 5, left: 5),
+          child: Text('Speakers: ', style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),)
+      )
   );
 
 
 
   for(int i = 0; i < talkSpeakers.length; i++)
-    {
-      //Info to be added about each Speaker
-      widgetsList.add(
+  {
+    //Info to be added about each Speaker
+    widgetsList.add(
         Container(
           //color: Colors.green,
-          margin: const EdgeInsets.all(10),
-          height: 48,
-          child:
-                Stack(
-                  children: <Widget>[
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Text(talkSpeakers[i].name, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
-                    ),
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text('Degree: ' + talkSpeakers[i].degree, style: TextStyle(fontSize: 13),),
-                    ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Text('Field Expertize: ' + talkSpeakers[i].fieldOfExpertize, style: TextStyle(fontSize: 13),),
-                    ),
+            margin: const EdgeInsets.all(10),
+            height: 48,
+            child:
+            Stack(
+              children: <Widget>[
+                Align(
+                  alignment: Alignment.topLeft,
+                  child: Text(talkSpeakers[i].name, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text('Degree: ' + talkSpeakers[i].degree, style: TextStyle(fontSize: 13),),
+                ),
+                Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Text('Field Expertize: ' + talkSpeakers[i].fieldOfExpertize, style: TextStyle(fontSize: 13),),
+                ),
 
-                    //Speaker Image Goes Here
+                //Speaker Image Goes Here
 
-                  ],
-                )
+              ],
+            )
         )
-      );
-    }
+    );
+  }
 
   //Duration
   widgetsList.add(
-      Container(
-          //color: Colors.green,
-          margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
-          child: Text('Starts at: ' + timeToString(talk.beginTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
-      ),
+    Container(
+      //color: Colors.green,
+        margin: const EdgeInsets.only(top: 8, left: 8, right: 8),
+        child: Text('Starts at: ' + timeToString(talk.beginTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
+    ),
   );
 
   widgetsList.add(
     Container(
-        //color: Colors.green,
+      //color: Colors.green,
         margin: const EdgeInsets.only(bottom: 8, left: 8, right: 8),
         child: Text('Ends at: ' + timeToString(talk.endTime), style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),)
     ),
@@ -230,7 +231,7 @@ double calculateRating(talkId) {
   //Description
   widgetsList.add(
       Container(
-          //color: Colors.green,
+        //color: Colors.green,
           margin: const EdgeInsets.only(top: 5, bottom: 5, left: 8, right: 8),
           child: Text(talk.description, style: TextStyle(fontSize: 15),)
       )
@@ -238,24 +239,24 @@ double calculateRating(talkId) {
 
   //Form button
   widgetsList.add(
-    Container(
-      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
-      child: FlatButton(
-        color: Colors.blue,
-        textColor: Colors.white,
-        disabledColor: Colors.grey,
-        disabledTextColor: Colors.black,
-        padding: EdgeInsets.all(8.0),
-        splashColor: Colors.blueAccent,
-        onPressed: () {
-          var route = MaterialPageRoute(
-            builder: (BuildContext context){return new FormPage(formId: talk.formId);},
-          );  
-          Navigator.of(context).push(route);
-          },
-        child: Text('Feed our talk!', style: TextStyle(fontWeight: FontWeight.bold),),
+      Container(
+          margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+          child: FlatButton(
+            color: Colors.blue,
+            textColor: Colors.white,
+            disabledColor: Colors.grey,
+            disabledTextColor: Colors.black,
+            padding: EdgeInsets.all(8.0),
+            splashColor: Colors.blueAccent,
+            onPressed: () {
+              var route = MaterialPageRoute(
+                builder: (BuildContext context){return new FormPage(formId: talk.formId);},
+              );
+              Navigator.of(context).push(route);
+            },
+            child: Text('Feed our talk!', style: TextStyle(fontWeight: FontWeight.bold),),
+          )
       )
-    )
   );
 
   bool speakerIdAux = false;
@@ -269,68 +270,69 @@ double calculateRating(talkId) {
 
   if(speakerIdAux){
     widgetsList.add(
-      Container(
-        margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
-        child: FlatButton(
-          color: Colors.blue,
-          textColor: Colors.white,
-          disabledColor: Colors.grey,
-          disabledTextColor: Colors.black,
-          padding: EdgeInsets.all(8.0),
-          splashColor: Colors.blueAccent,
-          onPressed:  () {
-            var route = MaterialPageRoute(
-              builder: (BuildContext context) => new CreateFormPage(formId: talk.formId),
-            );  
-            Navigator.of(context).push(route);
-            },
-          child: Text('Create/Modify Form (Speaker/Organizer only)', style: TextStyle(fontWeight: FontWeight.bold),),
+        Container(
+            margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+            child: FlatButton(
+              color: Colors.blue,
+              textColor: Colors.white,
+              disabledColor: Colors.grey,
+              disabledTextColor: Colors.black,
+              padding: EdgeInsets.all(8.0),
+              splashColor: Colors.blueAccent,
+              onPressed:  () {
+                var route = MaterialPageRoute(
+                  builder: (BuildContext context) => new CreateFormPage(formId: talk.formId),
+                );
+                Navigator.of(context).push(route);
+              },
+              child: Text('Create/Modify Form (Speaker/Organizer only)', style: TextStyle(fontWeight: FontWeight.bold),),
+            )
         )
-      )
     );
   }
 
   widgetsList.add(
-    Container(
-      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
-      child: FlatButton(
-        color: Colors.blue,
-        textColor: Colors.white,
-        disabledColor: Colors.grey,
-        disabledTextColor: Colors.black,
-        padding: EdgeInsets.all(8.0),
-        splashColor: Colors.blueAccent,
-        onPressed:  () {
-          var route = MaterialPageRoute(
-            builder: (BuildContext context) => new StatisticsForm(formId: talk.formId, talkName: talk.title),
-          );  
-          Navigator.of(context).push(route);
-          },
-        child: Text('Answers/Statistics for the form)', style: TextStyle(fontWeight: FontWeight.bold),),
+      Container(
+          margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+          child: FlatButton(
+            color: Colors.blue,
+            textColor: Colors.white,
+            disabledColor: Colors.grey,
+            disabledTextColor: Colors.black,
+            padding: EdgeInsets.all(8.0),
+            splashColor: Colors.blueAccent,
+            onPressed:  () {
+              var route = MaterialPageRoute(
+                builder: (BuildContext context) => new StatisticsForm(formId: talk.formId, talkName: talk.title),
+              );
+              Navigator.of(context).push(route);
+            },
+            child: Text('Answers/Statistics for the form)', style: TextStyle(fontWeight: FontWeight.bold),),
+          )
       )
-    )
   );
 
   widgetsList.add(
-    Container(
-      margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
-      child: FlatButton(
-        color: Colors.blue,
-        textColor: Colors.white,
-        padding: EdgeInsets.all(8),
-        onPressed: () {
-          var route = MaterialPageRoute(
-            builder: (BuildContext context) => new TalkRating(talkId: talkId)
-          );
-          Navigator.of(context).push(route);
-        },
-        child: Text('Rate talk', style: TextStyle(fontWeight: FontWeight.bold))
-      ),
-    )
+      Container(
+        margin: const EdgeInsets.only(top:10 ,left: 35, right: 35),
+        child: FlatButton(
+            color: Colors.blue,
+            textColor: Colors.white,
+            padding: EdgeInsets.all(8),
+            onPressed: () {
+              var route = MaterialPageRoute(
+                  builder: (BuildContext context) => new TalkRating(talkId: talkId)
+              );
+              Navigator.of(context).push(route);
+            },
+            child: Text('Rate talk', style: TextStyle(fontWeight: FontWeight.bold))
+        ),
+      )
   );
 
   return widgetsList;
 }
+
 
 class CurrentPage extends StatelessWidget {
   
