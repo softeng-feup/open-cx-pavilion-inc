@@ -1,5 +1,5 @@
 // classes auxiliares
-import 'dart:math';
+import 'package:feedfheconference/Util/Question.dart';
 
 class Date{
 
@@ -26,6 +26,7 @@ class Date{
   }
 }
 
+
 class Time{
   int hour;
   int minute;
@@ -46,79 +47,7 @@ class Time{
   }
 
 }
-  List<String> options = ['1','2','3','4','5'];
 
-String dateToString(DateTime d){
-    
-  int year = d.year;
-  int month = d.month;
-  int day = d.day;
-
-  return '$year-$month-$day';
-
-}
-
-String dateToInvertedString(DateTime d){
-    
-  int year = d.year;
-  int month = d.month;
-  int day = d.day;
-
-  if(day < 10 && month < 10)
-    return '0$day-0$month-$year';
-  else if(day < 10)
-    return '0$day-$month-$year';
-  else if(month < 10)
-    return '$day-0$month-$year';
-  else
-    return '$day-$month-$year';
-
-}
-
-String timeToString(DateTime d){
-
-  int hour = d.hour;
-  int minutes = d.minute;
-  if(hour < 10 && minutes < 10){
-    return '0$hour:0$minutes';
-  }
-  else if(hour < 10){
-    return '0$hour:$minutes'; 
-  }
-  else if(minutes < 10){
-    return '$hour:0$minutes';
-  }
-  else
-    return '$hour:$minutes';
-
-}
-
-String dateAndTimeToString(DateTime d){
-
-  int year = d.year;
-  int month = d.month;
-  int day = d.day;
-  int hour = d.hour;
-  int minutes = d.minute;
-
-  return '$day-$month-$year $hour:$minutes';
-}
-
-class DateAndTime{
-
-  Date date;
-  Time time;
-
-  DateAndTime();
-  DateAndTime.string(String dateAndTime){
-    List<String> aux = dateAndTime.split(" ");
-
-    date = new Date.string(aux[0]);
-    time = new Time.string(aux[1]);
-  }
-}
-
-// classes da database
 enum user_type {Attendee, Speaker, Organizer}
 
 class User{
@@ -134,21 +63,24 @@ class User{
   }
 }
 
+
 class Speaker extends User{
   String degree;
   String fieldOfExpertize;
   Speaker(int id, String name, String userName, String email, String password, this.degree, this.fieldOfExpertize) : super(id, name, userName, email, password, user_type.Speaker);
 }
 
+
 class Organizer extends User{
   Organizer(int id, String name, String userName, String email, String password) : super(id, name, userName, email, password, user_type.Organizer);
 }
+
 
 class Attendee extends User{
   Attendee(int id, String name, String userName, String email, String password) : super(id, name, userName, email, password, user_type.Attendee);
 }
 
-enum QuestionType { radioButton, checkBox, textBox }
+
 
 class FormQuestion{
   int id;
@@ -158,8 +90,8 @@ class FormQuestion{
   List questionSubText;
 
   FormQuestion(this.id, this.type, this.questionText, this.questionSubText);
-
 }
+
 
 class Response{
   
@@ -173,6 +105,7 @@ class Response{
   
 }
 
+
 class Rate {
   int id;
   double rate;
@@ -180,6 +113,7 @@ class Rate {
 
   Rate(this.id, this.rate, this.talkId);
 }
+
 
 class FormTalk{
 
@@ -211,6 +145,7 @@ class Talk{
   }
 }
 
+
 class Session{
   int id;
   String title;
@@ -225,6 +160,7 @@ class Session{
     this.endTime = DateTime.parse(end);
   }
 }
+
 
 class Conference{
 
@@ -246,6 +182,7 @@ class Conference{
 }
 
 
+
 class Event{
   int id;
   String acronym;
@@ -254,6 +191,9 @@ class Event{
   List<int> sessionIdList;
   Event(this.id, this.acronym, this.title, this.description, this.sessionIdList);
 }
+
+//Populate db
+
 
 Attendee attendee = new Attendee(1, 'jose guerra', 'lockdown', 'comander23@live.com.pt', 'password');
 Organizer organizer = new Organizer(2, 'Luis Silve', 'lockdown1', 'qualquercoisanaosei@treta.com', '1234');
@@ -299,15 +239,15 @@ List<String> radioButtonoptions = ['1','2','3','4','5'];
 List<String> checkBoxOptions = ['The speaker','The content','The space','The ambient','The interaction'];
 
 FormQuestion question1 = new FormQuestion(1, QuestionType.textBox, 'What did you like the most in the session?', List());
-FormQuestion question2 = new FormQuestion(2, QuestionType.textBox, 'What did you like the least in the session?', List());
-FormQuestion question3 = new FormQuestion(3, QuestionType.textBox, 'In your opinion, did the session met its objectives?', List());
-FormQuestion question4 = new FormQuestion(4, QuestionType.textBox, 'Was there enough time for discussion?', List());
-FormQuestion question5 = new FormQuestion(5, QuestionType.textBox,'Tell us some suggestions you may have for future events.', List());
-FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final comments?', List());
-FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
-FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
+//FormQuestion question2 = new FormQuestion(2, QuestionType.textBox, 'What did you like the least in the session?', List());
+//FormQuestion question3 = new FormQuestion(3, QuestionType.textBox, 'In your opinion, did the session met its objectives?', List());
+//FormQuestion question4 = new FormQuestion(4, QuestionType.textBox, 'Was there enough time for discussion?', List());
+//FormQuestion question5 = new FormQuestion(5, QuestionType.textBox,'Tell us some suggestions you may have for future events.', List());
+//FormQuestion question6 = new FormQuestion(6, QuestionType.textBox, 'Any final comments?', List());
+//FormQuestion question7 = new FormQuestion(7, QuestionType.radioButton, 'Rate your experience.', radioButtonoptions);
+//FormQuestion question8 = new FormQuestion(8, QuestionType.checkBox , 'What did you like the most in the session?', checkBoxOptions);
 
-FormTalk form1 = new FormTalk(1, '1974-03-20 00:00:00' , '1974-03-20 00:00:00', [2,1, 3, 4, 5, 6, 7, 8]);
+FormTalk form1 = new FormTalk(1, '1974-03-20 00:00:00' , '1974-03-20 00:00:00', [1]);
 
 Talk talk1 = new Talk(1, 1, 'The Lisp of the prophet for the one true editor', 'While the editor war is long gone and '
     'Emacs’s marketshare has undoubtedly shrunk, it has established itself as an important branch in the Lisp family of languages. In this talk, I will look at what gave Emacs Lisp its shape, including what it '
@@ -409,6 +349,7 @@ Conference programming2020 = new Conference(4, 'Programming 2020', 'Porto, Portu
 Conference sinf2019 = new Conference(2, 'Sinf 2019', 'Porto, Portugal', [3], '2019-07-01 00:00:00', '2019-07-04 00:00:00');
 Conference webSummit2019 = new Conference(3, 'webSummit 2019', 'Lisboa, Portugal', [4], '2019-01-01 00:00:00', '2019-01-03 00:00:00');
 
+//Creation of Database class;
 class Database {
 
   List<Conference> conferenceList = [
@@ -459,14 +400,7 @@ class Database {
   ];
 
   List<FormQuestion> formQuestionList = [
-    question1,
-    question2,
-    question3,
-    question4,
-    question5,
-    question6,
-    question7,
-    question8
+    question1
   ];
 
   List<User> userList = [
@@ -521,302 +455,11 @@ class Database {
      rate5
    ];
 }
-Database db = new Database();
 
-
-// FUNCTIONS TO CHANGE THE DATABASE
-int numberDaysOfConference(int conferenceId){
-
-  DateTime begin;
-  DateTime end;
-
-   for(int i = 0; i < db.conferenceList.length; i++){
-    if(conferenceId == db.conferenceList[i].id){
-      begin = db.conferenceList[i].beginDate;
-      end = db.conferenceList[i].endDate;
-      break;
-    }
-  }
-
-  Duration difference = end.difference(begin);
-  return  (difference.inDays + 1);
-}
-
-
-List<Talk> talkListForASession(int sessionId){
-
-  List<Talk> talkList = new List();
-  for(int i = 0; i < db.sessionList.length; i++){
-    if(db.sessionList[i].id == sessionId){
-      for(int j = 0; j < db.sessionList[i].talkIdList.length; j++){ 
-        for(int h = 0; h < db.talkList.length; h++){
-          if(db.sessionList[i].talkIdList[j] == db.talkList[h].id){
-            talkList.add(db.talkList[h]);
-          }
-        }
-      }
-      break;
-    }
-  }
-
-  talkList.sort((a, b) =>
-       (a.beginTime.toString().compareTo(b.beginTime.toString())));
-
-  return talkList;
-} 
-
-List<Session> sessionListForAEvent(int eventId){
-
-  List<Session> sessionList = new List();
-  Event event = getEventFromId(eventId);
-
-  for(int j = 0; j < event.sessionIdList.length; j++){ 
-    for(int h = 0; h < db.sessionList.length; h++){
-      if(event.sessionIdList[j] == db.sessionList[h].id){
-        sessionList.add(db.sessionList[h]);
-      }
-    }
-  }
-  sessionList.sort((a, b) =>
-      (a.beginTime.toString().compareTo(b.beginTime.toString())));
-    
-
-
-  return sessionList;
-}
-
-void printSessionList(List <Session> s){
-
-  for(int i = 0; i < s.length; i++){
-    print(s[i].beginTime.toString());
-  } 
-
-}
-
-Event getEventFromId(int eventId){
-
-  Event event;
-
-  for(int i = 0; i < db.eventList.length; i++){
-    if(db.eventList[i].id == eventId){
-      event = db.eventList[i];
-      break;
-    }
-  }
-  return event;
-}
-
-
-List<String> getSubQuestionText(var questionId) {
-  for (int i = 0; i < db.formQuestionList.length; i++) {
-    if (db.formQuestionList[i].id == questionId) {
-      return db.formQuestionList[i].questionSubText;
-    }
-  }
-  return null;
-}
-
-String getQuestionText(var questionId) {
-  for (int i = 0; i < db.formQuestionList.length; i++) {
-    if (db.formQuestionList[i].id == questionId) {
-      return db.formQuestionList[i].questionText;
-    }
-  }
-  return null;
-}
-
-QuestionType getQuestionType(var questionId) {
-  for (int i = 0; i < db.formQuestionList.length; i++) {
-    if (db.formQuestionList[i].id == questionId) {
-      return db.formQuestionList[i].type;
-    }
-  }
-  return null;
-}
-
-String getUsernameFromId(int personId) {
-  String name;
-
-  for (int i = 0; i < db.userList.length; i++) {
-    if (db.userList[i].id == personId) {
-      name = db.userList[i].userName;
-      break;
-    }
-  }
-  return name;
-}
-
-String getAnswerPercentageTextBox(int questionId) {
-  int numberOfR = numberOfResponses(questionId);
-  int numberOfBlankR = numberOfBlankResponses(questionId);
-  double percentageTextBox = (numberOfR - numberOfBlankR) / numberOfR;
-  percentageTextBox = percentageTextBox * 100;
-
-  return percentageTextBox.toStringAsFixed(2).toString();
-}
-
-int numberOfResponses(int questionId) {
-  int counter = 0;
-
-  for (int i = 0; i < db.responseList.length; i++) {
-    if (db.responseList[i].questionId == questionId) {
-      counter++;
-    }
-  }
-
-  return counter;
-}
-
-int numberOfBlankResponses(int questionId) {
-  int counter = 0;
-
-  for (int i = 0; i < db.responseList.length; i++) {
-    if (db.responseList[i].questionId == questionId) {
-      if (db.responseList[i].response == null ||
-          db.responseList[i].response == "") counter++;
-    }
-  }
-
-  return counter;
-}
-
-int numberOfFavorableResponses(int questionId, String response) {
-  QuestionType type = getQuestionType(questionId);
-  int counter = 0;
-
-  if (type == QuestionType.checkBox) {
-    for (int i = 0; i < db.responseList.length; i++) {
-      for (int j = 0; j < db.responseList[i].response.length; j++) {
-        if (db.responseList[i].response[j] == response) {
-          counter++;
-        }
-      }
-    }
-  } else if (type == QuestionType.radioButton) {
-    for (int i = 0; i < db.responseList.length; i++) {
-      if (db.responseList[i].response == response) {
-        counter++;
-      }
-    }
-  }
-  return counter;
-}
-
-String questionAnswerPercentage(int questionId, var response) {
-  int numberOfResponsesForQuestion = numberOfResponses(questionId);
-  int numberOfFavorableResponsesForQuestion =
-      numberOfFavorableResponses(questionId, response);
-  double percentage =
-      numberOfFavorableResponsesForQuestion / numberOfResponsesForQuestion;
-  percentage = percentage * 100;
-  return percentage.toStringAsFixed(2).toString();
-}
-
-int numberOfNotBlankquestionResponses(int questionId) {
-  @override
-  
-  int counter = 0;
-
-  for (int j = 0; j < db.responseList.length; j++) {
-    if(db.responseList[j].questionId == questionId) {
-      if(db.responseList[j].response != ""){
-        counter++;
-      }
-    }
-  }
-  return counter;
-}
-
-List<Response> questionResponses(int questionId) {
-  @override
-  List<Response> responsesList = new List();
-
-  for (int j = 0; j < db.responseList.length; j++) {
-    if(db.responseList[j].questionId == questionId) {
-      responsesList.add(db.responseList[j]);
-    }
-  }
-  return responsesList;
-}
+//Database db = new Database();
 
 
 
-int numberOfPeopleSubmittedForm(int formId){
-
-  int counter = 0;
-
-  for(int i = 0; i < db.formList.length; i++){
-    if(formId == db.formList[i].id){
-      for(int j = 0; j < db.responseList.length; j++){
-        if(db.responseList[j].questionId == db.formList[i].listIdFormQuestions[0])
-          counter++;
-      }
-      break;
-    }
-  }
-  return counter;
-}
-
-
-List <String> mostAnsweredQuestions(int formId){
-
-    List<int> numberOFResponsesPerQuestion = new List();
-    FormTalk form;
-    List<String> mostAnswered = new List();
-
-    for(int i = 0; i < db.formList.length; i++) {
-      if(formId == db.formList[i].id) {
-        form = db.formList[i];
-        for(int j = 0; j < form.listIdFormQuestions.length; j++) {
-          numberOFResponsesPerQuestion.add(numberOfNotBlankquestionResponses(form.listIdFormQuestions[j]));
-        }
-      }
-    }
-
-    
-
-    int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(max);
-    int questionId;
-
-    for(int i = 0; i < numberOFResponsesPerQuestion.length; i++){
-      if(numberOFResponsesPerQuestion[i] == minNumberOfReponses){
-        questionId = form.listIdFormQuestions[i];
-        mostAnswered.add(getQuestionText(questionId));
-      }
-    }
-    
-    return mostAnswered;
-
-}
-
-List <String> leastAnsweredQuestions(int formId){
-
-    List<int> numberOFResponsesPerQuestion = new List();
-    FormTalk form;
-    List<String> leastAnswered = new List();
-
-    for(int i = 0; i < db.formList.length; i++) {
-      if(formId == db.formList[i].id) {
-        form = db.formList[i];
-        for(int j = 0; j < form.listIdFormQuestions.length; j++) {
-          numberOFResponsesPerQuestion.add(numberOfNotBlankquestionResponses(form.listIdFormQuestions[j]));
-        }
-      }
-    }
-   
-
-
-    int minNumberOfReponses = numberOFResponsesPerQuestion.reduce(min);
-    int questionId;
-    for(int i = 0; i < numberOFResponsesPerQuestion.length; i++){
-      if(numberOFResponsesPerQuestion[i] == minNumberOfReponses){
-        questionId = form.listIdFormQuestions[i];
-        leastAnswered.add(getQuestionText(questionId));
-      }
-    }
-
-    return leastAnswered;
-}
 
 
 

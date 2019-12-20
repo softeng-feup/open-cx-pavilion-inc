@@ -1,5 +1,6 @@
+import 'package:feedfheconference/Util/Question.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
+import 'package:feedfheconference/Controller/controller.dart';
 import './common.dart';
 // Create a Form widget.
 
@@ -16,19 +17,22 @@ class FormPage extends StatefulWidget {
   }
 }
 
-List<Widget> listMyWidgets(var formKey, var formId, var context){
+List<Widget> listMyWidgets(var formKey, var formId, var context)
+{
   @override
   List<Widget> widgetsList = new List();
 
-  for(int i = 0; i < db.formList.length; i++){
-    if(db.formList[i].id == formId){
-      FormTalk form = db.formList[i];
-      for(int h = 0; h < form.listIdFormQuestions.length; h++){
-        for(int j = 0; j < db.formQuestionList.length; j++){
-          if(form.listIdFormQuestions[h] == db.formQuestionList[j].id){
+  var formList = controller.getFormList();
+  var formQuestionList = controller.getFormQuestionList();
+
+  for(int i = 0; i < formList.length; i++){
+    if(formList[i].id == formId){
+      for(int h = 0; h < formList[i].listIdFormQuestions.length; h++){
+        for(int j = 0; j < formQuestionList.length; j++){
+          if(formList[i].listIdFormQuestions[h] == formQuestionList[j].id){
             widgetsList.add(QuestionText(
-              db.formQuestionList[j].questionText));
-              widgetsList.add(AnswerBox(db.formQuestionList[j].type, db.formQuestionList[j].questionSubText));
+              formQuestionList[j].questionText));
+              widgetsList.add(AnswerBox(formQuestionList[j].type, formQuestionList[j].questionSubText));
             break;
           }  
         }

@@ -1,6 +1,5 @@
 import 'package:feedfheconference/View/Screens/favorites.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/cupertino.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:feedfheconference/View/Screens/profile.dart';
 import 'package:feedfheconference/View/Screens/home.dart';

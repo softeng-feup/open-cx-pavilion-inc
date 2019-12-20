@@ -1,7 +1,7 @@
-import 'package:feedfheconference/View/Screens/createForm.dart' as prefix0;
+import 'package:feedfheconference/Util/Date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
+import 'package:feedfheconference/Controller/controller.dart';
 import './common.dart';
 import './createForm.dart';
 import './form.dart';
@@ -20,9 +20,11 @@ class TalkPage extends StatefulWidget {
   @override
   TalkPage({Key key, this.event, this.session, this.talkId, this.username})
       : super(key: key) {
-    for (int i = 0; i < db.talkList.length; i++) {
-      if (this.talkId == db.talkList[i].id){
-        this.title = db.talkList[i].title;
+    var talkList = controller.getTalkList();
+
+    for (int i = 0; i < talkList.length; i++) {
+      if (this.talkId == talkList[i].id){
+        this.title = talkList[i].title;
         break;
       }
     }
@@ -80,54 +82,31 @@ NestedScrollView buildTalkPage(
 
 double calculateRating(talkId) {
 
-    List<Rate> ratings = new List();
-    double soma = 0;
+  var talk;
+  var talkList = controller.getTalkList();
 
-    for (int i = 0; i < db.rateList.length; i++) {
-      if (db.rateList[i].talkId == talkId)
-        ratings.add(db.rateList[i]);
-    }
-
-    for(int i = 0; i < ratings.length; i++) {
-      soma += ratings[i].rate;
-    }
-
-    return soma /= ratings.length;
-  }
-
-int get_id_from_username(username){
-  for(var i = 0; i < db.userList.length; i++){
-    if(db.userList[i].userName = username){
-      return db.userList[i].id;
-    }
-  }
-  return 0;
-}
-
-List<Widget> listMyWidgets(talkId, context, username) {
-
-  Talk talk;
-
-  for(int i = 0; i < db.talkList.length; i++)
+  for(int i = 0; i < talkList.length; i++)
   {
-    if(db.talkList[i].id == talkId)
+    if(talkList[i].id == talkId)
     {
-      talk = db.talkList[i];
+      talk = talkList[i];
+   //  print(talk);
       break;
     }
   }
 
   //Speakers
   var talkSpeakerIDs = talk.speakersId;
-  List <Speaker> talkSpeakers = new List(); //Contains all the speakers (object) for current talk
+  var talkSpeakers = new List(); //Contains all the speakers (object) for current talk
+  var speakerList = controller.getSpeakerList();
 
   for(int i = 0; i < talkSpeakerIDs.length; i++)
   {
-    for(int y = 0; y < db.speakerList.length; y++)
+    for(int y = 0; y < speakerList.length; y++)
     {
-      if(db.speakerList[y].id == talkSpeakerIDs[i])
+      if(speakerList[y].id == talkSpeakerIDs[i])
         {
-          talkSpeakers.add(db.speakerList[y]);
+          talkSpeakers.add(speakerList[y]);
           break;
         }
     }
@@ -152,6 +131,23 @@ List<Widget> listMyWidgets(talkId, context, username) {
   );
 
  
+
+    var ratings = new List();
+    double soma = 0;
+
+    var rateList = controller.getRateList();
+
+    for (int i = 0; i < rateList.length; i++) {
+      if (rateList[i].talkId == talkId)
+        ratings.add(rateList[i]);
+    }
+
+    for(int i = 0; i < ratings.length; i++) {
+      soma += ratings[i].rate;
+    }
+
+    return soma /= ratings.length;
+  }
 
   widgetsList.add(
     Container(

@@ -1,4 +1,4 @@
-import 'package:feedfheconference/Model/db.dart';
+import 'package:feedfheconference/Controller/controller.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
@@ -57,9 +57,8 @@ class _TalkRatingState extends State<TalkRating> {
                       color: Colors.blue,
                       textColor: Colors.white,
                       onPressed: () {
-                        int id = db.rateList.length + 1;
-                        db.rateList.add(new Rate(id, rating, widget.talkId));
-                        Navigator.of(context).pop();
+                          controller.addRate(rating, widget.talkId);
+                          Navigator.of(context).pop();
                         },
                       child: Text('Rate!', style: TextStyle(fontWeight: FontWeight.bold)))
               )

@@ -1,6 +1,8 @@
+import 'package:feedfheconference/Controller/controller.dart';
+import 'package:feedfheconference/Model/db.dart';
+import 'package:feedfheconference/Util/Date.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../Model/db.dart';
 
 import './talk.dart';
 
@@ -14,10 +16,13 @@ class EventPage extends StatefulWidget {
   @override
   EventPage({Key key, this.conferenceName, this.eventId, this.username})
       : super(key: key) {
-    for (int i = 0; i < db.eventList.length; i++) {
-      if (this.eventId == db.eventList[i].id) {
-        this.eventTitle = db.eventList[i].title;
-        this.eventAcronym = db.eventList[i].acronym;
+
+    var eventList = controller.getEventList();
+
+    for (int i = 0; i < eventList.length; i++) {
+      if (this.eventId == eventList[i].id) {
+        this.eventTitle = eventList[i].title;
+        this.eventAcronym = eventList[i].acronym;
         break;
       }
     }
@@ -90,17 +95,8 @@ NestedScrollView buildEventPage(
 }
 
 
-
-class SessionBox extends StatelessWidget {
-  
-  final String sessionTitle;
-  final String room;
-  final DateTime beginTime;
-  final DateTime endTime;
-  final List<Talk> talks;
-  final String eventTitle;
-
-  SessionBox(this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks);
+class SessionBox_Event extends SessionBox {
+  SessionBox_Event(String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, List<Talk> talks) : super(eventTitle, sessionTitle, room, beginTime, endTime, talks);
 
   @override
   Widget build(BuildContext context){
@@ -170,18 +166,10 @@ class SessionBox extends StatelessWidget {
 }
 
 
-class EventBox extends StatelessWidget {
-  final String eventTitle;
-  final String sessionTitle;
-  final String room;
-  final DateTime beginTime;
-  final DateTime endTime;
-  final List<Talk> talks;
-  final String conferenceName;
-  final String username;
-  int eventId;
+class EventBox_Event extends EventBox {
 
-  EventBox(this.conferenceName, this.eventId, this.eventTitle, this.sessionTitle, this.room, this.beginTime, this.endTime, this.talks, this.username);
+  EventBox_Event(String conferenceName, int eventId, String eventTitle, String sessionTitle, String room, DateTime beginTime, DateTime endTime, List<Talk> talks, String username) : super(conferenceName, eventId, eventTitle, sessionTitle, room, beginTime, endTime, talks, username);
+
 
   @override
   Widget build(BuildContext context){
@@ -310,8 +298,8 @@ List<Widget> listMySessions(int eventId, String conferenceName, String username)
 
    @override
   List<Widget> widgetsList = new List();
-  Event event = getEventFromId(eventId);
-  List<Session> sessionList  = sessionListForAEvent(eventId);
+  var event = controller.getEventFromId(eventId);
+  var sessionList  = controller.sessionListForAEvent(eventId);
 
   for(int i = 0; i < sessionList.length; i++){
       List<Talk> talkList = talkListForASession(sessionList[i].id);
@@ -324,10 +312,11 @@ List<Widget> eventDescription(int eventId, String eventTitle) {
   @override
   List<Widget> widgetsList = new List();
   var description;
+  var eventList = controller.getEventList();
 
-  for (int i = 0; i < db.eventList.length; i++) {
-    if (db.eventList[i].id == eventId) {
-      description = db.eventList[i].description;
+  for (int i = 0; i < eventList.length; i++) {
+    if (eventList[i].id == eventId) {
+      description = eventList[i].description;
       break;
     }
   }
