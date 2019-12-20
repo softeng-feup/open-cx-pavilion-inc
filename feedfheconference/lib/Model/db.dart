@@ -308,7 +308,7 @@ Talk talk14 = new Talk(14, 1, 'Talk 14 - fourteen',
 
 Session session1 = new Session(1, 'session 1', null, 'Paganini', [1, 2], '2019-04-02 09:30:00', '2019-04-02 11:30:00');
 Session session2 = new Session(2 ,'session 2', null, 'Michelangelo', [3], '2019-04-03 09:30:00', '2019-04-03 11:30:00');
-Session session3 = new Session(3, 'session 3', null, 'Paganini', [4, 5, 6 ], '2019-04-01 11:30:00', '2019-04-01 12:30:00');
+Session session3 = new Session(3, 'session 3', null, 'Paganini', [4, 5], '2019-04-01 11:30:00', '2019-04-01 12:30:00');
 
 Session session4 = new Session(4 ,'session 4', null, 'Michelangelo', [6], '2019-05-23 10:30:00', '2019-05-23 11:30:00');
 Session session5 = new Session(5, 'session 5', null, 'Paganini', [7, 8, 9], '2019-05-24 09:30:00', '2019-05-24 11:30:00');
