@@ -1,5 +1,42 @@
 # openCX-pavilion-inc 
 
+
+Welcome to the documentation pages of the your (sub)product name of openCX!
+
+You can find here detailed information about the (sub)product, hereby mentioned as module, from a high-level vision to low-level implementation decisions, a kind of Software Development Report, organized by discipline:
+
+* Business modeling
+    * Product Vision
+    * Elevator Pitch
+* Requirements
+    * Use Case Diagram
+    * User stories
+    * Domain model
+* Architecture and Design
+    * Logical architecture
+    * Physical architecture
+    * Prototype
+* Implementation
+* Test
+* Configuration and change management
+* Project management
+
+So far, contributions are exclusively made by the initial team, but we hope to open them to the community, in all areas and topics: requirements, technologies, development, experimentation, testing, etc.
+
+Please contact us!
+
+Thank you!
+
+**Team Members**
+
+César Nogueira up201706828
+
+João Pedro Lírio up201705254
+
+José Guerra up201706421
+
+José Pedro Baptista up201705255
+
 ## **Business modeling**
   
 * **[Product Vision]()**
@@ -127,9 +164,9 @@ In our app we use the model to store the information that is necessary, informat
     Like we said previous, our development of the app followed the MVC model so a lot of the logical architecture of our work is centered around that, as this next package diagram demostrates:
     
     ![](https://i.imgur.com/QvBGErg.jpg)
-
-
-
+    
+    
+    
 
 
   * **[Physical architecture]()**
@@ -170,40 +207,36 @@ In our app we use the model to store the information that is necessary, informat
     
     The tool to test the features is **gherkin** as was described previously in the **Acceptance tests** category in the **Requirements** section of this report. To use gherkin in flutter we used the package flutter_gherkin.  
     
-    The main list of features to be tested and gherkin text: 
+    The main list of features to be tested and gherkin text for each one: 
     
     **1. As a speaker of the conference create/modify the form for your talk**
     
         Feature : As a speaker of the conference create/modify the form for your talk
-        Scenario: looking at the talk page
+        Scenario: creating/modifying a form
         Given that iam the speaker of that talk, the talk page has button to access the create/modify form page 
         When I press the button 
         Then it should lead me into the create/modify form page
     
     **2. As a attendee of the conference fill out the form of a talk**
     
-        Feature : As a speaker of the conference create/modify the form for your talk
-        Scenario: looking at the talk page
-        Given that iam the speaker of that talk, the talk page has button to access the create/modify form page 
+        Feature : As a attendee of the conference fill out the form of a talk
+        Scenario: filling out a form for a talk
+        Given that iam an attendee, the talk page has button to access the fiil out a form page 
         When I press the button
-        Then it should lead me into the create/modify form page
+        Then it should lead me into the fill out form page
     
     **3. As a attendee of the conference give a rating  to a talk**
     
-        Feature : As a speaker of the conference create/modify the form for your talk
-        Scenario: looking at the talk page
-        Given that iam the speaker of that talk, the talk page has button to access the create/modify form page 
+        Feature :  As a attendee of the conference give a rating  to a talk
+        Scenario: rating a talk as a attendee
+        Given that iam an attendee, the talk page has button to access the rate this talk page 
         When I press the button
-        Then it should lead me into the create/modify form page
+        Then it should lead me into the rate this talk page
     
     **4. As a user of the app see the conference page divided into days**
-Scenario: checking the daily schedules
-Given the conference has 4 days
-When I go into the main menu
-Then it should be presented to me 4 different schedules
 
 
-        Feature : As a speaker of the conference create/modify the form for your talk
+        Feature : As a user of the app see the conference page divided into days
         Scenario: checking the conference page 
         Given the conference has "X" number of days
         When i go into the conference page
@@ -213,27 +246,27 @@ Then it should be presented to me 4 different schedules
     **5. As a user of the app see a day of a conference divided into 
     sessions**
               
-        Feature : As a speaker of the conference create/modify the form for your talk
-        Scenario: looking at the talk page
-        Given that iam the speaker of that talk, the talk page has button to access the create/modify form page 
-        When I press the button
-        Then it should lead me into the create/modify form page
+        Feature : As a user of the app see a day of a conference divided into sessions
+        Scenario: checking a day of a conference in the conference page 
+        Given the conference has sessions for that day
+        When i see the day of that conference
+        Then it should be presented to me a tab with all the session for that day and their title, time and place
     
     **6. As a user of the app see a session divided into talks**
     
-        Feature : As a speaker of the conference create/modify the form for your talk
-        Scenario: looking at the talk page
-        Given that iam the speaker of that talk, the talk page has button to access the create/modify form page 
-        When I press the button
-        Then it should lead me into the create/modify form page
+        Feature : As a user of the app see a session divided into talks
+        Scenario: checking the talks for a session 
+        Given a session has talks realted to it
+        When i pressed the dropdown button for the session
+        Then it should be presented to me a dropdown where all the talks are mencioned
     
     **7. As a user of the app add a talk to the favourites page**
     
-        Feature : As a speaker of the conference create/modify the form for your talk
-        Scenario: looking at the talk page
-        Given that iam the speaker of that talk, the talk page has button to access the create/modify form page 
+        Feature : As a user of the app add a talk to the favourites page
+        Scenario: adding a talk to the favorites page
+        Given that a talk entry associated with a session has a favorite button 
         When I press the button
-        Then it should lead me into the create/modify form page
+        Then it should add that talk to my favorites page
  
 
 
@@ -241,19 +274,19 @@ Then it should be presented to me 4 different schedules
   * **[Test cases specifications automated]()**: 
 
 
+## **Configuration and change management**
+
+Our team, throughout the development of the project, used github as our software development version control tool, because of that we adopted the use of features and aspects from the Github Flow that were very usefull to us:
+
+* Use of branches to implement different features of our app simultaneously
+* Controlled merge of branches to the master branch to unite all of the features we were doing separately
+
       
     
 
 ## **Project management**
     
-* **[Configuration and change management]()**
-     
-     
-     Our team, throughout the development of the project, used github as our software development version control tool, because of that we adopted the use of features and aspects from the Github Flow that were very usefull to us:
 
-    * Use of branches to implement different features of our app simultaneously
-    * Controlled merge of branches to the master branch to unite all of the features we were doing separately
- 
   
 * **[Tasks management tool]()**
    
@@ -269,16 +302,16 @@ Then it should be presented to me 4 different schedules
    We have three collumns dedicated to user stories, three collumns dedicated to the report and one collumn with usefull link related to flutter and other topics. We have for the user stories and report one collumn "to do", one collum "in progress" and one collum "done". The names of each collum are pretty representative of the purpose they are meant to have. 
    
    
-  
-## **Team members names**
-
-César Nogueira up201706828
-
-João Pedro Lírio up201705254
-
-José Guerra up201706421
-
-José Pedro Baptista up201705255
+## **Evolution - contributions to open-cx**
+   
+Link to our one and only pull request: https://github.com/softeng-feup/open-cx/pull/59
+   
+**Description of what we implemented**
+   
+We managed to implement the features that were assigned for us to do that were the create/modify a form for a talk and the respond to the form of a talk, besides those ones we also implemented a third feature that is to see the stats about the forms that were submitted. Although we say these features are implemented they are not with some cutbacks, one major cutback is that we are not using the backend that was provided that means we only makes local changes and because of that not permanent changes. There's also another cutback, there are no check Boxes questions or aswers to the form, unfortunately there's was an error we couldn't find a workaround.
+   
+   
+   
 
 
 
